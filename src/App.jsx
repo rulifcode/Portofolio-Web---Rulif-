@@ -3,6 +3,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Project from "./pages/Projects";
+import Contact from "./pages/Contact";
 import GradientBlinds from "./components/GradientBlinds/GradientBlinds";
 
 function App() {
@@ -12,7 +14,7 @@ function App() {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const darkColors  = ['#0d0d14', '#1a1040', '#0a0f1e'];
+  const darkColors = ['#0d0d14', '#1a1040', '#0a0f1e'];
   const lightColors = ['#dce8ff', '#f0ecff', '#f5f5f3'];
 
   return (
@@ -51,10 +53,13 @@ function App() {
             <About dark={dark} />
           </section>
 
-          {/* Tambah section lain di sini:
-          <section id="projects"><Projects dark={dark} /></section>
-          <section id="contact"><Contact dark={dark} /></section>
-          */}
+          <section id="projects">
+            <Project dark={dark} />
+          </section>
+
+          <section id="contact">
+            <Contact dark={dark} />
+          </section>
         </main>
       </div>
     </Router>

@@ -89,17 +89,6 @@ function Home({ dark }) {
             variants={item}
             className={`mt-12 pt-8 border-t grid grid-cols-4 gap-4 ${dark ? "border-white/10" : "border-black/10"}`}
           >
-            {[
-              { number: "3+",   label: "Tahun" },
-              { number: "20+",  label: "Proyek" },
-              { number: "15+",  label: "Klien" },
-              { number: "100%", label: "Komitmen" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className={`text-xl font-bold ${dark ? "text-white/90" : "text-black/90"}`}>{stat.number}</div>
-                <div className={`text-xs mt-0.5 ${dark ? "text-white/30" : "text-black/30"}`}>{stat.label}</div>
-              </div>
-            ))}
           </motion.div>
         </div>
 

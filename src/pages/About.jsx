@@ -1,10 +1,10 @@
 import { forwardRef, useRef } from "react";
 import ScrollReveal from "../components/ScrollReveal/ScrollReveal";
 import { AnimatedBeam } from "../components/AnimatedBeam/AnimatedBeam";
+import { SiFigma } from "react-icons/si";
 
-// react-icons — pastikan sudah install: npm install react-icons
 import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGithub, FaNodeJs } from "react-icons/fa";
-import { SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs } from "react-icons/si";
+import { SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs, SiJest, SiSelenium } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 
 // ── Circle Node ────────────────────────────────────────────────
@@ -22,20 +22,266 @@ const CircleNode = forwardRef(({ children, label, className = "" }, ref) => (
 ));
 CircleNode.displayName = "CircleNode";
 
+// ── Postman SVG Icon ───────────────────────────────────────────
+function PostmanIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="128" cy="128" r="128" fill="#FF6C37" />
+      <path
+        d="M144.78 74.06a54.06 54.06 0 1 0 37.27 92.4l-37.27-37.27V74.06z"
+        fill="#fff"
+        opacity="0.9"
+      />
+      <path
+        d="M144.78 74.06v55.13l37.27 37.27a54.06 54.06 0 0 0-37.27-92.4z"
+        fill="#fff"
+        opacity="0.6"
+      />
+      <circle cx="144.78" cy="128" r="8" fill="#FF6C37" />
+      <line x1="144.78" y1="128" x2="175" y2="98" stroke="#FF6C37" strokeWidth="5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ── Cypress SVG Icon ───────────────────────────────────────────
+function CypressIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="128" cy="128" r="128" fill="#162332" />
+      <path
+        d="M128 60a68 68 0 1 0 48.08 116.72L161 161.6A48 48 0 1 1 128 80a47.7 47.7 0 0 1 33.08 13.28l15-15.08A67.76 67.76 0 0 0 128 60z"
+        fill="#04C38E"
+      />
+      <path
+        d="M196 128a67.6 67.6 0 0 1-4.64 24.88l16.56 16.56A87.56 87.56 0 0 0 216 128z"
+        fill="#04C38E"
+        opacity="0.5"
+      />
+    </svg>
+  );
+}
+
+// ── Flutter SVG Icon ───────────────────────────────────────────
+function FlutterIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 256 317" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="157.666,0 0,157.667 48.118,205.780 253.883,0" fill="#54C5F8"/>
+      <polygon points="157.666,0 0,157.667 48.118,205.780 253.883,0" fill="#54C5F8"/>
+      <polygon points="48.118,261.895 100.235,314.017 253.883,157.667 201.759,105.549" fill="#54C5F8"/>
+      <polygon points="48.118,205.780 100.235,257.895 152.351,205.780 100.235,153.663" fill="#01579B"/>
+      <polygon points="100.235,257.895 48.118,261.895 100.235,314.017" fill="#29B6F6"/>
+    </svg>
+  );
+}
+
+// ── Android Studio SVG Icon ────────────────────────────────────
+function AndroidIcon({ size = 20 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.523 15.341a5.273 5.273 0 0 1-5.272 5.272 5.273 5.273 0 0 1-5.272-5.272 5.273 5.273 0 0 1 5.272-5.273 5.273 5.273 0 0 1 5.272 5.273z" fill="#3DDC84"/>
+      <path d="M0 15.341a12 12 0 0 1 12-12 12 12 0 0 1 12 12H0z" fill="#3DDC84" opacity="0.3"/>
+      <circle cx="8.5" cy="10" r="1.2" fill="#fff"/>
+      <circle cx="15.5" cy="10" r="1.2" fill="#fff"/>
+      <line x1="6" y1="6" x2="3.5" y2="2" stroke="#3DDC84" strokeWidth="1.5" strokeLinecap="round"/>
+      <line x1="18" y1="6" x2="20.5" y2="2" stroke="#3DDC84" strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+// ── Mobile Beam Visual ─────────────────────────────────────────
+function MobileBeam() {
+  const containerRef   = useRef(null);
+  const centerRef      = useRef(null);
+
+  // Left — frameworks
+  const flutterRef     = useRef(null);
+  const reactNativeRef = useRef(null);
+  const androidRef     = useRef(null);
+
+  // Right — supporting tools
+  const figmaRef       = useRef(null);
+  const githubRef      = useRef(null);
+  const vscodeRef      = useRef(null);
+
+  const leftIcons = [
+    {
+      ref: flutterRef,
+      label: "Flutter",
+      icon: <FlutterIcon size={18} />,
+      className: "border-sky-400/30 bg-sky-400/10",
+    },
+    {
+      ref: reactNativeRef,
+      label: "React Native",
+      icon: <FaReact className="text-[#61DAFB]" />,
+      className: "border-cyan-400/30 bg-cyan-400/10",
+    },
+    {
+      ref: androidRef,
+      label: "Android",
+      icon: <AndroidIcon size={18} />,
+      className: "border-green-400/30 bg-green-400/10",
+    },
+  ];
+
+  const rightIcons = [
+    {
+      ref: figmaRef,
+      label: "Figma",
+      icon: <SiFigma className="text-[#F24E1E]" />,
+      className: "border-orange-400/30 bg-orange-400/10",
+    },
+    {
+      ref: githubRef,
+      label: "GitHub",
+      icon: <FaGithub className="text-white" />,
+      className: "border-white/20 bg-white/5",
+    },
+    {
+      ref: vscodeRef,
+      label: "VS Code",
+      icon: <VscVscode className="text-[#007ACC]" />,
+      className: "border-blue-500/30 bg-blue-500/10",
+    },
+  ];
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative flex h-[320px] w-full items-center justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] px-8 py-6"
+    >
+      {/* Glow center */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-32 h-32 rounded-full bg-sky-500/5 blur-3xl" />
+      </div>
+
+      {/* Left — mobile frameworks */}
+      <div className="flex flex-col justify-around h-full z-10 gap-3">
+        {leftIcons.map(({ ref, icon, label, className }) => (
+          <CircleNode key={label} ref={ref} label={label} className={className}>
+            {icon}
+          </CircleNode>
+        ))}
+      </div>
+
+      {/* Center — phone icon */}
+      <div className="flex flex-col items-center gap-2 z-10">
+        <div
+          ref={centerRef}
+          className="flex size-16 items-center justify-center rounded-full border border-sky-400/40 bg-sky-400/10 shadow-lg shadow-sky-400/10"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="14" height="20" rx="3" fill="#54C5F8" fillOpacity="0.15" stroke="#54C5F8" strokeWidth="1.5"/>
+            <circle cx="12" cy="18" r="1" fill="#54C5F8"/>
+            <line x1="9" y1="5" x2="15" y2="5" stroke="#54C5F8" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <span className="text-[9px] text-sky-400/70 font-semibold tracking-widest uppercase">Mobile</span>
+      </div>
+
+      {/* Right — tools */}
+      <div className="flex flex-col justify-around h-full z-10 gap-3">
+        {rightIcons.map(({ ref, icon, label, className }) => (
+          <CircleNode key={label} ref={ref} label={label} className={className}>
+            {icon}
+          </CircleNode>
+        ))}
+      </div>
+
+      {/* Beams: left → center */}
+      {leftIcons.map(({ ref, label }, i) => (
+        <AnimatedBeam
+          key={`ml-${label}`}
+          containerRef={containerRef}
+          fromRef={ref}
+          toRef={centerRef}
+          duration={3 + i * 0.6}
+          delay={i * 0.4}
+          gradientStartColor="#54C5F8"
+          gradientStopColor="#3DDC84"
+          pathColor="#ffffff10"
+          curvature={i === 0 ? 20 : i === 2 ? -20 : 0}
+        />
+      ))}
+
+      {/* Beams: center → right */}
+      {rightIcons.map(({ ref, label }, i) => (
+        <AnimatedBeam
+          key={`mr-${label}`}
+          containerRef={containerRef}
+          fromRef={centerRef}
+          toRef={ref}
+          reverse
+          duration={3 + i * 0.6}
+          delay={i * 0.4}
+          gradientStartColor="#3DDC84"
+          gradientStopColor="#007ACC"
+          pathColor="#ffffff10"
+          curvature={i === 0 ? 20 : i === 2 ? -20 : 0}
+        />
+      ))}
+    </div>
+  );
+}
+
+import photoMain from "../assets/photo1.jpeg";
+import photoTop from "../assets/photo2.jpeg";
+import photoBottom from "../assets/photo3.jpeg";
+
+function PhotoGrid() {
+  const photos = [
+    { src: photoMain, alt: "Rulif - Main Photo" },
+    { src: photoTop, alt: "Rulif - Photo 2" },
+    { src: photoBottom, alt: "Rulif - Photo 3" },
+  ];
+
+  return (
+    <div className="relative w-full h-full">
+      <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-blue-500/10 via-violet-500/5 to-transparent blur-2xl pointer-events-none" />
+      <div className="grid grid-cols-3 grid-rows-2 gap-3 h-[340px]">
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40 group col-span-2 row-span-2">
+          <img src={photos[0].src} alt={photos[0].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+        </div>
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/30 group col-span-1 row-span-1">
+          <img src={photos[1].src} alt={photos[1].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+        </div>
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/30 group col-span-1 row-span-1">
+          <img src={photos[2].src} alt={photos[2].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-tl from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+          <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 border border-white/10">
+            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[9px] text-white/70 font-medium tracking-wider uppercase">Bandung, ID</span>
+          </div>
+        </div>
+      </div>
+      <div className="absolute -bottom-4 -right-4 opacity-20 pointer-events-none">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+          {Array.from({ length: 4 }, (_, row) =>
+            Array.from({ length: 4 }, (_, col) => (
+              <circle key={`${row}-${col}`} cx={col * 18 + 9} cy={row * 18 + 9} r="2" fill="white" />
+            ))
+          )}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 // ── Stack Beam Visual ──────────────────────────────────────────
 function StackBeam() {
   const containerRef = useRef(null);
   const vscodeRef = useRef(null);
-
-  // Left refs
   const reactRef = useRef(null);
   const tailwindRef = useRef(null);
   const htmlRef = useRef(null);
   const cssRef = useRef(null);
   const jsRef = useRef(null);
   const phpRef = useRef(null);
-
-  // Right refs
   const tsRef = useRef(null);
   const githubRef = useRef(null);
   const reduxRef = useRef(null);
@@ -60,69 +306,167 @@ function StackBeam() {
   ];
 
   return (
-    <div
-      ref={containerRef}
-      className="relative flex h-[400px] w-full items-center justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] px-6 py-4"
-    >
-      {/* Left icons */}
+    <div ref={containerRef} className="relative flex h-[400px] w-full items-center justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] px-6 py-4">
       <div className="flex flex-col justify-around h-full z-10 gap-1">
         {leftIcons.map(({ ref, icon, label }) => (
-          <CircleNode key={label} ref={ref} label={label}>
-            {icon}
-          </CircleNode>
+          <CircleNode key={label} ref={ref} label={label}>{icon}</CircleNode>
         ))}
       </div>
-
-      {/* Center — VSCode */}
       <div className="flex flex-col items-center z-10">
-        <CircleNode
-          ref={vscodeRef}
-          label="VS Code"
-          className="!size-16 !text-3xl border-blue-500/40 bg-blue-500/10"
-        >
+        <CircleNode ref={vscodeRef} label="VS Code" className="!size-16 !text-3xl border-blue-500/40 bg-blue-500/10">
           <VscVscode className="text-[#007ACC]" />
         </CircleNode>
       </div>
-
-      {/* Right icons */}
       <div className="flex flex-col justify-around h-full z-10 gap-1">
         {rightIcons.map(({ ref, icon, label }) => (
-          <CircleNode key={label} ref={ref} label={label}>
+          <CircleNode key={label} ref={ref} label={label}>{icon}</CircleNode>
+        ))}
+      </div>
+      {leftIcons.map(({ ref, label }, i) => (
+        <AnimatedBeam key={`l-${label}`} containerRef={containerRef} fromRef={ref} toRef={vscodeRef}
+          duration={3 + i * 0.5} delay={i * 0.3} gradientStartColor="#3b82f6" gradientStopColor="#06b6d4"
+          pathColor="#ffffff15" curvature={i % 2 === 0 ? 15 : -15} />
+      ))}
+      {rightIcons.map(({ ref, label }, i) => (
+        <AnimatedBeam key={`r-${label}`} containerRef={containerRef} fromRef={vscodeRef} toRef={ref}
+          reverse duration={3 + i * 0.5} delay={i * 0.3} gradientStartColor="#8b5cf6" gradientStopColor="#ec4899"
+          pathColor="#ffffff15" curvature={i % 2 === 0 ? 15 : -15} />
+      ))}
+    </div>
+  );
+}
+
+// ── QA Tools Beam Visual ───────────────────────────────────────
+function QABeam() {
+  const containerRef = useRef(null);
+  const centerRef = useRef(null);
+
+  // Left — input tools
+  const postmanRef = useRef(null);
+  const seleniumRef = useRef(null);
+  const jestRef = useRef(null);
+
+  // Right — output / result tools
+  const cypressRef = useRef(null);
+  const githubRef2 = useRef(null);
+  const vscodeRef2 = useRef(null);
+
+  const leftIcons = [
+    {
+      ref: postmanRef,
+      label: "Postman",
+      icon: <PostmanIcon size={18} />,
+      className: "border-orange-500/30 bg-orange-500/10",
+    },
+    {
+      ref: seleniumRef,
+      label: "Selenium",
+      icon: <SiSelenium className="text-[#43B02A]" />,
+      className: "border-green-500/30 bg-green-500/10",
+    },
+    {
+      ref: jestRef,
+      label: "Jest",
+      icon: <SiJest className="text-[#C21325]" />,
+      className: "border-red-500/30 bg-red-500/10",
+    },
+  ];
+
+  const rightIcons = [
+    {
+      ref: cypressRef,
+      label: "Cypress",
+      icon: <CypressIcon size={18} />,
+      className: "border-emerald-500/30 bg-emerald-500/10",
+    },
+    {
+      ref: githubRef2,
+      label: "GitHub",
+      icon: <FaGithub className="text-white" />,
+      className: "border-white/20 bg-white/5",
+    },
+    {
+      ref: vscodeRef2,
+      label: "VS Code",
+      icon: <VscVscode className="text-[#007ACC]" />,
+      className: "border-blue-500/30 bg-blue-500/10",
+    },
+  ];
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative flex h-[320px] w-full items-center justify-between overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] px-8 py-6"
+    >
+      {/* Subtle glow center */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="w-32 h-32 rounded-full bg-emerald-500/5 blur-3xl" />
+      </div>
+
+      {/* Left icons */}
+      <div className="flex flex-col justify-around h-full z-10 gap-3">
+        {leftIcons.map(({ ref, icon, label, className }) => (
+          <CircleNode key={label} ref={ref} label={label} className={className}>
             {icon}
           </CircleNode>
         ))}
       </div>
 
-      {/* Beams: left → VSCode */}
+      {/* Center badge — QA */}
+      <div className="flex flex-col items-center gap-2 z-10">
+        <div
+          ref={centerRef}
+          className="flex size-16 items-center justify-center rounded-full border border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/10"
+        >
+          {/* Bug/shield icon inline SVG */}
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"
+              fill="#04C38E" fillOpacity="0.2" stroke="#04C38E" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M9 12l2 2 4-4" stroke="#04C38E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        <span className="text-[9px] text-emerald-400/70 font-semibold tracking-widest uppercase">QA</span>
+      </div>
+
+      {/* Right icons */}
+      <div className="flex flex-col justify-around h-full z-10 gap-3">
+        {rightIcons.map(({ ref, icon, label, className }) => (
+          <CircleNode key={label} ref={ref} label={label} className={className}>
+            {icon}
+          </CircleNode>
+        ))}
+      </div>
+
+      {/* Beams: left → QA center */}
       {leftIcons.map(({ ref, label }, i) => (
         <AnimatedBeam
-          key={`l-${label}`}
+          key={`ql-${label}`}
           containerRef={containerRef}
           fromRef={ref}
-          toRef={vscodeRef}
-          duration={3 + i * 0.5}
-          delay={i * 0.3}
-          gradientStartColor="#3b82f6"
-          gradientStopColor="#06b6d4"
-          pathColor="#ffffff15"
-          curvature={i % 2 === 0 ? 15 : -15}
+          toRef={centerRef}
+          duration={3 + i * 0.6}
+          delay={i * 0.4}
+          gradientStartColor="#FF6C37"
+          gradientStopColor="#04C38E"
+          pathColor="#ffffff10"
+          curvature={i === 0 ? 20 : i === 2 ? -20 : 0}
         />
       ))}
 
-      {/* Beams: VSCode → right */}
+      {/* Beams: QA center → right */}
       {rightIcons.map(({ ref, label }, i) => (
         <AnimatedBeam
-          key={`r-${label}`}
+          key={`qr-${label}`}
           containerRef={containerRef}
-          fromRef={vscodeRef}
+          fromRef={centerRef}
           toRef={ref}
           reverse
-          duration={3 + i * 0.5}
-          delay={i * 0.3}
-          gradientStartColor="#8b5cf6"
-          gradientStopColor="#ec4899"
-          pathColor="#ffffff15"
-          curvature={i % 2 === 0 ? 15 : -15}
+          duration={3 + i * 0.6}
+          delay={i * 0.4}
+          gradientStartColor="#04C38E"
+          gradientStopColor="#3b82f6"
+          pathColor="#ffffff10"
+          curvature={i === 0 ? 20 : i === 2 ? -20 : 0}
         />
       ))}
     </div>
@@ -136,11 +480,14 @@ export default function About({ dark }) {
       <div className="max-w-5xl mx-auto space-y-24">
 
         {/* Section 1 */}
-        <section className="max-w-3xl mx-auto">
-          <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
-            textClassName={dark ? "text-white/90" : "text-black/90"}>
-            Halo! Nama saya Rulif Fadria Nirwansyah, seorang Frontend Developer berusia 21 tahun yang lahir dan besar di Bandung, Jawa Barat, Indonesia.
-          </ScrollReveal>
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
+              textClassName={dark ? "text-white/90" : "text-black/90"}>
+              Halo! Nama saya Rulif Fadria Nirwansyah, seorang Frontend Developer berusia 21 tahun yang lahir dan besar di Bandung, Jawa Barat, Indonesia.
+            </ScrollReveal>
+          </div>
+          <PhotoGrid />
         </section>
 
         {/* Section 2 */}
@@ -151,33 +498,42 @@ export default function About({ dark }) {
           </ScrollReveal>
         </section>
 
-        {/* Section 3 — Split: teks kiri + beam kanan */}
+        {/* Section 3 */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Saya selalu ngikutin perkembangan teknologi yang lagi relevan sekarang. 
-              Bukan cuma biar kelihatan update, tapi karena saya percaya tools yang tepat bisa 
+              Saya selalu ngikutin perkembangan teknologi yang lagi relevan sekarang.
+              Bukan cuma biar kelihatan update, tapi karena saya percaya tools yang tepat bisa
               bikin hasil kerja jauh lebih impactful dan efisien.
             </ScrollReveal>
           </div>
           <StackBeam />
         </section>
 
-        {/* Section 4 */}
-        <section className="max-w-3xl mx-auto">
-          <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
-            textClassName={dark ? "text-white/90" : "text-black/90"}>
-            Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance — memastikan setiap fitur yang dirilis berjalan dengan sempurna, bebas dari bug, dan sesuai standar kualitas yang tinggi.
-          </ScrollReveal>
+        {/* Section 4 — QA (split: teks kiri + QABeam kanan) */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* QA Beam di kiri pada mobile, kanan di desktop */}
+          <div className="order-2 lg:order-1">
+            <QABeam />
+          </div>
+          <div className="order-1 lg:order-2">
+            <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
+              textClassName={dark ? "text-white/90" : "text-black/90"}>
+              Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance — memastikan setiap fitur yang dirilis berjalan dengan sempurna, bebas dari bug, dan sesuai standar kualitas yang tinggi.
+            </ScrollReveal>
+          </div>
         </section>
 
-        {/* Section 5 */}
-        <section className="max-w-3xl mx-auto">
-          <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
-            textClassName={dark ? "text-white/90" : "text-black/90"}>
-            Saya juga merambah dunia mobile development, membangun aplikasi yang berjalan lancar di berbagai perangkat dengan performa tinggi dan UI yang intuitif.
-          </ScrollReveal>
+        {/* Section 5 — Mobile Dev */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
+              textClassName={dark ? "text-white/90" : "text-black/90"}>
+              Saya juga merambah dunia mobile development, membangun aplikasi yang berjalan lancar di berbagai perangkat dengan performa tinggi dan UI yang intuitif.
+            </ScrollReveal>
+          </div>
+          <MobileBeam />
         </section>
 
         {/* Section 6 */}
