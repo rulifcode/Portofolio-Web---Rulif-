@@ -53,23 +53,35 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
     j2 = useRef(),
     j3 = useRef(),
     card = useRef();
+
   const vec = new THREE.Vector3(),
     ang = new THREE.Vector3(),
     rot = new THREE.Vector3(),
     dir = new THREE.Vector3();
+
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
   const profileTexture = useTexture(profileImg);
-  const [curve] = useState(
-    () => new THREE.CatmullRomCurve3([
-      new THREE.Vector3(),
-      new THREE.Vector3(),
-      new THREE.Vector3(),
-      new THREE.Vector3()
-    ])
-  );
+
+  // ✅ FIX FLASH: curve diinisialisasi dengan titik yang tersebar (bukan semua [0,0,0])
+  // Posisi ini meniru posisi awal physics joints sebelum gravity bekerja
+  const [curve] = useState(() => {
+    const c = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(1.5, 0, 0),  // j3 awal
+      new THREE.Vector3(1.0, 0, 0),  // j2 awal
+      new THREE.Vector3(0.5, 0, 0),  // j1 awal
+      new THREE.Vector3(0.0, 0, 0),  // fixed awal
+    ]);
+    c.curveType = 'chordal';
+    return c;
+  });
+
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
+
+  // ✅ FIX FLASH: sembunyikan tali sampai physics settle (beberapa frame pertama)
+  const frameCount = useRef(0);
+  const [ready, setReady] = useState(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -84,6 +96,13 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
   }, [hovered, dragged]);
 
   useFrame((state, delta) => {
+    // ✅ FIX FLASH: tunggu 10 frame sebelum render tali
+    if (frameCount.current < 10) {
+      frameCount.current += 1;
+      if (frameCount.current === 10) setReady(true);
+      return;
+    }
+
     if (dragged) {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
       dir.copy(vec).sub(state.camera.position).normalize();
@@ -91,26 +110,31 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
       [card, j1, j2, j3, fixed].forEach(ref => ref.current?.wakeUp());
       card.current?.setNextKinematicTranslation({ x: vec.x - dragged.x, y: vec.y - dragged.y, z: vec.z - dragged.z });
     }
+
     if (fixed.current) {
-      [j1, j2].forEach(ref => {
+      const safeDelta = Math.min(delta, 0.05);
+
+      // ✅ FIX FLICKER: lerp j1, j2, DAN j3 (sebelumnya j3 tidak di-lerp = ujung tali snap)
+      [j1, j2, j3].forEach(ref => {
         if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation());
         const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())));
-        ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
+        ref.current.lerped.lerp(ref.current.translation(), safeDelta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
       });
-      curve.points[0].copy(j3.current.translation());
+
+      // ✅ FIX FLICKER: semua titik pakai .lerped, termasuk j3
+      curve.points[0].copy(j3.current.lerped);
       curve.points[1].copy(j2.current.lerped);
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+
+      band.current.geometry.setPoints(curve.getPoints(isMobile ? 32 : 64));
+
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
   });
 
-  curve.curveType = 'chordal';
-
-  // FIX: flipY false karena GLTF UV sudah benar
   profileTexture.wrapS = profileTexture.wrapT = THREE.ClampToEdgeWrapping;
   profileTexture.flipY = false;
 
@@ -146,7 +170,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
                 map-anisotropy={16}
                 map-repeat={[0.9, 0.7]}
                 map-offset={[0.2, 0.2]}
-                map-center={[0.7, 0.5]} 
+                map-center={[0.7, 0.5]}
                 clearcoat={isMobile ? 0 : 1}
                 clearcoatRoughness={0.15}
                 roughness={0.3}
@@ -158,11 +182,13 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }) {
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band}>
+
+      {/* ✅ FIX FLASH: tali hanya dirender setelah physics settle */}
+      <mesh ref={band} visible={ready}>
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
-          depthTest={true}
+          depthTest={false}
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           lineWidth={1}
         />
