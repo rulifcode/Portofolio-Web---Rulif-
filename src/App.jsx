@@ -1,3 +1,4 @@
+// App.jsx
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
@@ -6,6 +7,7 @@ import About from "./pages/About";
 import Project from "./pages/Projects";
 import Contact from "./pages/Contact";
 import GradientBlinds from "./components/GradientBlinds/GradientBlinds";
+import MentorFeedback from "./components/ui/MentorFeedback";
 
 function App() {
   const [dark, setDark] = useState(true);
@@ -43,18 +45,21 @@ function App() {
       <div className="min-h-screen flex flex-col">
         <Navbar dark={dark} setDark={setDark} />
         <main>
-          {/* ── Section Home ── */}
           <section id="home">
             <Home dark={dark} />
           </section>
 
-          {/* ── Section About ── */}
           <section id="about">
             <About dark={dark} />
           </section>
 
           <section id="projects">
             <Project dark={dark} />
+          </section>
+
+          {/* ── Section Mentor Feedback ── */}
+          <section id="mentor-feedback">
+            <MentorFeedback dark={dark} />
           </section>
 
           <section id="contact">

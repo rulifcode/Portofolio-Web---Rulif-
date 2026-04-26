@@ -3,6 +3,8 @@ import Lanyard from "../components/Lanyard/Lanyard";
 import TextType from "../components/TextType/TextType";
 import ShinyText from "../components/ShinyText/ShinyText";
 
+
+
 function Home({ dark }) {
   const container = {
     hidden: {},
@@ -31,9 +33,9 @@ function Home({ dark }) {
               variants={item}
               className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight tracking-tight ${dark ? "text-white/90" : "text-black/90"}`}
             >
-              <span className="block">I'm</span>
+             
               <ShinyText
-                text="Rulif Fadria Nirwansyah"
+                text="I'M RULIF FADRIAN"
                 speed={3}
                 color={dark ? "#a0a0a0" : "#606060"}
                 shineColor={dark ? "#ffffff" : "#000000"}

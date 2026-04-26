@@ -1,5 +1,4 @@
 import ProjectCard from "../components/ProjectCard";
-import MentorFeedback from "../components/ui/MentorFeedback";
 import coverEcommerce from "../assets/1774056567909.jpg";
 import coverFurniture from "../assets/Purple and Pink Gradient Modern Bold Mobile App Presentation.jpg";
 import coverRecipe    from "../assets/Purple and Pink Gradient Modern Bold Mobile App Presentation (1).jpg";
@@ -115,7 +114,6 @@ export default function Projects({ dark }) {
         </div>
 
       </div>
-      <MentorFeedback />
     </main>
   );
 }

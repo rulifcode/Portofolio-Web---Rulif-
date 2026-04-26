@@ -16,7 +16,7 @@ import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 
 import cardGLB from './card.glb';
-import profileImg from './profile1.png';
+import profileImg from './photoprofile.jpeg';
 import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
@@ -74,12 +74,12 @@ function makeRoundedRect(w, h, r) {
   const hh = h / 2;
   const shape = new THREE.Shape();
   shape.moveTo(-hw + r, -hh);
-  shape.lineTo( hw - r, -hh);
-  shape.quadraticCurveTo( hw, -hh,  hw, -hh + r);
-  shape.lineTo( hw,  hh - r);
-  shape.quadraticCurveTo( hw,  hh,  hw - r,  hh);
-  shape.lineTo(-hw + r,  hh);
-  shape.quadraticCurveTo(-hw,  hh, -hw,  hh - r);
+  shape.lineTo(hw - r, -hh);
+  shape.quadraticCurveTo(hw, -hh, hw, -hh + r);
+  shape.lineTo(hw, hh - r);
+  shape.quadraticCurveTo(hw, hh, hw - r, hh);
+  shape.lineTo(-hw + r, hh);
+  shape.quadraticCurveTo(-hw, hh, -hw, hh - r);
   shape.lineTo(-hw, -hh + r);
   shape.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
   shape.closePath();
@@ -97,8 +97,8 @@ function BlackPlane({ geometry }) {
     geometry.computeBoundingBox();
     const box = geometry.boundingBox;
 
-    const width   = box.max.x - box.min.x;
-    const height  = box.max.y - box.min.y;
+    const width = box.max.x - box.min.x;
+    const height = box.max.y - box.min.y;
     const centerX = (box.max.x + box.min.x) / 2;
     const centerY = (box.max.y + box.min.y) / 2;
 
@@ -109,11 +109,11 @@ function BlackPlane({ geometry }) {
 
   const { width, height, centerX, centerY } = planeProps;
 
-  const pad        = 0.02;
-  const borderPad  = 0.018;
-  const radius     = 0.06;   // border-radius — ubah nilai ini untuk lebih/kurang rounded
+  const pad = 0.02;
+  const borderPad = 0.018;
+  const radius = 0.06;   // border-radius — ubah nilai ini untuk lebih/kurang rounded
 
-  const w = width  + pad;
+  const w = width + pad;
   const h = height + pad;
 
   const innerShape = makeRoundedRect(w, h, radius);
@@ -268,7 +268,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile, isDark }) {
 
   /* ================= TEXTURE ================= */
 
-  profileTexture.wrapS = profileTexture.wrapT = THREE.ClampToEdgeWrapping;
+  profileTexture.wrapS = profileTexture.wrapT = THREE.RepeatWrapping;
   profileTexture.flipY = false;
 
   /* ================= RENDER ================= */
@@ -319,9 +319,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile, isDark }) {
               <meshPhysicalMaterial
                 map={profileTexture}
                 map-anisotropy={16}
-                map-repeat={[0.9, 0.7]}
-                map-offset={[0.2, 0.2]}
-                map-center={[0.7, 0.5]}
+                map-repeat={[1.3, 1.2]}
+                map-offset={[0.30, 0.15]}
+                map-center={[0.5, 0.5]}
                 clearcoat={isMobile ? 0 : 1}
                 clearcoatRoughness={0.15}
                 roughness={0.3}

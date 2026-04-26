@@ -40,7 +40,7 @@ Poin paling impresif dari tim ini adalah inisiatif mereka dalam menyusun laporan
   },
 ];
 
-export default function MentorFeedback() {
+export default function MentorFeedback({ dark }) {
   const [active, setActive] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState("next");
@@ -67,7 +67,6 @@ export default function MentorFeedback() {
     goTo((active - 1 + feedbacks.length) % feedbacks.length, "prev");
   }, [active, goTo]);
 
-  // Auto-slide every 8s
   useEffect(() => {
     timerRef.current = setInterval(next, 8000);
     return () => clearInterval(timerRef.current);
@@ -95,6 +94,30 @@ export default function MentorFeedback() {
     transition: "opacity 0.35s ease, transform 0.35s ease",
   };
 
+  // ── Token warna — semua inline style, tidak bergantung Tailwind scan ──
+  const t = {
+    high:    dark ? "rgba(255,255,255,0.90)" : "rgba(0,0,0,0.88)",
+    mid:     dark ? "rgba(255,255,255,0.60)" : "rgba(0,0,0,0.68)",
+    low:     dark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.50)",
+    muted:   dark ? "rgba(255,255,255,0.30)" : "rgba(0,0,0,0.38)",
+    dimmed:  dark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.32)",
+    faint:   dark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.42)",
+    border:  dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)",
+    cardBg:  dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+    badgeBg: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)",
+    divider: dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)",
+    ring:    dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)",
+    ringAvatar: dark ? "#000" : "#fff",
+    dotActive:   dark ? "rgba(255,255,255,0.60)" : "rgba(0,0,0,0.50)",
+    dotInactive: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.12)",
+    btnBorder:   dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)",
+    btnBg:       dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+    btnText:     dark ? "rgba(255,255,255,0.40)" : "rgba(0,0,0,0.40)",
+    accentLine:  dark ? "rgba(255,255,255,0.20)" : "rgba(0,0,0,0.10)",
+    scrollThumb:      dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)",
+    scrollThumbHover: dark ? "rgba(255,255,255,0.20)" : "rgba(0,0,0,0.18)",
+  };
+
   return (
     <section className="w-full py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-14">
@@ -102,25 +125,45 @@ export default function MentorFeedback() {
         {/* Header */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            <span className="text-[10px] text-white/30 tracking-widest uppercase font-medium">
+            <div
+              className="h-px flex-1"
+              style={{ background: `linear-gradient(to right, transparent, ${t.ring}, transparent)` }}
+            />
+            <span
+              className="text-[10px] tracking-widest uppercase font-medium"
+              style={{ color: t.muted }}
+            >
               Lumoshive Academy
             </span>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <div
+              className="h-px flex-1"
+              style={{ background: `linear-gradient(to right, transparent, ${t.ring}, transparent)` }}
+            />
           </div>
-          <h2 className="text-4xl font-bold text-white/90 text-center">
+          <h2
+            className="text-4xl font-bold text-center"
+            style={{ color: t.high }}
+          >
             Mentor Feedback
           </h2>
-          <p className="text-center text-white/40 text-sm max-w-md mx-auto">
+          <p
+            className="text-center text-sm max-w-md mx-auto"
+            style={{ color: t.low }}
+          >
             Penilaian langsung dari tutor bootcamp terhadap hasil project yang dikerjakan.
           </p>
         </div>
 
         {/* Card */}
-        <div className="relative rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-sm overflow-hidden">
-
+        <div
+          className="relative rounded-2xl backdrop-blur-sm overflow-hidden"
+          style={{ border: `1px solid ${t.border}`, background: t.cardBg }}
+        >
           {/* Top accent line */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div
+            className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: `linear-gradient(to right, transparent, ${t.accentLine}, transparent)` }}
+          />
 
           {/* Glow blob */}
           <div
@@ -133,28 +176,45 @@ export default function MentorFeedback() {
             {/* Mentor identity */}
             <div className="flex items-center gap-4">
               <div className="relative flex-shrink-0">
-                <div className="w-12 h-12 rounded-full overflow-hidden ring-1 ring-white/10">
+                <div
+                  className="w-12 h-12 rounded-full overflow-hidden"
+                  style={{ outline: `1px solid ${t.ring}` }}
+                >
                   <img
                     src={photoMentor}
                     alt="Idaz Anggara"
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 ring-2 ring-black" />
+                <span
+                  className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400"
+                  style={{ outline: `2px solid ${t.ringAvatar}` }}
+                />
               </div>
               <div>
-                <p className="text-white/90 text-sm font-semibold tracking-wide">
+                <p
+                  className="text-sm font-semibold tracking-wide"
+                  style={{ color: t.high }}
+                >
                   Idaz Anggara
                 </p>
-                <p className="text-white/35 text-xs mt-0.5">
+                <p
+                  className="text-xs mt-0.5"
+                  style={{ color: t.faint }}
+                >
                   Software Engineering Tutor · JavaScript & Engineering Fundamentals
                 </p>
               </div>
 
               {/* Label badge */}
               <div
-                className="ml-auto hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.04] text-white/35 text-[11px] tracking-wide"
-                style={slideStyle}
+                className="ml-auto hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide"
+                style={{
+                  border: `1px solid ${t.border}`,
+                  background: t.badgeBg,
+                  color: t.faint,
+                  ...slideStyle,
+                }}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-violet-400/70" />
                 {feedbacks[active].label}
@@ -163,8 +223,13 @@ export default function MentorFeedback() {
 
             {/* Mobile label */}
             <div
-              className="sm:hidden flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.04] text-white/35 text-[11px] tracking-wide w-fit"
-              style={slideStyle}
+              className="sm:hidden flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide w-fit"
+              style={{
+                border: `1px solid ${t.border}`,
+                background: t.badgeBg,
+                color: t.faint,
+                ...slideStyle,
+              }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-violet-400/70" />
               {feedbacks[active].label}
@@ -173,7 +238,7 @@ export default function MentorFeedback() {
             {/* Opening quote mark */}
             <svg
               width="32" height="24" viewBox="0 0 32 24" fill="none"
-              className="text-white/10"
+              style={{ color: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)" }}
             >
               <path
                 d="M0 24V14.4C0 6.4 4.8 1.6 14.4 0l1.6 2.4C10.4 3.6 7.6 6 6.4 9.6H12V24H0Zm16 0V14.4C16 6.4 20.8 1.6 30.4 0L32 2.4C26.4 3.6 23.6 6 22.4 9.6H28V24H16Z"
@@ -183,13 +248,14 @@ export default function MentorFeedback() {
 
             {/* Scrollable quote */}
             <div
-              className="max-h-64 overflow-y-auto pr-2 space-y-4 custom-scroll"
+              className="max-h-64 overflow-y-auto pr-2 space-y-4 mentor-scroll"
               style={slideStyle}
             >
               {feedbacks[active].quote.split("\n\n").map((para, i) => (
                 <p
                   key={i}
-                  className="text-white/60 text-sm sm:text-[15px] leading-relaxed"
+                  className="text-sm sm:text-[15px] leading-relaxed"
+                  style={{ color: t.mid }}
                 >
                   {para}
                 </p>
@@ -197,7 +263,7 @@ export default function MentorFeedback() {
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-white/[0.06]" />
+            <div className="h-px" style={{ background: t.divider }} />
 
             {/* Controls */}
             <div className="flex items-center justify-between">
@@ -214,7 +280,7 @@ export default function MentorFeedback() {
                       width: i === active ? "24px" : "6px",
                       height: "6px",
                       borderRadius: "3px",
-                      background: i === active ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.15)",
+                      background: i === active ? t.dotActive : t.dotInactive,
                     }}
                   />
                 ))}
@@ -222,28 +288,33 @@ export default function MentorFeedback() {
 
               {/* Counter + Arrows */}
               <div className="flex items-center gap-3">
-                <span className="text-white/25 text-xs tabular-nums">
+                <span
+                  className="text-xs tabular-nums"
+                  style={{ color: t.dimmed }}
+                >
                   {String(active + 1).padStart(2, "0")} / {String(feedbacks.length).padStart(2, "0")}
                 </span>
                 <div className="flex gap-2">
-                  <button
-                    onClick={handlePrev}
-                    className="w-8 h-8 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-white/40 hover:border-white/20 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-200"
-                    aria-label="Previous"
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M19 12H5M12 5l-7 7 7 7" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="w-8 h-8 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-white/40 hover:border-white/20 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-200"
-                    aria-label="Next"
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </button>
+                  {[handlePrev, handleNext].map((handler, idx) => (
+                    <button
+                      key={idx}
+                      onClick={handler}
+                      className="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
+                      style={{
+                        border: `1px solid ${t.btnBorder}`,
+                        background: t.btnBg,
+                        color: t.btnText,
+                      }}
+                      aria-label={idx === 0 ? "Previous" : "Next"}
+                    >
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        {idx === 0
+                          ? <path d="M19 12H5M12 5l-7 7 7 7" />
+                          : <path d="M5 12h14M12 5l7 7-7 7" />
+                        }
+                      </svg>
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
@@ -253,12 +324,16 @@ export default function MentorFeedback() {
 
       </div>
 
-      {/* Scrollbar style */}
       <style>{`
-        .custom-scroll::-webkit-scrollbar { width: 3px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 99px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+        .mentor-scroll::-webkit-scrollbar { width: 3px; }
+        .mentor-scroll::-webkit-scrollbar-track { background: transparent; }
+        .mentor-scroll::-webkit-scrollbar-thumb {
+          background: ${t.scrollThumb};
+          border-radius: 99px;
+        }
+        .mentor-scroll::-webkit-scrollbar-thumb:hover {
+          background: ${t.scrollThumbHover};
+        }
       `}</style>
     </section>
   );

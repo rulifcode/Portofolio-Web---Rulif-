@@ -224,11 +224,11 @@ function MobileBeam() {
   );
 }
 
-import photoMain from "../assets/photo1.jpeg";
+import photoMain from "../assets/WhatsApp Image 2026-04-26 at 16.08.06.jpeg";
 import photoTop from "../assets/photo2.jpeg";
 import photoBottom from "../assets/photo3.jpeg";
 
-function PhotoGrid() {
+function PhotoGrid({ dark }) {
   const photos = [
     { src: photoMain, alt: "Rulif - Main Photo" },
     { src: photoTop, alt: "Rulif - Photo 2" },
