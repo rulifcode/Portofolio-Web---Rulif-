@@ -6,8 +6,9 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Project from "./pages/Projects";
 import Contact from "./pages/Contact";
-import GradientBlinds from "./components/GradientBlinds/GradientBlinds";
+import GradientBlinds from "./components/SoftAurora/SoftAurora";
 import MentorFeedback from "./components/ui/MentorFeedback";
+import SoftAurora from "./components/SoftAurora/SoftAurora";
 
 function App() {
   const [dark, setDark] = useState(true);
@@ -26,7 +27,7 @@ function App() {
         className="fixed inset-0 -z-10"
         style={{ background: dark ? "#0a0a0c" : "#f0f0ee", pointerEvents: "none" }}
       >
-        <GradientBlinds
+        <SoftAurora
           gradientColors={dark ? darkColors : lightColors}
           angle={0}
           noise={0.3}
