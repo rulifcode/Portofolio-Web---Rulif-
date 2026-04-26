@@ -90,7 +90,7 @@ export default function Navbar({ dark, setDark }) {
           {/* Logo */}
           <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="flex items-center flex-shrink-0">
             <img
-              src="/public/Subjudul-Photoroom.png"
+              src="/Subjudul-Photoroom.png"
               alt="Logo"
               className={`h-40 w-auto transition-all duration-300 ${dark ? "invert" : "invert-0"}`}
             />
