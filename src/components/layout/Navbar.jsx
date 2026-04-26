@@ -28,28 +28,65 @@ const MoonIcon = () => (
   </svg>
 );
 
-const MenuIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="3" y1="6" x2="21" y2="6" />
-    <line x1="3" y1="12" x2="21" y2="12" />
-    <line x1="3" y1="18" x2="21" y2="18" />
-  </svg>
-);
-
-const CloseIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="18" y1="6" x2="6" y2="18" />
-    <line x1="6" y1="6" x2="18" y2="18" />
-  </svg>
-);
-
 const NAV_LINKS = [
-  { label: "Home",       href: "#home" },
-  { label: "About",      href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects",   href: "#projects" },
-  { label: "Contact",    href: "#contact" },
+  { label: "Home",        href: "#home" },
+  { label: "About",       href: "#about" },
+  { label: "Experience",  href: "#experience" },
+  { label: "Projects",    href: "#projects" },
+  { label: "Certificate", href: "#certificate" },
+  { label: "Contact",     href: "#contact" },
 ];
+
+// ── CV Button ─────────────────────────────────────────────────────────────────
+function CVButton({ dark, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+
+  return (
+    <button
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); setPressed(false); }}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={() => setPressed(false)}
+      onClick={onClick}
+      style={{
+        height: "36px",
+        padding: "0 14px",
+        borderRadius: "8px",
+        border: dark
+          ? `1px solid ${hovered ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.18)"}`
+          : `1px solid ${hovered ? "rgba(30,30,30,0.45)" : "rgba(30,30,30,0.14)"}`,
+        background: hovered
+          ? dark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)"
+          : "transparent",
+        color: dark
+          ? hovered ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.6)"
+          : hovered ? "rgba(10,10,10,1)"    : "rgba(40,40,40,0.6)",
+        fontSize: "11px",
+        fontWeight: 700,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        gap: "6px",
+        flexShrink: 0,
+        transition: "color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+        boxShadow: hovered
+          ? dark ? "0 0 18px rgba(255,255,255,0.1)" : "0 0 14px rgba(0,0,0,0.08)"
+          : "none",
+        transform: pressed ? "scale(0.93)" : hovered ? "scale(1.04)" : "scale(1)",
+      }}
+    >
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+      CV
+    </button>
+  );
+}
 
 // ── Magnetic Nav Link ──────────────────────────────────────────────────────────
 function MagneticLink({ link, dark, onClick }) {
@@ -61,16 +98,10 @@ function MagneticLink({ link, dark, onClick }) {
     const rect = ref.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    setPos({
-      x: (e.clientX - cx) * 0.35,
-      y: (e.clientY - cy) * 0.35,
-    });
+    setPos({ x: (e.clientX - cx) * 0.35, y: (e.clientY - cy) * 0.35 });
   };
 
-  const handleMouseLeave = () => {
-    setPos({ x: 0, y: 0 });
-    setHovered(false);
-  };
+  const handleMouseLeave = () => { setPos({ x: 0, y: 0 }); setHovered(false); };
 
   const textColor = dark
     ? hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)"
@@ -106,53 +137,40 @@ function MagneticLink({ link, dark, onClick }) {
           overflow: "hidden",
         }}
       >
-
-
-        {/* Label with shimmer slide */}
-        <span
-          style={{
-            position: "relative",
-            display: "inline-block",
-            transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-            transform: hovered ? "translateY(-1px)" : "translateY(0)",
-          }}
-        >
+        <span style={{
+          position: "relative",
+          display: "inline-block",
+          transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+          transform: hovered ? "translateY(-1px)" : "translateY(0)",
+        }}>
           {link.label}
         </span>
-
-        {/* Animated underline — double bar effect */}
-        <span
-          style={{
+        <span style={{
+          position: "absolute",
+          bottom: "4px", left: "14px", right: "14px",
+          height: "1.5px",
+          borderRadius: "2px",
+          overflow: "hidden",
+          background: dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.2s ease",
+        }}>
+          <span style={{
             position: "absolute",
-            bottom: "4px",
-            left: "14px",
-            right: "14px",
-            height: "1.5px",
-            borderRadius: "2px",
-            overflow: "hidden",
-            background: dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",
-            opacity: hovered ? 1 : 0,
-            transition: "opacity 0.2s ease",
-          }}
-        >
-          <span
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: dark
-                ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)"
-                : "linear-gradient(90deg, transparent, rgba(20,20,20,0.8), transparent)",
-              transform: hovered ? "translateX(0%)" : "translateX(-100%)",
-              transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
-            }}
-          />
+            inset: 0,
+            background: dark
+              ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)"
+              : "linear-gradient(90deg, transparent, rgba(20,20,20,0.8), transparent)",
+            transform: hovered ? "translateX(0%)" : "translateX(-100%)",
+            transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
+          }} />
         </span>
       </a>
     </li>
   );
 }
 
-// ── Icon Button with glow + rotation ──────────────────────────────────────────
+// ── Icon Button ────────────────────────────────────────────────────────────────
 function IconBtn({ href, onClick, dark, children, isToggle }) {
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
@@ -160,21 +178,16 @@ function IconBtn({ href, onClick, dark, children, isToggle }) {
   const borderColor = dark
     ? hovered ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.18)"
     : hovered ? "rgba(30,30,30,0.45)"    : "rgba(30,30,30,0.14)";
-
   const color = dark
-    ? hovered ? "rgba(255,255,255,1)"   : "rgba(255,255,255,0.5)"
-    : hovered ? "rgba(10,10,10,1)"      : "rgba(40,40,40,0.5)";
-
+    ? hovered ? "rgba(255,255,255,1)"  : "rgba(255,255,255,0.5)"
+    : hovered ? "rgba(10,10,10,1)"     : "rgba(40,40,40,0.5)";
   const glowColor = dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)";
 
   const sharedStyle = {
-    width: "36px",
-    height: "36px",
+    width: "36px", height: "36px",
     borderRadius: "50%",
     border: `1px solid ${borderColor}`,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: "flex", alignItems: "center", justifyContent: "center",
     color,
     background: hovered ? glowColor : "transparent",
     cursor: "pointer",
@@ -210,9 +223,7 @@ function IconBtn({ href, onClick, dark, children, isToggle }) {
 
   return (
     <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
+      href={href} target="_blank" rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setPressed(false); }}
       onMouseDown={() => setPressed(true)}
@@ -264,7 +275,6 @@ function MobileLink({ link, dark, onClick, index, open }) {
       }}
     >
       <span>{link.label}</span>
-      {/* Chevron arrow */}
       <span style={{
         opacity: hovered ? 0.7 : 0,
         transform: hovered ? "translateX(0)" : "translateX(-6px)",
@@ -291,11 +301,8 @@ function HamburgerBtn({ open, dark, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "36px",
-        height: "36px",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        width: "36px", height: "36px",
         borderRadius: "8px",
         border: "none",
         background: hovered
@@ -309,49 +316,12 @@ function HamburgerBtn({ open, dark, onClick }) {
       }}
     >
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-        {/* Top bar */}
-        <rect
-          x={open ? "3" : "0"}
-          y="0"
-          width={open ? "14" : "20"}
-          height="2"
-          rx="1"
-          fill="currentColor"
-          style={{
-            transform: open ? "rotate(45deg) translate(3px, 5px)" : "none",
-            transformOrigin: "center",
-            transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        />
-        {/* Middle bar */}
-        <rect
-          x="0"
-          y="6"
-          width="20"
-          height="2"
-          rx="1"
-          fill="currentColor"
-          style={{
-            opacity: open ? 0 : 1,
-            transform: open ? "scaleX(0)" : "scaleX(1)",
-            transformOrigin: "center",
-            transition: "all 0.25s ease",
-          }}
-        />
-        {/* Bottom bar */}
-        <rect
-          x={open ? "3" : "4"}
-          y="12"
-          width={open ? "14" : "16"}
-          height="2"
-          rx="1"
-          fill="currentColor"
-          style={{
-            transform: open ? "rotate(-45deg) translate(3px, -5px)" : "none",
-            transformOrigin: "center",
-            transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-          }}
-        />
+        <rect x={open ? "3" : "0"} y="0" width={open ? "14" : "20"} height="2" rx="1" fill="currentColor"
+          style={{ transform: open ? "rotate(45deg) translate(3px, 5px)" : "none", transformOrigin: "center", transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)" }} />
+        <rect x="0" y="6" width="20" height="2" rx="1" fill="currentColor"
+          style={{ opacity: open ? 0 : 1, transform: open ? "scaleX(0)" : "scaleX(1)", transformOrigin: "center", transition: "all 0.25s ease" }} />
+        <rect x={open ? "3" : "4"} y="12" width={open ? "14" : "16"} height="2" rx="1" fill="currentColor"
+          style={{ transform: open ? "rotate(-45deg) translate(3px, -5px)" : "none", transformOrigin: "center", transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)" }} />
       </svg>
     </button>
   );
@@ -381,12 +351,12 @@ export default function Navbar({ dark, setDark }) {
     if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Nav bar styles
+  // Ganti "/cv.pdf" dengan path atau link CV kamu
+  const handleCVClick = () => window.open("/cv.pdf", "_blank");
+
   const navStyle = {
     position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
+    top: 0, left: 0, right: 0,
     zIndex: 50,
     transition: "background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease",
     background: scrolled
@@ -406,9 +376,7 @@ export default function Navbar({ dark, setDark }) {
 
   const mobilePanelStyle = {
     position: "fixed",
-    top: "68px",
-    left: 0,
-    right: 0,
+    top: "68px", left: 0, right: 0,
     zIndex: 40,
     background: dark ? "rgba(10,10,12,0.97)" : "rgba(245,245,243,0.97)",
     backdropFilter: "blur(20px) saturate(1.8)",
@@ -438,7 +406,6 @@ export default function Navbar({ dark, setDark }) {
           height: "68px",
           display: "flex",
           alignItems: "center",
-          gap: "0",
         }}>
 
           {/* Logo */}
@@ -461,43 +428,27 @@ export default function Navbar({ dark, setDark }) {
             />
           </a>
 
-          {/* Divider */}
-          <div style={{
-            display: "none",
-            width: "1px",
-            height: "28px",
+          {/* Divider — desktop only */}
+          <div className="hidden-divider" style={{
+            width: "1px", height: "28px",
             margin: "0 28px",
             background: dividerColor,
             flexShrink: 0,
-            // show on md+
-          }}
-            className="hidden-divider"
-          />
+          }} />
 
-          {/* Desktop Links */}
-          <ul style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "2px",
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-          }}
-            className="desktop-nav"
-          >
+          {/* Desktop Nav Links */}
+          <ul className="desktop-nav" style={{
+            display: "flex", alignItems: "center",
+            gap: "2px", listStyle: "none", margin: 0, padding: 0,
+          }}>
             {NAV_LINKS.map((link) => (
-              <MagneticLink
-                key={link.label}
-                link={link}
-                dark={dark}
-                onClick={handleNavClick}
-              />
+              <MagneticLink key={link.label} link={link} dark={dark} onClick={handleNavClick} />
             ))}
           </ul>
 
           <div style={{ flex: 1 }} />
 
-          {/* Right icons */}
+          {/* Right area: social icons | CV button | dark toggle | hamburger */}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <IconBtn href="https://github.com/username" dark={dark}>
               <GithubIcon />
@@ -505,6 +456,13 @@ export default function Navbar({ dark, setDark }) {
             <IconBtn href="https://instagram.com/username" dark={dark}>
               <InstagramIcon />
             </IconBtn>
+
+            {/* CV Button — sebelum dark mode toggle, desktop only */}
+            <div className="cv-btn-desktop">
+              <CVButton dark={dark} onClick={handleCVClick} />
+            </div>
+
+            {/* Dark mode toggle */}
             <IconBtn isToggle dark={dark} onClick={() => setDark(!dark)}>
               {dark ? <SunIcon /> : <MoonIcon />}
             </IconBtn>
@@ -546,30 +504,33 @@ export default function Navbar({ dark, setDark }) {
             margin: "8px 4px",
           }} />
 
-          {/* Social icons row */}
-          <div style={{ display: "flex", gap: "8px", padding: "4px 10px" }}>
+          {/* Social icons + CV row */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "4px 10px" }}>
             <IconBtn href="https://github.com/username" dark={dark}>
               <GithubIcon />
             </IconBtn>
             <IconBtn href="https://instagram.com/username" dark={dark}>
               <InstagramIcon />
             </IconBtn>
+            <CVButton dark={dark} onClick={handleCVClick} />
           </div>
         </div>
       </div>
 
-      {/* Scoped responsive CSS */}
+      {/* Responsive CSS */}
       <style>{`
-        .desktop-nav { display: none !important; }
+        .desktop-nav    { display: none !important; }
         .hidden-divider { display: none !important; }
-        .hamburger-btn { display: flex !important; }
-        .mobile-panel { display: block !important; }
+        .hamburger-btn  { display: flex !important; }
+        .mobile-panel   { display: block !important; }
+        .cv-btn-desktop { display: none !important; }
 
         @media (min-width: 768px) {
-          .desktop-nav { display: flex !important; }
+          .desktop-nav    { display: flex !important; }
           .hidden-divider { display: block !important; }
-          .hamburger-btn { display: none !important; }
-          .mobile-panel { display: none !important; }
+          .hamburger-btn  { display: none !important; }
+          .mobile-panel   { display: none !important; }
+          .cv-btn-desktop { display: flex !important; }
         }
       `}</style>
     </>

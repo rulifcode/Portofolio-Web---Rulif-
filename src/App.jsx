@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Experience from "./pages/Experience";
 import Project from "./pages/Projects";
+import Certificate from "./pages/Certificate";   // ← tambah ini
 import Contact from "./pages/Contact";
 import MentorFeedback from "./components/ui/MentorFeedback";
 import SoftAurora from "./components/SoftAurora/SoftAurora";
@@ -60,6 +61,10 @@ function App() {
 
           <section id="projects">
             <Project dark={dark} />
+          </section>
+
+          <section id="certificate">               {/* ← tambah ini */}
+            <Certificate dark={dark} />
           </section>
 
           {/* ── Section Mentor Feedback ── */}
