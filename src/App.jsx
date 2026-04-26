@@ -4,9 +4,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Experience from "./pages/Experience";
 import Project from "./pages/Projects";
 import Contact from "./pages/Contact";
-import GradientBlinds from "./components/SoftAurora/SoftAurora";
 import MentorFeedback from "./components/ui/MentorFeedback";
 import SoftAurora from "./components/SoftAurora/SoftAurora";
 
@@ -52,6 +52,10 @@ function App() {
 
           <section id="about">
             <About dark={dark} />
+          </section>
+
+          <section id="experience">
+            <Experience dark={dark} />
           </section>
 
           <section id="projects">

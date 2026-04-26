@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const GithubIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -30,27 +30,337 @@ const MoonIcon = () => (
 
 const MenuIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="18" x2="21" y2="18" />
   </svg>
 );
 
 const CloseIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
-// ── Anchor links untuk single page scroll ──
 const NAV_LINKS = [
-  { label: "Home",     href: "#home" },
-  { label: "About",    href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact",  href: "#contact" },
+  { label: "Home",       href: "#home" },
+  { label: "About",      href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects",   href: "#projects" },
+  { label: "Contact",    href: "#contact" },
 ];
 
+// ── Magnetic Nav Link ──────────────────────────────────────────────────────────
+function MagneticLink({ link, dark, onClick }) {
+  const ref = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    setPos({
+      x: (e.clientX - cx) * 0.35,
+      y: (e.clientY - cy) * 0.35,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setPos({ x: 0, y: 0 });
+    setHovered(false);
+  };
+
+  const textColor = dark
+    ? hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)"
+    : hovered ? "rgba(20,20,20,1)"       : "rgba(40,40,40,0.55)";
+
+  return (
+    <li style={{ listStyle: "none", position: "relative" }}>
+      <a
+        ref={ref}
+        href={link.href}
+        onClick={(e) => onClick(e, link.href)}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "4px",
+          fontSize: "12px",
+          fontWeight: 600,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          padding: "6px 14px",
+          borderRadius: "6px",
+          position: "relative",
+          color: textColor,
+          transform: `translate(${pos.x}px, ${pos.y}px)`,
+          transition: hovered
+            ? "color 0.2s ease"
+            : "transform 0.55s cubic-bezier(0.23,1,0.32,1), color 0.2s ease",
+          cursor: "pointer",
+          overflow: "hidden",
+        }}
+      >
+
+
+        {/* Label with shimmer slide */}
+        <span
+          style={{
+            position: "relative",
+            display: "inline-block",
+            transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+            transform: hovered ? "translateY(-1px)" : "translateY(0)",
+          }}
+        >
+          {link.label}
+        </span>
+
+        {/* Animated underline — double bar effect */}
+        <span
+          style={{
+            position: "absolute",
+            bottom: "4px",
+            left: "14px",
+            right: "14px",
+            height: "1.5px",
+            borderRadius: "2px",
+            overflow: "hidden",
+            background: dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.08)",
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.2s ease",
+          }}
+        >
+          <span
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: dark
+                ? "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)"
+                : "linear-gradient(90deg, transparent, rgba(20,20,20,0.8), transparent)",
+              transform: hovered ? "translateX(0%)" : "translateX(-100%)",
+              transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
+            }}
+          />
+        </span>
+      </a>
+    </li>
+  );
+}
+
+// ── Icon Button with glow + rotation ──────────────────────────────────────────
+function IconBtn({ href, onClick, dark, children, isToggle }) {
+  const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+
+  const borderColor = dark
+    ? hovered ? "rgba(255,255,255,0.55)" : "rgba(255,255,255,0.18)"
+    : hovered ? "rgba(30,30,30,0.45)"    : "rgba(30,30,30,0.14)";
+
+  const color = dark
+    ? hovered ? "rgba(255,255,255,1)"   : "rgba(255,255,255,0.5)"
+    : hovered ? "rgba(10,10,10,1)"      : "rgba(40,40,40,0.5)";
+
+  const glowColor = dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)";
+
+  const sharedStyle = {
+    width: "36px",
+    height: "36px",
+    borderRadius: "50%",
+    border: `1px solid ${borderColor}`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color,
+    background: hovered ? glowColor : "transparent",
+    cursor: "pointer",
+    transition: "color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)",
+    boxShadow: hovered
+      ? dark ? "0 0 18px rgba(255,255,255,0.12), inset 0 0 12px rgba(255,255,255,0.04)" : "0 0 14px rgba(0,0,0,0.1)"
+      : "none",
+    transform: pressed ? "scale(0.88)" : hovered ? "scale(1.1)" : "scale(1)",
+    textDecoration: "none",
+    flexShrink: 0,
+  };
+
+  if (isToggle) {
+    return (
+      <button
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => { setHovered(false); setPressed(false); }}
+        onMouseDown={() => setPressed(true)}
+        onMouseUp={() => setPressed(false)}
+        onClick={onClick}
+        style={sharedStyle}
+      >
+        <span style={{
+          display: "inline-flex",
+          transform: hovered ? "rotate(20deg)" : "rotate(0deg)",
+          transition: "transform 0.4s cubic-bezier(0.34,1.56,0.64,1)",
+        }}>
+          {children}
+        </span>
+      </button>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); setPressed(false); }}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={() => setPressed(false)}
+      style={sharedStyle}
+    >
+      <span style={{
+        display: "inline-flex",
+        transform: hovered ? "scale(1.15)" : "scale(1)",
+        transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+      }}>
+        {children}
+      </span>
+    </a>
+  );
+}
+
+// ── Mobile Link ────────────────────────────────────────────────────────────────
+function MobileLink({ link, dark, onClick, index, open }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <a
+      href={link.href}
+      onClick={(e) => onClick(e, link.href)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        fontSize: "13px",
+        fontWeight: 600,
+        letterSpacing: "0.1em",
+        textTransform: "uppercase",
+        textDecoration: "none",
+        padding: "12px 14px",
+        borderRadius: "8px",
+        color: dark
+          ? hovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.5)"
+          : hovered ? "rgba(10,10,10,1)"       : "rgba(40,40,40,0.55)",
+        background: hovered
+          ? dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)"
+          : "transparent",
+        transition: `color 0.2s ease, background 0.25s ease, transform 0.25s ease, opacity 0.3s ease ${index * 0.045}s`,
+        transform: open ? "translateX(0)" : "translateX(-12px)",
+        opacity: open ? 1 : 0,
+        cursor: "pointer",
+      }}
+    >
+      <span>{link.label}</span>
+      {/* Chevron arrow */}
+      <span style={{
+        opacity: hovered ? 0.7 : 0,
+        transform: hovered ? "translateX(0)" : "translateX(-6px)",
+        transition: "opacity 0.2s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)",
+      }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+      </span>
+    </a>
+  );
+}
+
+// ── Hamburger animated icon ────────────────────────────────────────────────────
+function HamburgerBtn({ open, dark, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const color = dark
+    ? hovered ? "rgba(255,255,255,1)"  : "rgba(255,255,255,0.65)"
+    : hovered ? "rgba(10,10,10,1)"     : "rgba(40,40,40,0.6)";
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "36px",
+        height: "36px",
+        borderRadius: "8px",
+        border: "none",
+        background: hovered
+          ? dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.05)"
+          : "transparent",
+        color,
+        cursor: "pointer",
+        transition: "background 0.2s ease, color 0.2s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+        transform: hovered ? "scale(1.08)" : "scale(1)",
+        flexShrink: 0,
+      }}
+    >
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+        {/* Top bar */}
+        <rect
+          x={open ? "3" : "0"}
+          y="0"
+          width={open ? "14" : "20"}
+          height="2"
+          rx="1"
+          fill="currentColor"
+          style={{
+            transform: open ? "rotate(45deg) translate(3px, 5px)" : "none",
+            transformOrigin: "center",
+            transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+          }}
+        />
+        {/* Middle bar */}
+        <rect
+          x="0"
+          y="6"
+          width="20"
+          height="2"
+          rx="1"
+          fill="currentColor"
+          style={{
+            opacity: open ? 0 : 1,
+            transform: open ? "scaleX(0)" : "scaleX(1)",
+            transformOrigin: "center",
+            transition: "all 0.25s ease",
+          }}
+        />
+        {/* Bottom bar */}
+        <rect
+          x={open ? "3" : "4"}
+          y="12"
+          width={open ? "14" : "16"}
+          height="2"
+          rx="1"
+          fill="currentColor"
+          style={{
+            transform: open ? "rotate(-45deg) translate(3px, -5px)" : "none",
+            transformOrigin: "center",
+            transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+          }}
+        />
+      </svg>
+    </button>
+  );
+}
+
+// ── Main Navbar ────────────────────────────────────────────────────────────────
 export default function Navbar({ dark, setDark }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled]  = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -64,94 +374,204 @@ export default function Navbar({ dark, setDark }) {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const navBg = dark
-    ? scrolled ? "bg-[#0a0a0c]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20" : "bg-transparent border-b border-transparent"
-    : scrolled ? "bg-[#f5f5f3]/90 backdrop-blur-md border-b border-black/8 shadow-sm"               : "bg-transparent border-b border-transparent";
-
-  const linkCls  = dark ? "text-white/50 hover:text-white/90 hover:bg-white/5" : "text-[#3a3a3a]/60 hover:text-[#1a1a1a] hover:bg-black/5";
-  const iconCls  = dark ? "border-white/20 text-white/50 hover:text-white hover:border-white/60 hover:bg-white/5" : "border-[#1a1a1a]/15 text-[#3a3a3a]/50 hover:text-[#1a1a1a] hover:border-[#1a1a1a]/40 hover:bg-black/5";
-  const hambCls  = dark ? "text-white/70 hover:text-white" : "text-[#3a3a3a]/60 hover:text-[#1a1a1a]";
-  const mobileBg = dark ? "bg-[#0a0a0c]/98 backdrop-blur-md border-b border-white/10" : "bg-[#f5f5f3]/98 backdrop-blur-md border-b border-black/8";
-  const divider  = dark ? "bg-white/10" : "bg-[#1a1a1a]/10";
-
-  // Smooth scroll ke anchor
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMenuOpen(false);
     const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Nav bar styles
+  const navStyle = {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    transition: "background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease",
+    background: scrolled
+      ? dark ? "rgba(10,10,12,0.92)" : "rgba(245,245,243,0.92)"
+      : "transparent",
+    backdropFilter: scrolled ? "blur(14px) saturate(1.5)" : "none",
+    WebkitBackdropFilter: scrolled ? "blur(14px) saturate(1.5)" : "none",
+    borderBottom: scrolled
+      ? dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)"
+      : "1px solid transparent",
+    boxShadow: scrolled
+      ? dark ? "0 4px 24px rgba(0,0,0,0.3)" : "0 2px 16px rgba(0,0,0,0.06)"
+      : "none",
+  };
+
+  const dividerColor = dark ? "rgba(255,255,255,0.1)" : "rgba(26,26,26,0.1)";
+
+  const mobilePanelStyle = {
+    position: "fixed",
+    top: "68px",
+    left: 0,
+    right: 0,
+    zIndex: 40,
+    background: dark ? "rgba(10,10,12,0.97)" : "rgba(245,245,243,0.97)",
+    backdropFilter: "blur(20px) saturate(1.8)",
+    WebkitBackdropFilter: "blur(20px) saturate(1.8)",
+    borderBottom: dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.07)",
+    opacity: menuOpen ? 1 : 0,
+    transform: menuOpen ? "translateY(0)" : "translateY(-8px)",
+    pointerEvents: menuOpen ? "auto" : "none",
+    transition: "opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)",
   };
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
-        <div className="max-w-[1240px] mx-auto px-6 md:px-8 h-[68px] flex items-center">
+      <style>{`
+        @keyframes logoShimmer {
+          0%   { filter: brightness(1); }
+          50%  { filter: brightness(1.25) drop-shadow(0 0 8px rgba(255,255,255,0.3)); }
+          100% { filter: brightness(1); }
+        }
+      `}</style>
+
+      <nav style={navStyle}>
+        <div style={{
+          maxWidth: "1240px",
+          margin: "0 auto",
+          padding: "0 24px",
+          height: "68px",
+          display: "flex",
+          alignItems: "center",
+          gap: "0",
+        }}>
 
           {/* Logo */}
-          <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="flex items-center flex-shrink-0">
+          <a
+            href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
+            style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}
+            onMouseEnter={(e) => e.currentTarget.style.animation = "logoShimmer 0.6s ease"}
+            onMouseLeave={(e) => e.currentTarget.style.animation = "none"}
+          >
             <img
               src="/Subjudul-Photoroom.png"
               alt="Logo"
-              className={`h-40 w-auto transition-all duration-300 ${dark ? "invert" : "invert-0"}`}
+              style={{
+                height: "160px",
+                width: "auto",
+                filter: dark ? "invert(1)" : "invert(0)",
+                transition: "filter 0.3s ease",
+              }}
             />
           </a>
 
-          <div className={`hidden md:block w-px h-7 mx-7 flex-shrink-0 ${divider}`} />
+          {/* Divider */}
+          <div style={{
+            display: "none",
+            width: "1px",
+            height: "28px",
+            margin: "0 28px",
+            background: dividerColor,
+            flexShrink: 0,
+            // show on md+
+          }}
+            className="hidden-divider"
+          />
 
           {/* Desktop Links */}
-          <ul className="hidden md:flex items-center gap-1 list-none m-0 p-0">
+          <ul style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "2px",
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+          }}
+            className="desktop-nav"
+          >
             {NAV_LINKS.map((link) => (
-              <li key={link.label}>
-                <a
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-[13px] font-medium tracking-[0.08em] uppercase px-3.5 py-1.5 rounded-md transition-colors duration-200 ${linkCls}`}
-                >
-                  {link.label}
-                </a>
-              </li>
+              <MagneticLink
+                key={link.label}
+                link={link}
+                dark={dark}
+                onClick={handleNavClick}
+              />
             ))}
           </ul>
 
-          <div className="flex-1" />
+          <div style={{ flex: 1 }} />
 
-          <div className="flex items-center gap-2">
-            <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 ${iconCls}`}>
+          {/* Right icons */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <IconBtn href="https://github.com/username" dark={dark}>
               <GithubIcon />
-            </a>
-            <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer" className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 ${iconCls}`}>
+            </IconBtn>
+            <IconBtn href="https://instagram.com/username" dark={dark}>
               <InstagramIcon />
-            </a>
-            <button onClick={() => setDark(!dark)} className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-200 cursor-pointer ${iconCls}`}>
+            </IconBtn>
+            <IconBtn isToggle dark={dark} onClick={() => setDark(!dark)}>
               {dark ? <SunIcon /> : <MoonIcon />}
-            </button>
-            <button onClick={() => setMenuOpen(!menuOpen)} className={`md:hidden w-9 h-9 flex items-center justify-center rounded-md transition-colors cursor-pointer ${hambCls}`}>
-              {menuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
+            </IconBtn>
+
+            {/* Hamburger — mobile only */}
+            <div className="hamburger-btn">
+              <HamburgerBtn open={menuOpen} dark={dark} onClick={() => setMenuOpen(!menuOpen)} />
+            </div>
           </div>
 
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <div className={`md:hidden fixed top-[68px] left-0 right-0 z-40 transition-all duration-200 ${mobileBg} ${menuOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"}`}>
-        <div className="max-w-[1240px] mx-auto px-6 py-4 flex flex-col gap-1">
-          {NAV_LINKS.map((link) => (
-            <a
+      {/* Mobile Menu Panel */}
+      <div style={mobilePanelStyle} className="mobile-panel">
+        <div style={{
+          maxWidth: "1240px",
+          margin: "0 auto",
+          padding: "12px 16px 16px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "2px",
+        }}>
+          {NAV_LINKS.map((link, i) => (
+            <MobileLink
               key={link.label}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`text-[13px] font-medium tracking-[0.08em] uppercase px-3.5 py-3 rounded-lg transition-colors duration-200 ${linkCls}`}
-            >
-              {link.label}
-            </a>
+              link={link}
+              dark={dark}
+              onClick={handleNavClick}
+              index={i}
+              open={menuOpen}
+            />
           ))}
-          <div className="flex gap-2 px-3.5 pt-3 pb-1">
-            <a href="https://github.com/username" target="_blank" rel="noopener noreferrer" className={`w-9 h-9 rounded-full border flex items-center justify-center ${iconCls}`}><GithubIcon /></a>
-            <a href="https://instagram.com/username" target="_blank" rel="noopener noreferrer" className={`w-9 h-9 rounded-full border flex items-center justify-center ${iconCls}`}><InstagramIcon /></a>
+
+          {/* Divider */}
+          <div style={{
+            height: "1px",
+            background: dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)",
+            margin: "8px 4px",
+          }} />
+
+          {/* Social icons row */}
+          <div style={{ display: "flex", gap: "8px", padding: "4px 10px" }}>
+            <IconBtn href="https://github.com/username" dark={dark}>
+              <GithubIcon />
+            </IconBtn>
+            <IconBtn href="https://instagram.com/username" dark={dark}>
+              <InstagramIcon />
+            </IconBtn>
           </div>
         </div>
       </div>
+
+      {/* Scoped responsive CSS */}
+      <style>{`
+        .desktop-nav { display: none !important; }
+        .hidden-divider { display: none !important; }
+        .hamburger-btn { display: flex !important; }
+        .mobile-panel { display: block !important; }
+
+        @media (min-width: 768px) {
+          .desktop-nav { display: flex !important; }
+          .hidden-divider { display: block !important; }
+          .hamburger-btn { display: none !important; }
+          .mobile-panel { display: none !important; }
+        }
+      `}</style>
     </>
   );
 }
