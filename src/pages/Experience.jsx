@@ -159,7 +159,6 @@ function Lightbox({ images, startIndex, onClose }) {
     >
       <style>{`@keyframes lbIn { from { opacity:0; transform:scale(0.97) } to { opacity:1; transform:scale(1) } }`}</style>
 
-      {/* Close btn */}
       <button onClick={onClose} style={{
         position:"absolute", top:"18px", right:"18px",
         width:"36px", height:"36px", borderRadius:"50%",
@@ -168,7 +167,6 @@ function Lightbox({ images, startIndex, onClose }) {
         display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1,
       }}>×</button>
 
-      {/* Prev */}
       {images.length > 1 && (
         <button onClick={(e) => { e.stopPropagation(); setCurrent(c => (c - 1 + images.length) % images.length); }} style={{
           position:"absolute", left:"16px",
@@ -180,7 +178,6 @@ function Lightbox({ images, startIndex, onClose }) {
         </button>
       )}
 
-      {/* Next */}
       {images.length > 1 && (
         <button onClick={(e) => { e.stopPropagation(); setCurrent(c => (c + 1) % images.length); }} style={{
           position:"absolute", right:"16px",
@@ -192,7 +189,6 @@ function Lightbox({ images, startIndex, onClose }) {
         </button>
       )}
 
-      {/* Image */}
       <img
         src={images[current]}
         alt={`zoom-${current}`}
@@ -205,7 +201,6 @@ function Lightbox({ images, startIndex, onClose }) {
         }}
       />
 
-      {/* Counter */}
       {images.length > 1 && (
         <div style={{
           position:"absolute", bottom:"20px",
@@ -214,7 +209,6 @@ function Lightbox({ images, startIndex, onClose }) {
         }}>{current + 1} / {images.length}</div>
       )}
 
-      {/* Dots */}
       {images.length > 1 && (
         <div style={{ position:"absolute", bottom:"52px", display:"flex", gap:"8px" }}>
           {images.map((_, i) => (
@@ -299,7 +293,6 @@ function ImageSlider({ images, accent }) {
           {current + 1} / {images.length}
         </div>
 
-        {/* Zoom button */}
         <button
           onClick={(e) => { e.stopPropagation(); setLightbox(true); }}
           className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white transition-all hover:bg-white/20"
@@ -331,221 +324,298 @@ function ImageSlider({ images, accent }) {
   );
 }
 
-/* ─── Timeline Node ─────────────────────────────────────────────────────────── */
-function TimelineNode({ accent, isLast, hovered, dark }) {
-  return (
-    <div className="flex flex-col items-center flex-shrink-0 w-8">
-      <div
-        className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 transition-all duration-300"
-        style={{
-          border: `1px solid ${hovered ? accent : dark ? "rgba(255,255,255,0.1)" : "rgba(10,10,10,0.12)"}`,
-          background: hovered ? `${accent}12` : "transparent",
-          boxShadow: hovered ? `0 0 0 4px ${accent}18` : "none",
-        }}
-      >
-        <div
-          className="w-2 h-2 rounded-full transition-all duration-300"
-          style={{
-            background: hovered ? accent : dark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.2)",
-            transform: hovered ? "scale(1.25)" : "scale(1)",
-          }}
-        />
-      </div>
-
-      {!isLast && (
-        <div
-          className="flex-1 min-h-10 mt-0.5 transition-all duration-500"
-          style={{
-            width: "2px",
-            background: `linear-gradient(to bottom, ${
-              hovered ? accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
-            } 0%, transparent 100%)`,
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
 /* ─── Experience Card ────────────────────────────────────────────────────────── */
 function ExpCard({ exp, dark, rowIndex, isLast }) {
   const [ref, inView] = useInView(0.08);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // ── font & color tokens — bumped up ──
   const textPrimary   = dark ? "text-white"      : "text-black/90";
-  const textSecondary = dark ? "text-white/70"   : "text-black/60";   // was 50
-  const textMuted     = dark ? "text-white/40"   : "text-black/35";   // was 25
-  const textFaint     = dark ? "text-white/80"   : "text-black/70";   // was 60
+  const textSecondary = dark ? "text-white/70"   : "text-black/60";
+  const textMuted     = dark ? "text-white/40"   : "text-black/35";
+  const textFaint     = dark ? "text-white/80"   : "text-black/70";
   const toggleStroke  = dark ? "rgba(255,255,255,0.55)" : "rgba(10,10,10,0.4)";
 
-  // ── card background: dark mode gets a frosted dark layer ──
-  const cardBgIdle    = dark ? "rgba(10,10,18,0.55)"  : "rgba(255,255,255,0.60)";
-  const cardBgHover   = dark ? `rgba(10,10,18,0.70)`  : "rgba(255,255,255,0.80)";
-  const cardBorder    = dark
+  const cardBgIdle  = dark ? "rgba(10,10,18,0.55)"  : "rgba(255,255,255,0.60)";
+  const cardBgHover = dark ? `rgba(10,10,18,0.70)`  : "rgba(255,255,255,0.80)";
+  const cardBorder  = dark
     ? hovered ? `${exp.accent}40` : "rgba(255,255,255,0.10)"
     : hovered ? `${exp.accent}30` : "rgba(0,0,0,0.08)";
 
   return (
     <div
       ref={ref}
-      className="flex gap-0"
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? "translateY(0)" : "translateY(28px)",
         transition: `opacity 0.75s cubic-bezier(0.16,1,0.3,1) ${rowIndex * 0.12}s, transform 0.75s cubic-bezier(0.16,1,0.3,1) ${rowIndex * 0.12}s`,
       }}
     >
-      {/* Left: period + duration */}
-      <div className="w-24 flex-shrink-0 pt-1.5 pr-5 text-right flex flex-col items-end gap-1">
-        <span
-          className={`text-sm font-medium tracking-wide leading-snug transition-colors duration-300 ${textSecondary}`}
-          style={{ color: hovered ? exp.accent : undefined }}
-        >
-          {exp.period}
-        </span>
-        <span className={`text-xs italic font-normal tracking-wider ${textMuted}`}>
-          {exp.duration}
-        </span>
+      {/* ── DESKTOP layout (sm+): horizontal — period | dot | card ── */}
+      <div className="hidden sm:flex gap-0">
+        {/* Left: period + duration */}
+        <div className="w-24 flex-shrink-0 pt-1.5 pr-5 text-right flex flex-col items-end gap-1">
+          <span
+            className={`text-sm font-medium tracking-wide leading-snug transition-colors duration-300 ${textSecondary}`}
+            style={{ color: hovered ? exp.accent : undefined }}
+          >
+            {exp.period}
+          </span>
+          <span className={`text-xs italic font-normal tracking-wider ${textMuted}`}>
+            {exp.duration}
+          </span>
+        </div>
+
+        {/* Center: dot + line */}
+        <div className="flex flex-col items-center flex-shrink-0 w-8">
+          <div
+            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 transition-all duration-300"
+            style={{
+              border: `1px solid ${hovered ? exp.accent : dark ? "rgba(255,255,255,0.1)" : "rgba(10,10,10,0.12)"}`,
+              background: hovered ? `${exp.accent}12` : "transparent",
+              boxShadow: hovered ? `0 0 0 4px ${exp.accent}18` : "none",
+            }}
+          >
+            <div
+              className="w-2 h-2 rounded-full transition-all duration-300"
+              style={{
+                background: hovered ? exp.accent : dark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.2)",
+                transform: hovered ? "scale(1.25)" : "scale(1)",
+              }}
+            />
+          </div>
+          {!isLast && (
+            <div
+              className="flex-1 min-h-10 mt-0.5 transition-all duration-500"
+              style={{
+                width: "2px",
+                background: `linear-gradient(to bottom, ${
+                  hovered ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
+                } 0%, transparent 100%)`,
+              }}
+            />
+          )}
+        </div>
+
+        {/* Right: card */}
+        <div className={`flex-1 pl-5 ${isLast ? "" : "pb-10"}`}>
+          <div
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={() => setOpen(v => !v)}
+            className="cursor-pointer rounded-2xl p-5 transition-all duration-300"
+            style={{
+              border: `1px solid ${cardBorder}`,
+              background: hovered ? cardBgHover : cardBgIdle,
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              marginTop: "-4px",
+            }}
+          >
+            <CardInner
+              exp={exp} open={open} hovered={hovered}
+              textPrimary={textPrimary} textSecondary={textSecondary}
+              textMuted={textMuted} textFaint={textFaint}
+              toggleStroke={toggleStroke} dark={dark}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* Center: timeline */}
-      <TimelineNode accent={exp.accent} isLast={isLast} hovered={hovered} dark={dark} />
+      {/* ── MOBILE layout (<sm): centered timeline ── */}
+      <div className={`flex sm:hidden flex-col items-center ${isLast ? "" : "pb-8"}`}>
 
-      {/* Right: card */}
-      <div className={`flex-1 pl-5 ${isLast ? "" : "pb-10"}`}>
+        {/* Period + duration centered above dot */}
+        <div className="flex flex-col items-center gap-0.5 mb-2">
+          <span
+            className={`text-xs font-semibold tracking-wide text-center leading-snug transition-colors duration-300 ${textSecondary}`}
+            style={{ color: exp.accent }}
+          >
+            {exp.period}
+          </span>
+          <span className={`text-[10px] italic font-normal tracking-wider text-center ${textMuted}`}>
+            {exp.duration}
+          </span>
+        </div>
+
+        {/* Dot */}
         <div
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onClick={() => setOpen(v => !v)}
-          className="cursor-pointer rounded-2xl p-5 transition-all duration-300"
+          className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 transition-all duration-300"
           style={{
-            border: `1px solid ${cardBorder}`,
-            background: hovered ? cardBgHover : cardBgIdle,
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            marginTop: "-4px",
+            border: `1px solid ${open ? exp.accent : dark ? "rgba(255,255,255,0.1)" : "rgba(10,10,10,0.12)"}`,
+            background: open ? `${exp.accent}12` : "transparent",
+            boxShadow: open ? `0 0 0 4px ${exp.accent}18` : "none",
           }}
         >
-          {/* Top: logo + company + toggle */}
-          <div className="flex items-start gap-3.5 mb-2.5">
+          <div
+            className="w-2 h-2 rounded-full transition-all duration-300"
+            style={{
+              background: open ? exp.accent : dark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.2)",
+              transform: open ? "scale(1.25)" : "scale(1)",
+            }}
+          />
+        </div>
 
-            {/* Logo */}
-            <div
-              className="w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 bg-white transition-all duration-300"
-              style={{
-                border: `1px solid ${exp.accent}28`,
-                transform: hovered ? "scale(1.08) rotate(-3deg)" : "scale(1) rotate(0deg)",
-                boxShadow: hovered ? `0 4px 16px ${exp.accent}28` : "none",
-              }}
-            >
-              <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
-            </div>
+        {/* Short connector line above card */}
+        <div
+          className="transition-all duration-500"
+          style={{
+            width: "2px",
+            height: "16px",
+            background: `linear-gradient(to bottom, ${
+              open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
+            }, transparent)`,
+          }}
+        />
 
-            <div className="flex-1 min-w-0">
-              {/* Company name — bigger + bolder */}
-              <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>
-                {exp.company}
-              </div>
-              {/* Role — more visible */}
-              <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>
-                {exp.role}
-              </div>
-
-              {/* Location */}
-              <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${textMuted}`}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                    stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8"/>
-                </svg>
-                <span>{exp.location}</span>
-              </div>
-            </div>
-
-            {/* Toggle */}
-            <div
-              className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
-              style={{
-                border: `1px solid ${open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}`,
-                background: open ? `${exp.accent}18` : "transparent",
-                transform: open ? "rotate(45deg)" : "rotate(0deg)",
-              }}
-            >
-              <svg width="8" height="8" viewBox="0 0 9 9" fill="none">
-                <line x1="4.5" y1="0.5" x2="4.5" y2="8.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
-                <line x1="0.5" y1="4.5" x2="8.5" y2="4.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-            </div>
+        {/* Card — full width */}
+        <div className="w-full">
+          <div
+            onClick={() => setOpen(v => !v)}
+            className="cursor-pointer rounded-2xl p-4 transition-all duration-300 w-full"
+            style={{
+              border: `1px solid ${open ? `${exp.accent}40` : cardBorder}`,
+              background: open ? cardBgHover : cardBgIdle,
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+            }}
+          >
+            <CardInner
+              exp={exp} open={open} hovered={open}
+              textPrimary={textPrimary} textSecondary={textSecondary}
+              textMuted={textMuted} textFaint={textFaint}
+              toggleStroke={toggleStroke} dark={dark}
+            />
           </div>
+        </div>
 
-          {/* Meta tags */}
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {[exp.type, ...(exp.project ? [exp.project] : [])].map((label, i) => (
+        {/* Bottom connector line to next card */}
+        {!isLast && (
+          <div
+            className="mt-0 transition-all duration-500"
+            style={{
+              width: "2px",
+              height: "28px",
+              background: `linear-gradient(to bottom, ${
+                dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
+              }, transparent)`,
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Shared Card Inner Content ─────────────────────────────────────────────── */
+function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, textFaint, toggleStroke, dark }) {
+  return (
+    <>
+      {/* Top: logo + company + toggle */}
+      <div className="flex items-start gap-3.5 mb-2.5">
+        {/* Logo */}
+        <div
+          className="w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 bg-white transition-all duration-300"
+          style={{
+            border: `1px solid ${exp.accent}28`,
+            transform: hovered ? "scale(1.08) rotate(-3deg)" : "scale(1) rotate(0deg)",
+            boxShadow: hovered ? `0 4px 16px ${exp.accent}28` : "none",
+          }}
+        >
+          <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>
+            {exp.company}
+          </div>
+          <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>
+            {exp.role}
+          </div>
+          <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${textMuted}`}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8"/>
+            </svg>
+            <span>{exp.location}</span>
+          </div>
+        </div>
+
+        {/* Toggle */}
+        <div
+          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
+          style={{
+            border: `1px solid ${open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}`,
+            background: open ? `${exp.accent}18` : "transparent",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+          }}
+        >
+          <svg width="8" height="8" viewBox="0 0 9 9" fill="none">
+            <line x1="4.5" y1="0.5" x2="4.5" y2="8.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
+            <line x1="0.5" y1="4.5" x2="8.5" y2="4.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* Meta tags */}
+      <div className="flex flex-wrap gap-1.5 mt-3">
+        {[exp.type, ...(exp.project ? [exp.project] : [])].map((label, i) => (
+          <span
+            key={i}
+            className="text-xs font-semibold tracking-wide px-3 py-1 rounded-full"
+            style={{
+              color: i === 1 ? exp.accent : dark ? "rgba(255,255,255,0.6)" : "rgba(10,10,10,0.55)",
+              border: `1px solid ${i === 1 ? exp.accent + "38" : dark ? "rgba(255,255,255,0.12)" : "rgba(10,10,10,0.08)"}`,
+              background: i === 1 ? `${exp.accent}0f` : dark ? "rgba(255,255,255,0.05)" : "transparent",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+
+      {/* Expandable */}
+      <div
+        className="overflow-hidden transition-all duration-700"
+        style={{ maxHeight: open ? "2000px" : "0px" }}
+      >
+        <div className="pt-5">
+          <div
+            className="h-px mb-4"
+            style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }}
+          />
+
+          <ImageSlider images={exp.images} accent={exp.accent} />
+
+          <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
+            {exp.stack.map((s) => (
               <span
-                key={i}
-                className="text-xs font-semibold tracking-wide px-3 py-1 rounded-full"
-                style={{
-                  color: i === 1 ? exp.accent : dark ? "rgba(255,255,255,0.6)" : "rgba(10,10,10,0.55)",
-                  border: `1px solid ${i === 1 ? exp.accent + "38" : dark ? "rgba(255,255,255,0.12)" : "rgba(10,10,10,0.08)"}`,
-                  background: i === 1 ? `${exp.accent}0f` : dark ? "rgba(255,255,255,0.05)" : "transparent",
-                }}
+                key={s}
+                className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded"
+                style={{ color: exp.accent, background: `${exp.accent}14` }}
               >
-                {label}
+                {s}
               </span>
             ))}
           </div>
 
-          {/* Expandable */}
-          <div
-            className="overflow-hidden transition-all duration-700"
-            style={{ maxHeight: open ? "2000px" : "0px" }}
-          >
-            <div className="pt-5">
-
-              {/* Divider */}
-              <div
-                className="h-px mb-4"
-                style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }}
-              />
-
-              {/* Image Slider */}
-              <ImageSlider images={exp.images} accent={exp.accent} />
-
-              {/* Stack chips */}
-              <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
-                {exp.stack.map((s) => (
-                  <span
-                    key={s}
-                    className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded"
-                    style={{ color: exp.accent, background: `${exp.accent}14` }}
-                  >
-                    {s}
-                  </span>
-                ))}
+          <div className="flex flex-col gap-3">
+            {exp.bullets.map((b, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div
+                  className="flex-shrink-0 mt-2.5 opacity-60"
+                  style={{ width: "16px", height: "1px", background: exp.accent }}
+                />
+                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>
+                  {b}
+                </p>
               </div>
-
-              {/* Bullets */}
-              <div className="flex flex-col gap-3">
-                {exp.bullets.map((b, i) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <div
-                      className="flex-shrink-0 mt-2.5 opacity-60"
-                      style={{ width: "16px", height: "1px", background: exp.accent }}
-                    />
-                    <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>
-                      {b}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-            </div>
+            ))}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
