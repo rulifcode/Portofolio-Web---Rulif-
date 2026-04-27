@@ -390,7 +390,7 @@ export default function About({ dark }) {
           <div>
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Halo! Nama saya Rulif Fadria Nirwansyah, seorang Frontend Developer berusia 21 tahun yang lahir dan besar di Bandung, Jawa Barat, Indonesia.
+              Saya Rulif Fadria Nirwansyah, 21 tahun, lahir dan berdomisili di Bandung. Saya memiliki ketertarikan besar di bidang pengembangan web, khususnya sebagai Front-End Developer, dengan tujuan berkembang menjadi Full Stack Developer. Selain berfokus pada front-end development, saya juga memiliki pemahaman di bidang Quality Assurance, yang membantu saya lebih teliti dalam memastikan kualitas, fungsionalitas, dan pengalaman pengguna dari sebuah aplikasi.
             </ScrollReveal>
           </div>
           <PhotoGrid dark={dark} />

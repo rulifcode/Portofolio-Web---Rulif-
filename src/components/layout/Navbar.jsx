@@ -358,6 +358,9 @@ export default function Navbar({ dark, setDark }) {
     position: "fixed",
     top: 0, left: 0, right: 0,
     zIndex: 50,
+    width: "100%",
+    boxSizing: "border-box",
+    overflow: "100vw",
     transition: "background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease",
     background: scrolled
       ? dark ? "rgba(10,10,12,0.92)" : "rgba(245,245,243,0.92)"
@@ -378,6 +381,9 @@ export default function Navbar({ dark, setDark }) {
     position: "fixed",
     top: "68px", left: 0, right: 0,
     zIndex: 40,
+    width: "100%",
+    boxSizing: "border-box",
+    overflow: "hidden",
     background: dark ? "rgba(10,10,12,0.97)" : "rgba(245,245,243,0.97)",
     backdropFilter: "blur(20px) saturate(1.8)",
     WebkitBackdropFilter: "blur(20px) saturate(1.8)",
@@ -391,6 +397,7 @@ export default function Navbar({ dark, setDark }) {
   return (
     <>
       <style>{`
+        *, *::before, *::after { box-sizing: border-box; }
         @keyframes logoShimmer {
           0%   { filter: brightness(1); }
           50%  { filter: brightness(1.25) drop-shadow(0 0 8px rgba(255,255,255,0.3)); }
@@ -402,10 +409,11 @@ export default function Navbar({ dark, setDark }) {
         <div style={{
           maxWidth: "1240px",
           margin: "0 auto",
-          padding: "0 24px",
+          padding: "0 16px",
           height: "68px",
           display: "flex",
           alignItems: "center",
+          minWidth: 0,
         }}>
 
           {/* Logo */}
@@ -440,16 +448,17 @@ export default function Navbar({ dark, setDark }) {
           <ul className="desktop-nav" style={{
             display: "flex", alignItems: "center",
             gap: "2px", listStyle: "none", margin: 0, padding: 0,
+            minWidth: 0,
           }}>
             {NAV_LINKS.map((link) => (
               <MagneticLink key={link.label} link={link} dark={dark} onClick={handleNavClick} />
             ))}
           </ul>
 
-          <div style={{ flex: 1 }} />
+          <div style={{ flex: 1, minWidth: 0 }} />
 
           {/* Right area: social icons | CV button | dark toggle | hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
             <IconBtn href="https://github.com/username" dark={dark}>
               <GithubIcon />
             </IconBtn>
@@ -457,7 +466,7 @@ export default function Navbar({ dark, setDark }) {
               <InstagramIcon />
             </IconBtn>
 
-            {/* CV Button — sebelum dark mode toggle, desktop only */}
+            {/* CV Button — desktop only */}
             <div className="cv-btn-desktop">
               <CVButton dark={dark} onClick={handleCVClick} />
             </div>
@@ -481,7 +490,7 @@ export default function Navbar({ dark, setDark }) {
         <div style={{
           maxWidth: "1240px",
           margin: "0 auto",
-          padding: "12px 16px 16px",
+          padding: "12px 12px 16px",
           display: "flex",
           flexDirection: "column",
           gap: "2px",
