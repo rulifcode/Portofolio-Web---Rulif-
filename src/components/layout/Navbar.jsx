@@ -217,7 +217,7 @@ function LangToggle({ dark }) {
           : "none",
         position: "relative",
         overflow: "hidden",
-        width: "68px",
+        width: "62px",
       }}
     >
       <span
@@ -241,9 +241,9 @@ function LangToggle({ dark }) {
             zIndex: 1,
             flex: 1,
             textAlign: "center",
-            fontSize: "13px",
-            fontWeight: 700,
-            letterSpacing: "0.08em",
+            fontSize: "11px",        // ← dikecilkan dari 13px
+            fontWeight: 500,          // ← dilighten dari 700
+            letterSpacing: "0.05em", // ← dikurangi dari 0.08em
             color: lang === l
               ? dark ? "rgba(255,255,255,0.95)" : "rgba(10,10,10,0.9)"
               : dark ? "rgba(255,255,255,0.35)" : "rgba(40,40,40,0.4)",
@@ -284,9 +284,9 @@ function CVButton({ dark, onClick, compact = false }) {
         color: dark
           ? hovered ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.6)"
           : hovered ? "rgba(10,10,10,1)" : "rgba(40,40,40,0.6)",
-        fontSize: "13px",
-        fontWeight: 700,
-        letterSpacing: "0.1em",
+        fontSize: "11px",         // ← dikecilkan dari 13px
+        fontWeight: 500,           // ← dilighten dari 700
+        letterSpacing: "0.07em",  // ← dikurangi dari 0.1em
         textTransform: "uppercase",
         cursor: "pointer",
         display: "flex",
@@ -301,7 +301,7 @@ function CVButton({ dark, onClick, compact = false }) {
         transform: pressed ? "scale(0.93)" : hovered ? "scale(1.04)" : "scale(1)",
       }}
     >
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
         <polyline points="7 10 12 15 17 10" />
         <line x1="12" y1="15" x2="12" y2="3" />
@@ -546,7 +546,7 @@ export default function Navbar({ dark, setDark }) {
     if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleCVClick = () => window.open("/cv.pdf", "_blank");
+  const handleCVClick = () => window.open("CV_Rulif_Fadrian_Nirwansyah_JuniorDev_2026.pdf", "_blank");
 
   const dividerColor = dark ? "rgba(255,255,255,0.1)" : "rgba(26,26,26,0.1)";
   const compactNav = width >= 1100 && width < 1280;

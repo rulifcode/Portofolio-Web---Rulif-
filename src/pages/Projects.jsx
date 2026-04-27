@@ -167,7 +167,7 @@ const PROJECT_META = [
     github: "https://github.com/rulifcode/ruliftaskify-movie",
     live: "https://ruliftaskify-movie.vercel.app/",
     gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
-    cover: coverTaskify, // TODO: ganti dengan → cover: coverTaskify
+    cover: coverTaskify,
     companyIcon: null,
     companyName: null,
   },
@@ -186,7 +186,7 @@ const PROJECT_META = [
     github: "https://github.com/rulifcode/Start-Up-Match-Making",
     live: null,
     gradient: "from-sky-500/20 via-indigo-500/10 to-transparent",
-    cover: null, // TODO: ganti dengan → cover: coverMatchmaking
+    cover: null,
     companyIcon: logoLumoshive,
     companyName: "Lumoshive",
   },
@@ -214,7 +214,7 @@ const PROJECT_META = [
     github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli",
     live: null,
     gradient: "from-violet-500/20 via-purple-500/10 to-transparent",
-    cover: null, // TODO: ganti dengan → cover: coverPerpus
+    cover: null,
     companyIcon: null,
     companyName: null,
   },
@@ -223,7 +223,7 @@ const PROJECT_META = [
     github: "https://github.com/rulifcode/react-ecommerce-firebase",
     live: null,
     gradient: "from-emerald-500/20 via-teal-500/10 to-transparent",
-    cover: null, // TODO: ganti dengan → cover: coverFirebase
+    cover: null,
     companyIcon: null,
     companyName: null,
   },
@@ -233,7 +233,7 @@ const PROJECT_META = [
     github: null,
     live: "https://id.gaotek.com/",
     gradient: "from-orange-500/20 via-yellow-500/10 to-transparent",
-    cover: coverGaotek, // TODO: ganti dengan → cover: coverGaotek
+    cover: coverGaotek,
     companyIcon: logoGaotek,
     companyName: "Gaotek",
   },
@@ -243,7 +243,7 @@ const PROJECT_META = [
     github: null,
     live: "https://play.google.com/store/apps/details?id=com.nn.ngafalngefeel",
     gradient: "from-teal-500/20 via-cyan-500/10 to-transparent",
-    cover: coverNgafal, // TODO: ganti dengan → cover: coverNgafal
+    cover: coverNgafal,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
   },
@@ -252,7 +252,7 @@ const PROJECT_META = [
     github: null,
     live: "https://ganakonsultan.com/",
     gradient: "from-lime-500/20 via-green-500/10 to-transparent",
-    cover: coverGana, // TODO: ganti dengan → cover: coverGana
+    cover: coverGana,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
   },
@@ -261,16 +261,17 @@ const PROJECT_META = [
     github: null,
     live: "https://crm.masplene.com/dashboard",
     gradient: "from-blue-500/20 via-sky-500/10 to-transparent",
-    cover: coverPolytama, 
+    cover: coverPolytama,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
   },
+  // TMS Daihatsu — sudah selesai, ada live site
   {
     tech: ["WordPress", "Manual Testing", "Bug Report", "Agile"],
     github: null,
-    live: null,
+    live: "https://www.tmsdaihatsu.co.id/",
     gradient: "from-red-500/20 via-orange-500/10 to-transparent",
-    cover: coverDaihatsu, // TODO: ganti dengan → cover: coverDaihatsu
+    cover: coverDaihatsu,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
   },
@@ -279,20 +280,18 @@ const PROJECT_META = [
     github: null,
     live: null,
     gradient: "from-indigo-500/20 via-blue-500/10 to-transparent",
-    cover: coverBNPP, // TODO: ganti dengan → cover: coverBNPP
+    cover: coverBNPP,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
-    status: "On Going",
   },
   {
     tech: ["Android", "Manual Testing", "Test Case", "Agile"],
     github: null,
     live: null,
     gradient: "from-pink-500/20 via-rose-500/10 to-transparent",
-    cover: coverTotalBuah, // TODO: ganti dengan → cover: coverTotalBuah
+    cover: coverTotalBuah,
     companyIcon: logoVodjo,
     companyName: "Vodjo",
-    status: "On Going",
   },
 ];
 
