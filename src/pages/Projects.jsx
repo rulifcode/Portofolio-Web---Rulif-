@@ -4,7 +4,7 @@ import coverFurniture from "../assets/Purple and Pink Gradient Modern Bold Mobil
 import coverRecipe    from "../assets/Purple and Pink Gradient Modern Bold Mobile App Presentation (1).jpg";
 // TODO: tambahkan cover image project baru di bawah ini
 import coverTaskify   from "../assets/taskify-cover.jpg";
-import coverGaotek    from "../assets/gaotek.webp";
+import coverGaotek    from "../assets/gaotek3.jpg";
 import coverNgafal    from "../assets/NgafalNgefeel.png";
 import coverGana      from "../assets/ganakonsultan.jpg";
 import coverPolytama  from "../assets/polytama1.webp";
