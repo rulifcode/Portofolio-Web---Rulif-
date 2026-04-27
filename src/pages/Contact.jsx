@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useLang, TRANSLATIONS } from "../Components/layout/Navbar";
+import { useLang, TRANSLATIONS } from "../components/layout/Navbar";
 import { MdEmail } from "react-icons/md";
 import { FaWhatsapp, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
