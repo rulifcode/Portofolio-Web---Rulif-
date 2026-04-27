@@ -50,7 +50,7 @@ const EXPERIENCES = [
   },
   {
     id: 2,
-    role: "Web WordPress Developer",
+    role: "Web Developer",
     company: "Gaotek Inc",
     location: "New York, USA · Remote",
     period: "Oct 2025 – Dec 2025",

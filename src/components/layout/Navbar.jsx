@@ -360,7 +360,7 @@ export default function Navbar({ dark, setDark }) {
     zIndex: 50,
     width: "100%",
     boxSizing: "border-box",
-    overflow: "100vw",
+    overflow: "100v",
     transition: "background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease",
     background: scrolled
       ? dark ? "rgba(10,10,12,0.92)" : "rgba(245,245,243,0.92)"
