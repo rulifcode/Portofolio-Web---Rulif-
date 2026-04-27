@@ -7,6 +7,27 @@ import { SiFigma } from "react-icons/si";
 import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGithub, FaNodeJs } from "react-icons/fa";
 import { SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs, SiJest, SiSelenium } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
+import { useLang } from "../components/layout/Navbar";
+
+// ── Translations ───────────────────────────────────────────────
+const ABOUT_TRANSLATIONS = {
+  EN: {
+    bio: "I'm Rulif Fadria Nirwansyah, 21 years old, born and based in Bandung. I have a strong interest in web development, particularly as a Front-End Developer, with the goal of growing into a Full Stack Developer. Beyond front-end, I also have a background in Quality Assurance, which helps me be more thorough in ensuring the quality, functionality, and user experience of an application.",
+    passion: "I have a strong passion for building modern, responsive, and aesthetically pleasing web interfaces. To me, good code isn't just about functionality — it's about the experience the user feels.",
+    techStack: "I always keep up with the latest relevant technologies. Not just to look up-to-date, but because I genuinely believe the right tools can make the output far more impactful and efficient.",
+    qa: "Beyond front-end, I also have experience as a Software Quality Assurance engineer — ensuring every released feature works flawlessly, is free of bugs, and meets high quality standards.",
+    mobile: "I've also ventured into mobile development, building applications that run smoothly across various devices with high performance and an intuitive UI.",
+    closing: "I believe the best technology is the kind that's invisible — working behind the scenes to create an experience that feels natural, fast, and enjoyable for every user.",
+  },
+  ID: {
+    bio: "Saya Rulif Fadria Nirwansyah, 21 tahun, lahir dan berdomisili di Bandung. Saya memiliki ketertarikan besar di bidang pengembangan web, khususnya sebagai Front-End Developer, dengan tujuan berkembang menjadi Full Stack Developer. Selain berfokus pada front-end development, saya juga memiliki pemahaman di bidang Quality Assurance, yang membantu saya lebih teliti dalam memastikan kualitas, fungsionalitas, dan pengalaman pengguna dari sebuah aplikasi.",
+    passion: "Saya memiliki passion yang kuat dalam membangun antarmuka web yang modern, responsif, dan estetis. Bagi saya, kode yang baik bukan hanya soal fungsi — tapi juga soal pengalaman yang dirasakan pengguna.",
+    techStack: "Saya selalu ngikutin perkembangan teknologi yang lagi relevan sekarang. Bukan cuma biar kelihatan update, tapi karena saya percaya tools yang tepat bisa bikin hasil kerja jauh lebih impactful dan efisien.",
+    qa: "Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance — memastikan setiap fitur yang dirilis berjalan dengan sempurna, bebas dari bug, dan sesuai standar kualitas yang tinggi.",
+    mobile: "Saya juga merambah dunia mobile development, membangun aplikasi yang berjalan lancar di berbagai perangkat dengan performa tinggi dan UI yang intuitif.",
+    closing: "Saya percaya bahwa teknologi terbaik adalah yang tidak terlihat — yang bekerja di balik layar untuk menciptakan pengalaman yang terasa alami, cepat, dan menyenangkan bagi setiap pengguna.",
+  },
+};
 
 // ── Circle Node ────────────────────────────────────────────────
 const CircleNode = forwardRef(({ children, label, className = "", dark }, ref) => (
@@ -381,6 +402,9 @@ function QABeam({ dark }) {
 
 // ── About Page ─────────────────────────────────────────────────
 export default function About({ dark }) {
+  const { lang } = useLang();
+  const t = ABOUT_TRANSLATIONS[lang];
+
   return (
     <main className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-24">
@@ -390,7 +414,7 @@ export default function About({ dark }) {
           <div>
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Saya Rulif Fadria Nirwansyah, 21 tahun, lahir dan berdomisili di Bandung. Saya memiliki ketertarikan besar di bidang pengembangan web, khususnya sebagai Front-End Developer, dengan tujuan berkembang menjadi Full Stack Developer. Selain berfokus pada front-end development, saya juga memiliki pemahaman di bidang Quality Assurance, yang membantu saya lebih teliti dalam memastikan kualitas, fungsionalitas, dan pengalaman pengguna dari sebuah aplikasi.
+              {t.bio}
             </ScrollReveal>
           </div>
           <PhotoGrid dark={dark} />
@@ -400,7 +424,7 @@ export default function About({ dark }) {
         <section className="max-w-3xl mx-auto">
           <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
             textClassName={dark ? "text-white/90" : "text-black/90"}>
-            Saya memiliki passion yang kuat dalam membangun antarmuka web yang modern, responsif, dan estetis. Bagi saya, kode yang baik bukan hanya soal fungsi — tapi juga soal pengalaman yang dirasakan pengguna.
+            {t.passion}
           </ScrollReveal>
         </section>
 
@@ -409,9 +433,7 @@ export default function About({ dark }) {
           <div>
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Saya selalu ngikutin perkembangan teknologi yang lagi relevan sekarang.
-              Bukan cuma biar kelihatan update, tapi karena saya percaya tools yang tepat bisa
-              bikin hasil kerja jauh lebih impactful dan efisien.
+              {t.techStack}
             </ScrollReveal>
           </div>
           <StackBeam dark={dark} />
@@ -425,7 +447,7 @@ export default function About({ dark }) {
           <div className="order-1 lg:order-2">
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance — memastikan setiap fitur yang dirilis berjalan dengan sempurna, bebas dari bug, dan sesuai standar kualitas yang tinggi.
+              {t.qa}
             </ScrollReveal>
           </div>
         </section>
@@ -435,7 +457,7 @@ export default function About({ dark }) {
           <div>
             <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
               textClassName={dark ? "text-white/90" : "text-black/90"}>
-              Saya juga merambah dunia mobile development, membangun aplikasi yang berjalan lancar di berbagai perangkat dengan performa tinggi dan UI yang intuitif.
+              {t.mobile}
             </ScrollReveal>
           </div>
           <MobileBeam dark={dark} />
@@ -445,7 +467,7 @@ export default function About({ dark }) {
         <section className="max-w-3xl mx-auto">
           <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
             textClassName={dark ? "text-white/90" : "text-black/90"}>
-            Saya percaya bahwa teknologi terbaik adalah yang tidak terlihat — yang bekerja di balik layar untuk menciptakan pengalaman yang terasa alami, cepat, dan menyenangkan bagi setiap pengguna.
+            {t.closing}
           </ScrollReveal>
         </section>
 

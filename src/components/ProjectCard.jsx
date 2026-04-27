@@ -7,6 +7,8 @@ export default function ProjectCard({
   gradient = "from-blue-500/20 via-violet-500/10 to-transparent",
   cover = null,
   dark = true,
+  companyIcon = null, // path to company logo image
+  companyName = null, // tooltip / alt text
 }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] flex flex-col transition-all duration-500 hover:border-white/20 hover:bg-[#111111]">
@@ -25,6 +27,20 @@ export default function ProjectCard({
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+        {/* Company Icon Badge */}
+        {companyIcon && (
+          <div
+            title={companyName ?? ""}
+            className="absolute top-3 right-3 w-7 h-7 rounded-lg border border-white/15 bg-black/60 backdrop-blur-sm flex items-center justify-center overflow-hidden"
+          >
+            <img
+              src={companyIcon}
+              alt={companyName ?? "company"}
+              className="w-5 h-5 object-contain"
+            />
+          </div>
+        )}
       </div>
 
       {/* Content */}

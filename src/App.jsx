@@ -1,18 +1,20 @@
 // App.jsx
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { LangContext } from "./components/layout/Navbar";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Experience from "./pages/Experience";
 import Project from "./pages/Projects";
-import Certificate from "./pages/Certificate";   // ← tambah ini
+import Certificate from "./pages/Certificate";
 import Contact from "./pages/Contact";
 import MentorFeedback from "./components/ui/MentorFeedback";
 import SoftAurora from "./components/SoftAurora/SoftAurora";
 
 function App() {
   const [dark, setDark] = useState(true);
+  const [lang, setLang] = useState("EN");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -22,62 +24,42 @@ function App() {
   const lightColors = ['#dce8ff', '#f0ecff', '#f5f5f3'];
 
   return (
-    <Router>
-      {/* ── Global Background ── */}
-      <div
-        className="fixed inset-0 -z-10"
-        style={{ background: dark ? "#0a0a0c" : "#f0f0ee", pointerEvents: "none" }}
-      >
-        <SoftAurora
-          gradientColors={dark ? darkColors : lightColors}
-          angle={0}
-          noise={0.3}
-          blindCount={12}
-          blindMinWidth={50}
-          spotlightRadius={0.5}
-          spotlightSoftness={1}
-          spotlightOpacity={1}
-          mouseDampening={0.15}
-          distortAmount={0}
-          shineDirection="left"
-          mixBlendMode="lighten"
-        />
-      </div>
+    <LangContext.Provider value={{ lang, setLang }}>
+      <Router>
+        <div
+          className="fixed inset-0 -z-10"
+          style={{ background: dark ? "#0a0a0c" : "#f0f0ee", pointerEvents: "none" }}
+        >
+          <SoftAurora
+            gradientColors={dark ? darkColors : lightColors}
+            angle={0}
+            noise={0.3}
+            blindCount={12}
+            blindMinWidth={50}
+            spotlightRadius={0.5}
+            spotlightSoftness={1}
+            spotlightOpacity={1}
+            mouseDampening={0.15}
+            distortAmount={0}
+            shineDirection="left"
+            mixBlendMode="lighten"
+          />
+        </div>
 
-      <div className="min-h-screen flex flex-col">
-        <Navbar dark={dark} setDark={setDark} />
-        <main>
-          <section id="home">
-            <Home dark={dark} />
-          </section>
-
-          <section id="about">
-            <About dark={dark} />
-          </section>
-
-          <section id="experience">
-            <Experience dark={dark} />
-          </section>
-
-          <section id="projects">
-            <Project dark={dark} />
-          </section>
-
-          <section id="certificate">               {/* ← tambah ini */}
-            <Certificate dark={dark} />
-          </section>
-
-          {/* ── Section Mentor Feedback ── */}
-          <section id="mentor-feedback">
-            <MentorFeedback dark={dark} />
-          </section>
-
-          <section id="contact">
-            <Contact dark={dark} />
-          </section>
-        </main>
-      </div>
-    </Router>
+        <div className="min-h-screen flex flex-col">
+          <Navbar dark={dark} setDark={setDark} />
+          <main>
+            <section id="home"><Home dark={dark} /></section>
+            <section id="about"><About dark={dark} /></section>
+            <section id="experience"><Experience dark={dark} /></section>
+            <section id="projects"><Project dark={dark} /></section>
+            <section id="certificate"><Certificate dark={dark} /></section>
+            <section id="mentor-feedback"><MentorFeedback dark={dark} /></section>
+            <section id="contact"><Contact dark={dark} /></section>
+          </main>
+        </div>
+      </Router>
+    </LangContext.Provider>
   );
 }
 

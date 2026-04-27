@@ -1,46 +1,101 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import photoMentor from "../../assets/photomentor.jpg";
+import { useLang } from "../../components/layout/Navbar"; // sesuaikan path jika berbeda
 
-const feedbacks = [
-  {
-    id: 1,
-    label: "Milestone — HTML, CSS & JavaScript",
-    quote: `Project yang dibuat menunjukkan kualitas yang sangat tinggi baik dari sisi teknis maupun tampilan visual. Struktur HTML sudah sangat rapi, semantik, dan terorganisir dengan baik. Penggunaan elemen seperti nav, header, main, section, article, dan footer diterapkan secara konsisten, sehingga alur konten mudah dipahami baik oleh pengguna maupun mesin pencari. Implementasi atribut aksesibilitas seperti role, aria-label, dan aria-hidden juga menjadi nilai tambah besar karena menunjukkan perhatian terhadap aspek usability dan inclusive design.
+const MENTOR_TRANSLATIONS = {
+  EN: {
+    tagline: "Lumoshive Academy",
+    title: "Mentor Feedback",
+    subtitle: "Direct assessments from bootcamp tutors on completed projects.",
+    feedbacks: [
+      {
+        id: 1,
+        label: "Milestone — HTML, CSS & JavaScript",
+        quote: `The project demonstrates an exceptionally high standard both technically and visually. The HTML structure is clean, semantic, and well-organized. Elements such as nav, header, main, section, article, and footer are applied consistently, making the content flow easy to understand for both users and search engines. The implementation of accessibility attributes like role, aria-label, and aria-hidden adds significant value, reflecting attention to usability and inclusive design.
+
+On the JavaScript side, the implementation of API data fetching, filtering, searching, limit-based pagination, and modal management is very solid. The filter logic that combines search, category, and difficulty level is neatly and efficiently structured. Event handling is excellent, including input, dropdown, reset button events, as well as keyboard shortcuts for closing the modal. The code structure is organized, readable, and reflects a mature understanding of data flow and inter-component interactions.
+
+In terms of UI and UX, this project stands out significantly. The use of parallax concepts, hero sections, grid layouts, interactive modals, and transition animations gives it a modern and professional feel. The choice of colors, typography, spacing, and design consistency shows a high attention to visual detail. The layout is also responsive across various screen sizes with clean and adaptive breakpoints, ensuring an optimal user experience on both desktop and mobile.
+
+Some further improvements to consider include dynamic page-based pagination, lazy loading for images to optimize performance, and splitting the JavaScript code into modules for better scalability. Overall, however, the quality of this project is very mature and far exceeds the expectations of a basic milestone.`,
+      },
+      {
+        id: 2,
+        label: "Milestone — React & State Management",
+        quote: `Rulif demonstrates solid technical implementation, particularly in integrating advanced features within the React ecosystem. The use of Redux Toolkit with createAsyncThunk to manage data from the JSONPlaceholder API was executed very well, ensuring smooth data synchronization between the server and UI. Rulif also implemented Unit Testing using Jest and React Testing Library, covering component functionality testing and Snapshot Testing to maintain visual integrity. End-to-End (E2E) testing using Cypress was also configured and executed to verify the overall application flow, as shown in the demonstration video.
+
+In terms of efficiency, Rulif shows a solid understanding of Performance Optimization. He applied memoization techniques using React.memo and useCallback to prevent unnecessary re-renders in frequently changing components. Lazy Loading is also visible in certain components, helping to speed up the initial load time. Additionally, the app was converted into a Progressive Web App (PWA) with adequate Service Worker and manifest configuration, enabling the app to be installed and providing basic offline access capability.
+
+Visually, the design remains consistent with the Figma reference and is well-responsive. The explanatory video provided is very helpful in understanding the logic flow and proving the testing results. However, the absence of a live deployment link is a note, as the app's functionality in a production environment cannot be directly tested by external users.`,
+      },
+      {
+        id: 3,
+        label: "Milestone — Redux & Advanced React",
+        quote: `Hello Rulif! Congratulations on delivering such a high-quality project. I really appreciate the way you explained the Redux-Thunk flow in the documentation video — your explanation was very systematic and showed that you truly understand how data flows from the API to the Store and into the UI.
+
+One small suggestion to polish this portfolio: you could add Toast Notifications (such as using the react-toastify library) to provide instant feedback when tasks are successfully added or deleted. This would give the app a more 'premium' feel. Technically, your ability to manage global state is already excellent. Keep maintaining this high standard of clean coding, Rulif!`,
+      },
+      {
+        id: 4,
+        label: "Team Evaluation — Final Project (Tim Ubuntu)",
+        quote: `Team Ubuntu successfully demonstrated a near-industry-level standard of work through very neat team coordination and comprehensive documentation. As the team leader and primary integrator, Rulif Fadria Nirwansyah stood out as an extraordinary backbone of the team. His ability to handle the entire authentication flow, route protection, and technical mitigation against backend bugs reflects a very high level of programming maturity. Rulif not only ensured the application worked but also maintained code quality through refactoring and final debugging that made the application highly stable at deployment.
+
+M. Rizqi Hidayatullah's contribution was also crucial in building the admin ecosystem (CMS). His success in slicing the UI for product, stock, and rating management, as well as integrating the order module, provided a strong foundation for the application's operational functionality. Meanwhile, Hanif Nabila demonstrated solid performance in managing the category and promotion features. The publish/unpublish logic and discount management he built successfully enriched the platform's marketing features, ensuring all dynamic data from the API was displayed accurately. On the interface side, Matthew Florentino brought the application's aesthetics to life with a responsive design and good UX details, such as toast notification implementation, carousels, and SEO optimization that other developers often overlook.
+
+The most impressive point from this team is their initiative in compiling a technical report on backend shortcomings. This proves they worked with integrity and transparency. Despite facing many challenges on the API side, Team Ubuntu was still able to deliver a functional end-to-end solution for end users. Their collaboration is a real example of a team that can adapt quickly to technical problems without lowering the quality standard of their output.`,
+      },
+    ],
+  },
+  ID: {
+    tagline: "Lumoshive Academy",
+    title: "Mentor Feedback",
+    subtitle: "Penilaian langsung dari tutor bootcamp terhadap hasil project yang dikerjakan.",
+    feedbacks: [
+      {
+        id: 1,
+        label: "Milestone — HTML, CSS & JavaScript",
+        quote: `Project yang dibuat menunjukkan kualitas yang sangat tinggi baik dari sisi teknis maupun tampilan visual. Struktur HTML sudah sangat rapi, semantik, dan terorganisir dengan baik. Penggunaan elemen seperti nav, header, main, section, article, dan footer diterapkan secara konsisten, sehingga alur konten mudah dipahami baik oleh pengguna maupun mesin pencari. Implementasi atribut aksesibilitas seperti role, aria-label, dan aria-hidden juga menjadi nilai tambah besar karena menunjukkan perhatian terhadap aspek usability dan inclusive design.
 
 Dari sisi JavaScript, implementasi pengambilan data API, filtering, searching, pagination berbasis limit, serta manajemen modal sudah sangat solid. Logika filter yang menggabungkan pencarian, kategori, dan tingkat kesulitan disusun dengan rapi dan efisien. Pengelolaan event juga sangat baik, termasuk penggunaan event pada input, dropdown, tombol reset, serta shortcut keyboard untuk menutup modal. Struktur kode terorganisir, mudah dibaca, dan mencerminkan pemahaman yang matang terhadap alur data dan interaksi antarkomponen.
 
 Pada aspek UI dan UX, project ini menonjol secara signifikan. Penggunaan konsep parallax, hero section, grid layout, modal interaktif, serta animasi transisi memberikan kesan modern dan profesional. Pemilihan warna, tipografi, spacing, serta konsistensi desain menunjukkan perhatian tinggi terhadap detail visual. Tampilan juga responsif di berbagai ukuran layar, dengan pengaturan breakpoint yang rapi dan adaptif, sehingga pengalaman pengguna tetap optimal di desktop maupun mobile.
 
 Beberapa pengembangan lanjutan yang dapat dipertimbangkan adalah penambahan fitur pagination dinamis berbasis halaman, lazy loading gambar untuk optimasi performa, serta pemisahan kode JavaScript menjadi modul agar struktur project lebih scalable. Namun secara keseluruhan, kualitas project ini sudah sangat matang dan jauh melampaui ekspektasi milestone dasar.`,
-  },
-  {
-    id: 2,
-    label: "Milestone — React & State Management",
-    quote: `Rulif menunjukkan implementasi teknis yang solid, terutama dalam mengintegrasikan fitur-fitur lanjutan pada ekosistem React. Penggunaan Redux Toolkit dengan createAsyncThunk untuk mengelola data dari API JSONPlaceholder dijalankan dengan sangat baik, memastikan sinkronisasi data antara server dan UI berjalan mulus. Rulif juga telah menerapkan Unit Testing menggunakan Jest dan React Testing Library, yang mencakup pengujian fungsionalitas komponen serta Snapshot Testing untuk menjaga integritas visual aplikasi. Pengujian End-to-End (E2E) menggunakan Cypress juga telah dikonfigurasi dan dijalankan untuk memverifikasi alur aplikasi secara menyeluruh, sebagaimana ditunjukkan dalam demonstrasi videonya.
+      },
+      {
+        id: 2,
+        label: "Milestone — React & State Management",
+        quote: `Rulif menunjukkan implementasi teknis yang solid, terutama dalam mengintegrasikan fitur-fitur lanjutan pada ekosistem React. Penggunaan Redux Toolkit dengan createAsyncThunk untuk mengelola data dari API JSONPlaceholder dijalankan dengan sangat baik, memastikan sinkronisasi data antara server dan UI berjalan mulus. Rulif juga telah menerapkan Unit Testing menggunakan Jest dan React Testing Library, yang mencakup pengujian fungsionalitas komponen serta Snapshot Testing untuk menjaga integritas visual aplikasi. Pengujian End-to-End (E2E) menggunakan Cypress juga telah dikonfigurasi dan dijalankan untuk memverifikasi alur aplikasi secara menyeluruh, sebagaimana ditunjukkan dalam demonstrasi videonya.
 
 Dalam aspek efisiensi, Rulif menunjukkan pemahaman yang baik mengenai Optimasi Performa. Ia menerapkan teknik memoization menggunakan React.memo dan useCallback untuk mencegah re-render yang tidak diperlukan pada komponen-komponen yang sering berubah. Penerapan Lazy Loading juga terlihat pada komponen-komponen tertentu, yang membantu mempercepat waktu muat awal aplikasi. Selain itu, aplikasi ini sudah dikonversi menjadi Progressive Web App (PWA) dengan konfigurasi Service Worker dan manifest yang memadai, sehingga memungkinkan aplikasi untuk diinstal dan memiliki kemampuan dasar untuk diakses secara offline.
 
 Secara visual, desain tetap konsisten dengan referensi Figma dan memiliki responsivitas yang baik. Video penjelasan yang diberikan sangat membantu dalam memahami alur logika dan pembuktian hasil pengujian yang telah dilakukan. Namun, absennya link live deployment menjadi catatan karena fungsionalitas aplikasi di lingkungan produksi tidak dapat diuji secara langsung oleh pengguna luar.`,
-  },
-  {
-    id: 3,
-    label: "Milestone — Redux & Advanced React",
-    quote: `Halo Rulif! Selamat atas pengerjaan proyek yang sangat berkualitas ini. Saya sangat mengapresiasi caramu menjelaskan alur Redux-Thunk dalam video dokumentasi—penjelasanmu sangat sistematis dan menunjukkan bahwa kamu benar-benar memahami bagaimana data mengalir dari API menuju Store hingga ke UI.
+      },
+      {
+        id: 3,
+        label: "Milestone — Redux & Advanced React",
+        quote: `Halo Rulif! Selamat atas pengerjaan proyek yang sangat berkualitas ini. Saya sangat mengapresiasi caramu menjelaskan alur Redux-Thunk dalam video dokumentasi—penjelasanmu sangat sistematis dan menunjukkan bahwa kamu benar-benar memahami bagaimana data mengalir dari API menuju Store hingga ke UI.
 
 Satu saran kecil untuk menyempurnakan portofolio ini: kamu bisa menambahkan Toast Notification (seperti menggunakan library react-toastify) untuk memberikan umpan balik instan saat tugas berhasil ditambah atau dihapus. Hal ini akan memberikan kesan aplikasi yang lebih 'premium'. Secara teknis, kemampuanmu dalam mengelola global state sudah sangat baik. Terus pertahankan standar kodingmu yang rapi ini, Rulif!`,
-  },
-  {
-    id: 4,
-    label: "Evaluasi Tim — Final Project (Tim Ubuntu)",
-    quote: `Kelompok Ubuntu berhasil menunjukkan standar kerja yang mendekati level industri melalui koordinasi tim yang sangat rapi dan dokumentasi yang komprehensif. Sebagai ketua dan integrator utama, Rulif Fadria Nirwansyah tampil sebagai tulang punggung tim yang luar biasa. Kemampuannya dalam menangani seluruh alur autentikasi, proteksi route, hingga melakukan mitigasi teknis terhadap bug backend menunjukkan kematangan logika pemrogaman yang sangat tinggi. Rulif tidak hanya memastikan aplikasi berjalan, tapi juga menjaga kualitas kode melalui refactoring dan debugging final yang membuat aplikasi ini sangat stabil saat dideploy.
+      },
+      {
+        id: 4,
+        label: "Evaluasi Tim — Final Project (Tim Ubuntu)",
+        quote: `Kelompok Ubuntu berhasil menunjukkan standar kerja yang mendekati level industri melalui koordinasi tim yang sangat rapi dan dokumentasi yang komprehensif. Sebagai ketua dan integrator utama, Rulif Fadria Nirwansyah tampil sebagai tulang punggung tim yang luar biasa. Kemampuannya dalam menangani seluruh alur autentikasi, proteksi route, hingga melakukan mitigasi teknis terhadap bug backend menunjukkan kematangan logika pemrogaman yang sangat tinggi. Rulif tidak hanya memastikan aplikasi berjalan, tapi juga menjaga kualitas kode melalui refactoring dan debugging final yang membuat aplikasi ini sangat stabil saat dideploy.
 
 Kontribusi M. Rizqi Hidayatullah juga sangat krusial dalam membangun ekosistem admin (CMS). Keberhasilannya melakukan slicing UI untuk manajemen produk, stok, dan rating, serta mengintegrasikan modul pesanan, memberikan fondasi yang kuat bagi fungsionalitas operasional aplikasi. Sementara itu, Hanif Nabila menunjukkan performa yang solid dalam mengelola fitur kategori dan promosi. Logika publish/unpublish serta manajemen diskon yang ia bangun berhasil memperkaya fitur marketing platform ini, memastikan seluruh data dinamis dari API tertampil dengan akurat. Di sisi antarmuka, Matthew Florentino berhasil menghidupkan estetika aplikasi dengan desain yang responsif dan detail UX yang baik, seperti implementasi toast notification, carousel, hingga optimasi SEO yang seringkali terlupakan oleh pengembang lain.
 
 Poin paling impresif dari tim ini adalah inisiatif mereka dalam menyusun laporan teknis mengenai kekurangan backend. Hal ini membuktikan bahwa mereka bekerja dengan integritas dan transparansi. Meskipun terdapat banyak kendala di sisi API, tim Ubuntu tetap mampu menyajikan solusi end-to-end yang fungsional bagi pengguna akhir. Kolaborasi mereka adalah contoh nyata dari tim yang mampu beradaptasi dengan cepat terhadap masalah teknis tanpa menurunkan standar kualitas output mereka.`,
+      },
+    ],
   },
-];
+};
 
 export default function MentorFeedback({ dark }) {
+  const { lang } = useLang();
+  const t_lang = MENTOR_TRANSLATIONS[lang];
+  const feedbacks = t_lang.feedbacks;
+
   const [active, setActive] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState("next");
@@ -61,16 +116,21 @@ export default function MentorFeedback({ dark }) {
 
   const next = useCallback(() => {
     goTo((active + 1) % feedbacks.length, "next");
-  }, [active, goTo]);
+  }, [active, goTo, feedbacks.length]);
 
   const prev = useCallback(() => {
     goTo((active - 1 + feedbacks.length) % feedbacks.length, "prev");
-  }, [active, goTo]);
+  }, [active, goTo, feedbacks.length]);
 
   useEffect(() => {
     timerRef.current = setInterval(next, 8000);
     return () => clearInterval(timerRef.current);
   }, [next]);
+
+  // Reset active slide when language changes to avoid out-of-bounds
+  useEffect(() => {
+    setActive(0);
+  }, [lang]);
 
   const resetTimer = () => {
     clearInterval(timerRef.current);
@@ -94,7 +154,7 @@ export default function MentorFeedback({ dark }) {
     transition: "opacity 0.35s ease, transform 0.35s ease",
   };
 
-  // ── Token warna — semua inline style, tidak bergantung Tailwind scan ──
+  // ── Token warna
   const t = {
     high:    dark ? "rgba(255,255,255,0.90)" : "rgba(0,0,0,0.88)",
     mid:     dark ? "rgba(255,255,255,0.60)" : "rgba(0,0,0,0.68)",
@@ -133,7 +193,7 @@ export default function MentorFeedback({ dark }) {
               className="text-[10px] tracking-widest uppercase font-medium"
               style={{ color: t.muted }}
             >
-              Lumoshive Academy
+              {t_lang.tagline}
             </span>
             <div
               className="h-px flex-1"
@@ -144,13 +204,13 @@ export default function MentorFeedback({ dark }) {
             className="text-4xl font-bold text-center"
             style={{ color: t.high }}
           >
-            Mentor Feedback
+            {t_lang.title}
           </h2>
           <p
             className="text-center text-sm max-w-md mx-auto"
             style={{ color: t.low }}
           >
-            Penilaian langsung dari tutor bootcamp terhadap hasil project yang dikerjakan.
+            {t_lang.subtitle}
           </p>
         </div>
 
@@ -206,7 +266,7 @@ export default function MentorFeedback({ dark }) {
                 </p>
               </div>
 
-              {/* Label badge */}
+              {/* Label badge — desktop */}
               <div
                 className="ml-auto hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide"
                 style={{
@@ -221,7 +281,7 @@ export default function MentorFeedback({ dark }) {
               </div>
             </div>
 
-            {/* Mobile label */}
+            {/* Label badge — mobile */}
             <div
               className="sm:hidden flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide w-fit"
               style={{

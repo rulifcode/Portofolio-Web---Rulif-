@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { useLang, TRANSLATIONS } from "../Components/layout/Navbar";
+import { MdEmail } from "react-icons/md";
+import { FaWhatsapp, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
 const contacts = [
   {
@@ -38,9 +41,20 @@ const contacts = [
   },
 ];
 
+
+
+const CONTACT_ICONS = {
+  email: MdEmail,
+  whatsapp: FaWhatsapp,
+  linkedin: FaLinkedin,
+  github: FaGithub,
+  instagram: FaInstagram,
+};
+
 function ContactRow({ contact, index }) {
   const [hovered, setHovered] = useState(false);
   const isRight = index % 2 === 1;
+  const Icon = CONTACT_ICONS[contact.id];
 
   return (
     <a
@@ -62,7 +76,7 @@ function ContactRow({ contact, index }) {
         opacity: 0,
       }}
     >
-      {/* Top glow line that grows from the correct side */}
+      {/* Top glow line */}
       <div style={{
         position: "absolute",
         top: 0,
@@ -75,6 +89,23 @@ function ContactRow({ contact, index }) {
           : "linear-gradient(90deg, rgba(255,255,255,0.18), transparent)",
         transition: "width 0.4s cubic-bezier(0.25,0.46,0.45,0.94)",
       }} />
+
+      {/* Icon Badge — sisi yang sama dengan alignment */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "32px",
+        height: "32px",
+        borderRadius: "8px",
+        border: `1px solid ${hovered ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)"}`,
+        background: hovered ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.03)",
+        color: hovered ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.25)",
+        marginBottom: "8px",
+        transition: "all 0.3s ease",
+      }}>
+        <Icon size={15} strokeWidth={1.5} />
+      </div>
 
       {/* Number */}
       <span style={{
@@ -111,23 +142,37 @@ function ContactRow({ contact, index }) {
         {contact.value}
       </p>
 
-      {/* Arrow */}
+      {/* Arrow — diagonal ke kanan jika kiri, diagonal ke kiri jika kanan */}
       <div style={{
         marginTop: "8px",
         opacity: hovered ? 1 : 0,
-        transform: hovered ? "translate(0,0)" : isRight ? "translate(6px,-4px)" : "translate(-6px,-4px)",
+        transform: hovered
+          ? "translate(0,0)"
+          : isRight
+            ? "translate(-6px,-4px)"
+            : "translate(6px,-4px)",
         transition: "all 0.25s ease",
         color: "rgba(255,255,255,0.4)",
       }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M7 17L17 7M17 7H7M17 7v10" />
-        </svg>
+        {isRight ? (
+          /* Arrow ke kiri-atas (↖) untuk row kanan */
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M17 7L7 17M7 17H17M7 17V7" />
+          </svg>
+        ) : (
+          /* Arrow ke kanan-atas (↗) untuk row kiri */
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        )}
       </div>
     </a>
   );
 }
 
 export default function Contact() {
+  const { lang } = useLang();
+  const t = TRANSLATIONS[lang].contact;
   const orb1Ref = useRef(null);
   const orb2Ref = useRef(null);
   const containerRef = useRef(null);
@@ -205,13 +250,13 @@ export default function Contact() {
             <div className="flex items-center gap-3">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               <span className="text-[10px] text-white/30 tracking-widest uppercase font-medium">
-                Get In Touch
+                {t.tagline}
               </span>
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
-            <h2 className="text-4xl font-bold text-white/90 text-center">Contact</h2>
+            <h2 className="text-4xl font-bold text-white/90 text-center">{t.title}</h2>
             <p className="text-center text-white text-sm max-w-md mx-auto">
-              Terbuka untuk peluang baru, kolaborasi, atau sekadar ngobrol seputar teknologi.
+              {t.desc}
             </p>
           </div>
 
@@ -223,7 +268,7 @@ export default function Contact() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
               </span>
               <span className="text-emerald-400/80 text-xs tracking-wide">
-                Available for opportunities
+                {t.availability}
               </span>
             </div>
           </div>
@@ -245,7 +290,7 @@ export default function Contact() {
 
           {/* Footer note */}
           <p className="text-center text-white/25 text-xs mt-10 tracking-wide">
-            Preferably via Email atau WhatsApp untuk response lebih cepat.
+            {t.footer}
           </p>
 
         </div>

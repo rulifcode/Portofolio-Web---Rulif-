@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
+import { LangContext } from "../components/layout/Navbar"; 
 
 // ── Logo Icons ────────────────────────────────────────────────────────────────
 import logoCakrawala from "../assets/cgy2.png";
@@ -25,95 +26,177 @@ import imgLumoshive1 from "../assets/transkripnilai.png";
 import imgLumoshive2 from "../assets/lumos1.jpeg";
 import imgLumoshive3 from "../assets/lumos2.jpeg";
 
-/* ─── Data ──────────────────────────────────────────────────────────────────── */
-const EXPERIENCES = [
+/* ─── Static per-experience data (tidak diterjemahkan) ──────────────────────── */
+const EXP_STATIC = [
   {
     id: 1,
-    role: "Praktek Lapangan Kerja",
+    key: "cakrawala",
     company: "PT. Cakrawala Global Yaksa",
     location: "Bandung, Indonesia",
     period: "Jul 2022 – Dec 2022",
-    duration: "6 months",
-    type: "Internship · On-site",
+    duration: { EN: "6 months", ID: "6 bulan" },
+    type: { EN: "Internship · On-site", ID: "Magang · Luring" },
     accent: "#7dab8f",
     logo: logoCakrawala,
     images: [imgCakrawala1, imgCakrawala2, imgCakrawala3],
-    project: "Penggajian Karyawan App",
     stack: ["CodeIgniter", "Laravel", "MySQL", "cPanel"],
-    bullets: [
-      "Studied and applied CodeIgniter and Laravel frameworks with MySQL database management for 6 months.",
-      "Applied Object-Oriented Programming (OOP) concepts and designed database structures for payroll system requirements.",
-      "Deployed applications to the server using cPanel and managed domains, file structures, and hosting configurations.",
-      "Tested and debugged the system during the development process.",
-      "Prepared basic technical documentation for end-users and system administrators.",
-    ],
   },
   {
     id: 2,
-    role: "Web Developer",
+    key: "gaotek",
     company: "Gaotek Inc",
     location: "New York, USA · Remote",
     period: "Oct 2025 – Dec 2025",
-    duration: "3 months",
-    type: "Internship · Remote",
+    duration: { EN: "3 months", ID: "3 bulan" },
+    type: { EN: "Internship · Remote", ID: "Magang · Daring" },
     accent: "#6fa3c0",
     logo: logoGaotek,
     images: [imgGaotek1, imgGaotek2],
     stack: ["WordPress", "WooCommerce", "SEO", "XAMPP"],
-    bullets: [
-      "Developed and managed websites and online stores using WordPress and WooCommerce, including custom themes, plugin management, product setup, payment integration, and content management.",
-      "Implemented basic SEO practices and handled deployment tasks using XAMPP for local development.",
-    ],
   },
   {
     id: 3,
-    role: "Software Quality Assurance",
+    key: "vodjo",
     company: "Vodjo",
     location: "Bandung, Indonesia · Hybrid",
     period: "Sep 2025 – Present",
-    duration: "Ongoing",
-    type: "Internship · Hybrid",
+    duration: { EN: "Ongoing", ID: "Berlanjut" },
+    type: { EN: "Internship · Hybrid", ID: "Magang · Hybrid" },
     accent: "#c08a82",
     logo: logoVodjo,
     images: [imgVodjo1, imgVodjo2, imgVodjo3],
     stack: ["Postman", "API Testing", "QA Docs", "Bug Tracking"],
-    bullets: [
-      "Assisted in gathering, documenting, and updating client feedback for continuous improvement.",
-      "Conducted functional and API testing using Postman to ensure software quality.",
-      "Collaborated closely with developers to identify, report, and resolve bugs in a timely manner.",
-      "Maintained clear communication with clients and team members regarding project updates and test results.",
-      "Recorded and tracked testing results and feedback to support reporting and QA documentation.",
-    ],
   },
   {
     id: 4,
-    role: "Frontend Developer Trainee",
+    key: "lumoshive",
     company: "Lumoshive Academy",
-    location: "Semarang, Indonesia",
+    location: "Jakarta, Indonesia",
     period: "Dec 2025 – Mar 2026",
-    duration: "4 months",
-    type: "Bootcamp Batch 3",
+    duration: { EN: "4 months", ID: "4 bulan" },
+    type: { EN: "Bootcamp Batch 3", ID: "Bootcamp Batch 3" },
     accent: "#9b87c2",
     logo: logoLumoshive,
     images: [imgLumoshive1, imgLumoshive2, imgLumoshive3],
     stack: ["React.js", "TypeScript", "Redux", "Tailwind CSS", "Axios", "Golang", "Jest", "Git"],
-    bullets: [
-      "Developed responsive web applications using component-based architecture with React.js.",
-      "Built reusable and modular UI components following clean code principles.",
-      "Managed application state and lifecycle using React Hooks and Redux.",
-      "Integrated RESTful APIs using Fetch API and Axios for dynamic data handling.",
-      "Implemented client-side routing and optimized application performance.",
-      "Utilized Tailwind CSS to create modern, responsive, and user-friendly interfaces.",
-      "Applied TypeScript to improve code quality, scalability, and maintainability.",
-      "Performed testing using Unit Testing, Integration Testing, and End-to-End Testing.",
-      "Collaborated using Git and GitHub in team-based development workflows.",
-      "Worked with backend (Golang) team to develop an e-commerce application.",
-      "Translated UI/UX designs into responsive web interfaces (slicing design into code).",
-      "Implemented mock data and API integrations for application prototyping.",
-      "Participated in live coding sessions to strengthen debugging and problem-solving skills.",
-    ],
   },
 ];
+
+/* ─── Translations ───────────────────────────────────────────────────────────── */
+const T = {
+  EN: {
+    tagline: "Career Journey",
+    title: "Experience",
+    project: "Project",
+    data: {
+      cakrawala: {
+        role: "Praktek Lapangan Kerja",
+        project: "Penggajian Karyawan App",
+        bullets: [
+          "Studied and applied CodeIgniter and Laravel frameworks with MySQL database management for 6 months.",
+          "Applied Object-Oriented Programming (OOP) concepts and designed database structures for payroll system requirements.",
+          "Deployed applications to the server using cPanel and managed domains, file structures, and hosting configurations.",
+          "Tested and debugged the system during the development process.",
+          "Prepared basic technical documentation for end-users and system administrators.",
+        ],
+      },
+      gaotek: {
+        role: "Web Developer",
+        project: null,
+        bullets: [
+          "Developed and managed websites and online stores using WordPress and WooCommerce, including custom themes, plugin management, product setup, payment integration, and content management.",
+          "Implemented basic SEO practices and handled deployment tasks using XAMPP for local development.",
+        ],
+      },
+      vodjo: {
+        role: "Software Quality Assurance",
+        project: null,
+        bullets: [
+          "Assisted in gathering, documenting, and updating client feedback for continuous improvement.",
+          "Conducted functional and API testing using Postman to ensure software quality.",
+          "Collaborated closely with developers to identify, report, and resolve bugs in a timely manner.",
+          "Maintained clear communication with clients and team members regarding project updates and test results.",
+          "Recorded and tracked testing results and feedback to support reporting and QA documentation.",
+        ],
+      },
+      lumoshive: {
+        role: "Frontend Developer Trainee",
+        project: null,
+        bullets: [
+          "Developed responsive web applications using component-based architecture with React.js.",
+          "Built reusable and modular UI components following clean code principles.",
+          "Managed application state and lifecycle using React Hooks and Redux.",
+          "Integrated RESTful APIs using Fetch API and Axios for dynamic data handling.",
+          "Implemented client-side routing and optimized application performance.",
+          "Utilized Tailwind CSS to create modern, responsive, and user-friendly interfaces.",
+          "Applied TypeScript to improve code quality, scalability, and maintainability.",
+          "Performed testing using Unit Testing, Integration Testing, and End-to-End Testing.",
+          "Collaborated using Git and GitHub in team-based development workflows.",
+          "Worked with backend (Golang) team to develop an e-commerce application.",
+          "Translated UI/UX designs into responsive web interfaces (slicing design into code).",
+          "Implemented mock data and API integrations for application prototyping.",
+          "Participated in live coding sessions to strengthen debugging and problem-solving skills.",
+        ],
+      },
+    },
+  },
+  ID: {
+    tagline: "Perjalanan Karier",
+    title: "Pengalaman",
+    project: "Proyek",
+    data: {
+      cakrawala: {
+        role: "Praktek Lapangan Kerja",
+        project: "Aplikasi Penggajian Karyawan",
+        bullets: [
+          "Mempelajari dan menerapkan framework CodeIgniter dan Laravel dengan manajemen database MySQL selama 6 bulan.",
+          "Menerapkan konsep Object-Oriented Programming (OOP) dan merancang struktur database untuk kebutuhan sistem penggajian.",
+          "Men-deploy aplikasi ke server menggunakan cPanel serta mengelola domain, struktur file, dan konfigurasi hosting.",
+          "Melakukan pengujian dan debugging sistem selama proses pengembangan.",
+          "Menyiapkan dokumentasi teknis dasar untuk pengguna akhir dan administrator sistem.",
+        ],
+      },
+      gaotek: {
+        role: "Web Developer",
+        project: null,
+        bullets: [
+          "Mengembangkan dan mengelola website serta toko online menggunakan WordPress dan WooCommerce, termasuk tema kustom, manajemen plugin, pengaturan produk, integrasi pembayaran, dan manajemen konten.",
+          "Menerapkan praktik SEO dasar dan menangani tugas deployment menggunakan XAMPP untuk pengembangan lokal.",
+        ],
+      },
+      vodjo: {
+        role: "Software Quality Assurance",
+        project: null,
+        bullets: [
+          "Membantu pengumpulan, pendokumentasian, dan pembaruan masukan klien untuk perbaikan berkelanjutan.",
+          "Melakukan pengujian fungsional dan API menggunakan Postman untuk memastikan kualitas perangkat lunak.",
+          "Berkolaborasi dengan developer untuk mengidentifikasi, melaporkan, dan menyelesaikan bug secara tepat waktu.",
+          "Menjaga komunikasi yang jelas dengan klien dan anggota tim terkait pembaruan proyek dan hasil pengujian.",
+          "Mencatat dan melacak hasil pengujian serta masukan untuk mendukung pelaporan dan dokumentasi QA.",
+        ],
+      },
+      lumoshive: {
+        role: "Frontend Developer Trainee",
+        project: null,
+        bullets: [
+          "Mengembangkan aplikasi web responsif menggunakan arsitektur berbasis komponen dengan React.js.",
+          "Membangun komponen UI yang dapat digunakan ulang dan modular sesuai prinsip clean code.",
+          "Mengelola state dan lifecycle aplikasi menggunakan React Hooks dan Redux.",
+          "Mengintegrasikan RESTful API menggunakan Fetch API dan Axios untuk penanganan data dinamis.",
+          "Mengimplementasikan client-side routing dan mengoptimalkan performa aplikasi.",
+          "Menggunakan Tailwind CSS untuk membuat antarmuka yang modern, responsif, dan ramah pengguna.",
+          "Menerapkan TypeScript untuk meningkatkan kualitas kode, skalabilitas, dan kemudahan pemeliharaan.",
+          "Melakukan pengujian menggunakan Unit Testing, Integration Testing, dan End-to-End Testing.",
+          "Berkolaborasi menggunakan Git dan GitHub dalam alur kerja pengembangan tim.",
+          "Bekerja sama dengan tim backend (Golang) untuk mengembangkan aplikasi e-commerce.",
+          "Menerjemahkan desain UI/UX menjadi antarmuka web responsif (slicing desain ke kode).",
+          "Mengimplementasikan mock data dan integrasi API untuk prototyping aplikasi.",
+          "Berpartisipasi dalam sesi live coding untuk memperkuat kemampuan debugging dan pemecahan masalah.",
+        ],
+      },
+    },
+  },
+};
 
 /* ─── Intersection observer hook ───────────────────────────────────────────── */
 function useInView(threshold = 0.1) {
@@ -133,90 +216,99 @@ function useInView(threshold = 0.1) {
 /* ─── Lightbox ───────────────────────────────────────────────────────────────── */
 function Lightbox({ images, startIndex, onClose }) {
   const [current, setCurrent] = useState(startIndex);
+  const [portrait, setPortrait] = useState(null);
+
+  useEffect(() => { setPortrait(null); }, [current]);
 
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowRight") setCurrent(c => (c + 1) % images.length);
-      if (e.key === "ArrowLeft") setCurrent(c => (c - 1 + images.length) % images.length);
+      if (e.key === "ArrowLeft")  setCurrent(c => (c - 1 + images.length) % images.length);
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
   }, []);
 
+  const handleLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    setPortrait(naturalHeight > naturalWidth);
+  };
+
   return (
     <div
       onClick={onClose}
-      style={{
-        position: "fixed", inset: 0, zIndex: 9999,
-        background: "rgba(0,0,0,0.9)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        animation: "lbIn 0.2s ease",
-      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center animate-[lbIn_0.2s_ease]"
+      style={{ background: "rgba(0,0,0,0.92)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
     >
-      <style>{`@keyframes lbIn { from { opacity:0; transform:scale(0.97) } to { opacity:1; transform:scale(1) } }`}</style>
+      <style>{`@keyframes lbIn { from { opacity:0; transform:scale(0.96) } to { opacity:1; transform:scale(1) } }`}</style>
 
-      <button onClick={onClose} style={{
-        position:"absolute", top:"18px", right:"18px",
-        width:"36px", height:"36px", borderRadius:"50%",
-        border:"1px solid rgba(255,255,255,0.2)", background:"rgba(255,255,255,0.08)",
-        color:"white", fontSize:"20px", cursor:"pointer",
-        display:"flex", alignItems:"center", justifyContent:"center", lineHeight:1,
-      }}>×</button>
+      <button
+        onClick={onClose}
+        title="Tutup (Esc)"
+        className="absolute top-5 right-5 z-10 w-11 h-11 rounded-full flex items-center justify-center text-white text-2xl leading-none border border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50 transition-all duration-200"
+      >
+        ×
+      </button>
 
       {images.length > 1 && (
-        <button onClick={(e) => { e.stopPropagation(); setCurrent(c => (c - 1 + images.length) % images.length); }} style={{
-          position:"absolute", left:"16px",
-          width:"40px", height:"40px", borderRadius:"50%",
-          border:"1px solid rgba(255,255,255,0.2)", background:"rgba(255,255,255,0.08)",
-          color:"white", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
-        }}>
-          <svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="M6.5 2L3.5 5L6.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <button
+          onClick={(e) => { e.stopPropagation(); setCurrent(c => (c - 1 + images.length) % images.length); }}
+          className="absolute left-5 w-12 h-12 rounded-full flex items-center justify-center text-white border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-200"
+        >
+          <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
+            <path d="M6.5 2L3.5 5L6.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       )}
 
       {images.length > 1 && (
-        <button onClick={(e) => { e.stopPropagation(); setCurrent(c => (c + 1) % images.length); }} style={{
-          position:"absolute", right:"16px",
-          width:"40px", height:"40px", borderRadius:"50%",
-          border:"1px solid rgba(255,255,255,0.2)", background:"rgba(255,255,255,0.08)",
-          color:"white", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center",
-        }}>
-          <svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <button
+          onClick={(e) => { e.stopPropagation(); setCurrent(c => (c + 1) % images.length); }}
+          className="absolute right-5 w-12 h-12 rounded-full flex items-center justify-center text-white border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-200"
+        >
+          <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
+            <path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
       )}
 
       <img
+        key={current}
         src={images[current]}
         alt={`zoom-${current}`}
-        onClick={e => e.stopPropagation()}
-        style={{
-          maxWidth: "90vw", maxHeight: "88vh",
-          borderRadius: "12px",
-          objectFit: "contain",
-          boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
-        }}
+        onLoad={handleLoad}
+        onClick={(e) => e.stopPropagation()}
+        className={[
+          "rounded-2xl object-contain select-none pointer-events-none transition-opacity duration-200",
+          portrait === null
+            ? "max-w-[88vw] max-h-[90vh] w-auto h-auto"
+            : portrait
+            ? "h-[90vh] w-auto max-w-[88vw]"
+            : "w-[88vw] h-auto max-h-[90vh]",
+        ].join(" ")}
+        style={{ boxShadow: "0 40px 100px rgba(0,0,0,0.7)" }}
       />
 
       {images.length > 1 && (
-        <div style={{
-          position:"absolute", bottom:"20px",
-          color:"rgba(255,255,255,0.5)", fontSize:"12px",
-          background:"rgba(0,0,0,0.4)", padding:"4px 12px", borderRadius:"20px",
-        }}>{current + 1} / {images.length}</div>
+        <div className="absolute bottom-13 text-white/55 text-xs bg-black/45 px-3.5 py-1 rounded-full">
+          {current + 1} / {images.length}
+        </div>
       )}
 
       {images.length > 1 && (
-        <div style={{ position:"absolute", bottom:"52px", display:"flex", gap:"8px" }}>
+        <div className="absolute bottom-5 flex gap-2">
           {images.map((_, i) => (
-            <button key={i} onClick={(e) => { e.stopPropagation(); setCurrent(i); }} style={{
-              width: i === current ? "20px" : "6px", height:"6px", borderRadius:"3px",
-              border:"none", background: i === current ? "white" : "rgba(255,255,255,0.35)",
-              cursor:"pointer", padding:0, transition:"all 0.3s ease",
-            }} />
+            <button
+              key={i}
+              onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
+              className="h-1.5 rounded-full border-none p-0 cursor-pointer transition-all duration-300"
+              style={{
+                width: i === current ? "20px" : "6px",
+                background: i === current ? "white" : "rgba(255,255,255,0.35)",
+              }}
+            />
           ))}
         </div>
       )}
@@ -266,7 +358,7 @@ function ImageSlider({ images, accent }) {
           }}
         >
           {images.map((src, i) => (
-            <div key={i} className="h-full flex-shrink-0 relative group/img" style={{ width: `${100 / images.length}%` }}>
+            <div key={i} className="h-full flex-shrink-0" style={{ width: `${100 / images.length}%` }}>
               <img
                 src={src}
                 alt={`slide-${i + 1}`}
@@ -277,13 +369,13 @@ function ImageSlider({ images, accent }) {
           ))}
         </div>
 
-        <button onClick={prev} className="absolute left-2.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white transition-colors hover:bg-white/20">
+        <button onClick={prev} className="absolute left-2.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white hover:bg-white/20 transition-colors">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M6.5 2L3.5 5L6.5 8" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
 
-        <button onClick={next} className="absolute right-2.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white transition-colors hover:bg-white/20">
+        <button onClick={next} className="absolute right-2.5 top-1/2 -translate-y-1/2 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white hover:bg-white/20 transition-colors">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
             <path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -295,7 +387,7 @@ function ImageSlider({ images, accent }) {
 
         <button
           onClick={(e) => { e.stopPropagation(); setLightbox(true); }}
-          className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white transition-all hover:bg-white/20"
+          className="absolute top-2.5 left-2.5 z-10 w-7 h-7 rounded-full flex items-center justify-center border border-white/20 bg-black/50 backdrop-blur-md text-white hover:bg-white/20 transition-all"
           title="Zoom"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -325,10 +417,23 @@ function ImageSlider({ images, accent }) {
 }
 
 /* ─── Experience Card ────────────────────────────────────────────────────────── */
-function ExpCard({ exp, dark, rowIndex, isLast }) {
+function ExpCard({ expStatic, dark, rowIndex, isLast }) {
+  const { lang } = useContext(LangContext);
+  const t = T[lang].data[expStatic.key];
+
   const [ref, inView] = useInView(0.08);
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
+
+  // Merge static + translated
+  const exp = {
+    ...expStatic,
+    role: t.role,
+    project: t.project,
+    bullets: t.bullets,
+    duration: expStatic.duration[lang],
+    type: expStatic.type[lang],
+  };
 
   const textPrimary   = dark ? "text-white"      : "text-black/90";
   const textSecondary = dark ? "text-white/70"   : "text-black/60";
@@ -337,7 +442,7 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
   const toggleStroke  = dark ? "rgba(255,255,255,0.55)" : "rgba(10,10,10,0.4)";
 
   const cardBgIdle  = dark ? "rgba(10,10,18,0.55)"  : "rgba(255,255,255,0.60)";
-  const cardBgHover = dark ? `rgba(10,10,18,0.70)`  : "rgba(255,255,255,0.80)";
+  const cardBgHover = dark ? "rgba(10,10,18,0.70)"  : "rgba(255,255,255,0.80)";
   const cardBorder  = dark
     ? hovered ? `${exp.accent}40` : "rgba(255,255,255,0.10)"
     : hovered ? `${exp.accent}30` : "rgba(0,0,0,0.08)";
@@ -351,9 +456,8 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
         transition: `opacity 0.75s cubic-bezier(0.16,1,0.3,1) ${rowIndex * 0.12}s, transform 0.75s cubic-bezier(0.16,1,0.3,1) ${rowIndex * 0.12}s`,
       }}
     >
-      {/* ── DESKTOP layout (sm+): horizontal — period | dot | card ── */}
+      {/* ── DESKTOP ── */}
       <div className="hidden sm:flex gap-0">
-        {/* Left: period + duration */}
         <div className="w-24 flex-shrink-0 pt-1.5 pr-5 text-right flex flex-col items-end gap-1">
           <span
             className={`text-sm font-medium tracking-wide leading-snug transition-colors duration-300 ${textSecondary}`}
@@ -361,12 +465,9 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
           >
             {exp.period}
           </span>
-          <span className={`text-xs italic font-normal tracking-wider ${textMuted}`}>
-            {exp.duration}
-          </span>
+          <span className={`text-xs italic font-normal tracking-wider ${textMuted}`}>{exp.duration}</span>
         </div>
 
-        {/* Center: dot + line */}
         <div className="flex flex-col items-center flex-shrink-0 w-8">
           <div
             className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 transition-all duration-300"
@@ -389,15 +490,12 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
               className="flex-1 min-h-10 mt-0.5 transition-all duration-500"
               style={{
                 width: "2px",
-                background: `linear-gradient(to bottom, ${
-                  hovered ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
-                } 0%, transparent 100%)`,
+                background: `linear-gradient(to bottom, ${hovered ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"} 0%, transparent 100%)`,
               }}
             />
           )}
         </div>
 
-        {/* Right: card */}
         <div className={`flex-1 pl-5 ${isLast ? "" : "pb-10"}`}>
           <div
             onMouseEnter={() => setHovered(true)}
@@ -412,33 +510,20 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
               marginTop: "-4px",
             }}
           >
-            <CardInner
-              exp={exp} open={open} hovered={hovered}
-              textPrimary={textPrimary} textSecondary={textSecondary}
-              textMuted={textMuted} textFaint={textFaint}
-              toggleStroke={toggleStroke} dark={dark}
-            />
+            <CardInner exp={exp} open={open} hovered={hovered} textPrimary={textPrimary} textSecondary={textSecondary} textMuted={textMuted} textFaint={textFaint} toggleStroke={toggleStroke} dark={dark} />
           </div>
         </div>
       </div>
 
-      {/* ── MOBILE layout (<sm): centered timeline ── */}
+      {/* ── MOBILE ── */}
       <div className={`flex sm:hidden flex-col items-center ${isLast ? "" : "pb-8"}`}>
-
-        {/* Period + duration centered above dot */}
         <div className="flex flex-col items-center gap-0.5 mb-2">
-          <span
-            className={`text-xs font-semibold tracking-wide text-center leading-snug transition-colors duration-300 ${textSecondary}`}
-            style={{ color: exp.accent }}
-          >
+          <span className={`text-xs font-semibold tracking-wide text-center leading-snug ${textSecondary}`} style={{ color: exp.accent }}>
             {exp.period}
           </span>
-          <span className={`text-[10px] italic font-normal tracking-wider text-center ${textMuted}`}>
-            {exp.duration}
-          </span>
+          <span className={`text-[10px] italic font-normal tracking-wider text-center ${textMuted}`}>{exp.duration}</span>
         </div>
 
-        {/* Dot */}
         <div
           className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 transition-all duration-300"
           style={{
@@ -447,28 +532,11 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
             boxShadow: open ? `0 0 0 4px ${exp.accent}18` : "none",
           }}
         >
-          <div
-            className="w-2 h-2 rounded-full transition-all duration-300"
-            style={{
-              background: open ? exp.accent : dark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.2)",
-              transform: open ? "scale(1.25)" : "scale(1)",
-            }}
-          />
+          <div className="w-2 h-2 rounded-full transition-all duration-300" style={{ background: open ? exp.accent : dark ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.2)", transform: open ? "scale(1.25)" : "scale(1)" }} />
         </div>
 
-        {/* Short connector line above card */}
-        <div
-          className="transition-all duration-500"
-          style={{
-            width: "2px",
-            height: "16px",
-            background: `linear-gradient(to bottom, ${
-              open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
-            }, transparent)`,
-          }}
-        />
+        <div className="transition-all duration-500" style={{ width: "2px", height: "16px", background: `linear-gradient(to bottom, ${open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}, transparent)` }} />
 
-        {/* Card — full width */}
         <div className="w-full">
           <div
             onClick={() => setOpen(v => !v)}
@@ -480,40 +548,23 @@ function ExpCard({ exp, dark, rowIndex, isLast }) {
               WebkitBackdropFilter: "blur(12px)",
             }}
           >
-            <CardInner
-              exp={exp} open={open} hovered={open}
-              textPrimary={textPrimary} textSecondary={textSecondary}
-              textMuted={textMuted} textFaint={textFaint}
-              toggleStroke={toggleStroke} dark={dark}
-            />
+            <CardInner exp={exp} open={open} hovered={open} textPrimary={textPrimary} textSecondary={textSecondary} textMuted={textMuted} textFaint={textFaint} toggleStroke={toggleStroke} dark={dark} />
           </div>
         </div>
 
-        {/* Bottom connector line to next card */}
         {!isLast && (
-          <div
-            className="mt-0 transition-all duration-500"
-            style={{
-              width: "2px",
-              height: "28px",
-              background: `linear-gradient(to bottom, ${
-                dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"
-              }, transparent)`,
-            }}
-          />
+          <div className="mt-0 transition-all duration-500" style={{ width: "2px", height: "28px", background: `linear-gradient(to bottom, ${dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}, transparent)` }} />
         )}
       </div>
     </div>
   );
 }
 
-/* ─── Shared Card Inner Content ─────────────────────────────────────────────── */
+/* ─── Card Inner ─────────────────────────────────────────────────────────────── */
 function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, textFaint, toggleStroke, dark }) {
   return (
     <>
-      {/* Top: logo + company + toggle */}
       <div className="flex items-start gap-3.5 mb-2.5">
-        {/* Logo */}
         <div
           className="w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 bg-white transition-all duration-300"
           style={{
@@ -526,23 +577,17 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
         </div>
 
         <div className="flex-1 min-w-0">
-          <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>
-            {exp.company}
-          </div>
-          <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>
-            {exp.role}
-          </div>
+          <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>{exp.company}</div>
+          <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>{exp.role}</div>
           <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${textMuted}`}>
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
-                stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8"/>
             </svg>
             <span>{exp.location}</span>
           </div>
         </div>
 
-        {/* Toggle */}
         <div
           className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
           style={{
@@ -558,7 +603,6 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
         </div>
       </div>
 
-      {/* Meta tags */}
       <div className="flex flex-wrap gap-1.5 mt-3">
         {[exp.type, ...(exp.project ? [exp.project] : [])].map((label, i) => (
           <span
@@ -575,26 +619,15 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
         ))}
       </div>
 
-      {/* Expandable */}
-      <div
-        className="overflow-hidden transition-all duration-700"
-        style={{ maxHeight: open ? "2000px" : "0px" }}
-      >
+      <div className="overflow-hidden transition-all duration-700" style={{ maxHeight: open ? "2000px" : "0px" }}>
         <div className="pt-5">
-          <div
-            className="h-px mb-4"
-            style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }}
-          />
+          <div className="h-px mb-4" style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }} />
 
           <ImageSlider images={exp.images} accent={exp.accent} />
 
           <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
             {exp.stack.map((s) => (
-              <span
-                key={s}
-                className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded"
-                style={{ color: exp.accent, background: `${exp.accent}14` }}
-              >
+              <span key={s} className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded" style={{ color: exp.accent, background: `${exp.accent}14` }}>
                 {s}
               </span>
             ))}
@@ -603,13 +636,8 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
           <div className="flex flex-col gap-3">
             {exp.bullets.map((b, i) => (
               <div key={i} className="flex gap-3 items-start">
-                <div
-                  className="flex-shrink-0 mt-2.5 opacity-60"
-                  style={{ width: "16px", height: "1px", background: exp.accent }}
-                />
-                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>
-                  {b}
-                </p>
+                <div className="flex-shrink-0 mt-2.5 opacity-60" style={{ width: "16px", height: "1px", background: exp.accent }} />
+                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>{b}</p>
               </div>
             ))}
           </div>
@@ -621,49 +649,42 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
 
 /* ─── Main Section ──────────────────────────────────────────────────────────── */
 export default function Experience({ dark }) {
+  const { lang } = useContext(LangContext);
+  const t = T[lang];
+
   const [titleRef, titleInView] = useInView(0.2);
 
-  const textPrimary = dark ? "text-white"     : "text-black/90";
-  const textMuted   = dark ? "text-white/40"  : "text-black/28";
-  const dividerBg   = dark ? "bg-white/10"    : "bg-black/7";
+  const textPrimary = dark ? "text-white"    : "text-black/90";
+  const textMuted   = dark ? "text-white/40" : "text-black/28";
+  const dividerBg   = dark ? "bg-white/10"   : "bg-black/7";
 
   return (
     <section id="experience" className="px-6 py-28 max-w-3xl mx-auto">
-
-      {/* Header */}
       <div
         ref={titleRef}
         className="mb-16 transition-all duration-700"
-        style={{
-          opacity: titleInView ? 1 : 0,
-          transform: titleInView ? "none" : "translateY(20px)",
-        }}
+        style={{ opacity: titleInView ? 1 : 0, transform: titleInView ? "none" : "translateY(20px)" }}
       >
         <div className="flex items-baseline gap-4 mb-1">
-          <span className={`text-xs italic font-normal tracking-[0.2em] ${textMuted}`}>
-            Career Journey
-          </span>
+          <span className={`text-xs italic font-normal tracking-[0.2em] ${textMuted}`}>{t.tagline}</span>
           <div className={`flex-1 h-px ${dividerBg}`} />
         </div>
-
         <h2 className={`text-6xl sm:text-7xl lg:text-8xl font-light tracking-tight leading-none select-none mt-1 ${textPrimary}`}>
-          Experience
+          {t.title}
         </h2>
       </div>
 
-      {/* Timeline */}
       <div className="flex flex-col">
-        {EXPERIENCES.map((exp, i) => (
+        {EXP_STATIC.map((expStatic, i) => (
           <ExpCard
-            key={exp.id}
-            exp={exp}
+            key={expStatic.id}
+            expStatic={expStatic}
             dark={dark}
             rowIndex={i}
-            isLast={i === EXPERIENCES.length - 1}
+            isLast={i === EXP_STATIC.length - 1}
           />
         ))}
       </div>
-
     </section>
   );
 }

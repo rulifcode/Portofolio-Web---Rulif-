@@ -2,10 +2,13 @@ import { motion } from "framer-motion";
 import Lanyard from "../components/Lanyard/Lanyard";
 import TextType from "../components/TextType/TextType";
 import ShinyText from "../components/ShinyText/ShinyText";
-
-
+import { useLang, TRANSLATIONS } from "../components/layout/Navbar"; // sesuaikan path
 
 function Home({ dark }) {
+  const { lang } = useLang();
+  console.log("current lang: - Home.jsx:9", lang);
+  const t = TRANSLATIONS[lang].home;
+
   const container = {
     hidden: {},
     show: { transition: { staggerChildren: 0.15 } },
@@ -19,7 +22,7 @@ function Home({ dark }) {
   return (
     <>
       {/* ===================== SECTION 1 — HERO ===================== */}
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
+      <div key={lang} className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
         <motion.div
           variants={container}
           initial="hidden"
@@ -33,7 +36,6 @@ function Home({ dark }) {
               variants={item}
               className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight tracking-tight ${dark ? "text-white/90" : "text-black/90"}`}
             >
-             
               <ShinyText
                 text="I'M RULIF FADRIAN"
                 speed={3}
@@ -51,8 +53,8 @@ function Home({ dark }) {
             >
               <TextType
                 text={[
-                  "Frontend Developer",
-                  "React Enthusiast",
+                  "Front End Developer",
+                  "Full Stack Developer",
                   "Software Quality Assurance",
                   "Mobile Developer",
                 ]}
@@ -70,8 +72,7 @@ function Home({ dark }) {
               variants={item}
               className={`text-base sm:text-lg leading-relaxed mb-8 max-w-md ${dark ? "text-white/40" : "text-black/40"}`}
             >
-              Fokus membangun aplikasi web modern, responsif, dan UI clean
-              menggunakan React & teknologi terbaru.
+              {t.desc}
             </motion.p>
 
             {/* Buttons */}
@@ -83,13 +84,13 @@ function Home({ dark }) {
                 href="#projects"
                 className={`px-5 py-2.5 rounded-md font-medium text-sm tracking-wide transition-all duration-200 text-center whitespace-nowrap ${dark ? "bg-white text-[#0a0a0c] hover:bg-white/90" : "bg-black text-white hover:bg-black/90"}`}
               >
-                Lihat Proyek Saya
+                {t.cta.projects}
               </a>
               <a
                 href="#contact"
                 className={`px-5 py-2.5 rounded-md font-medium text-sm tracking-wide border transition-all duration-200 text-center whitespace-nowrap ${dark ? "border-white/20 text-white/60 hover:border-white/40 hover:text-white/90 hover:bg-white/5" : "border-black/20 text-black/60 hover:border-black/40 hover:text-black/90 hover:bg-black/5"}`}
               >
-                Hubungi Saya
+                {t.cta.contact}
               </a>
             </motion.div>
 
@@ -99,7 +100,7 @@ function Home({ dark }) {
             />
           </div>
 
-          {/* RIGHT — Lanyard desktop (TIDAK DIUBAH) */}
+          {/* RIGHT — Lanyard desktop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -121,7 +122,7 @@ function Home({ dark }) {
         className="md:hidden w-full flex flex-col items-center px-4 pb-16"
       >
         <p className={`text-xs tracking-widest uppercase mb-4 font-medium ${dark ? "text-white/25" : "text-black/25"}`}>
-          ID Card
+          {t.idcard}
         </p>
         <div className="w-full aspect-[3/4]">
           <Lanyard dark={dark} position={[0, 0, 20]} gravity={[0, -35, 0]} fov={12} />
