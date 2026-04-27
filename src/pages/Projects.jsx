@@ -16,7 +16,7 @@ import { useLang } from "../components/layout/Navbar";
 
 import logoVodjo     from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
-import logoGaotek    from "../assets/GAOTek.png.png";
+import logoGaotek    from "../assets/GAOTek.png";
 
 const PROJECTS_TRANSLATIONS = {
   EN: {
