@@ -11,6 +11,7 @@ import coverPolytama  from "../assets/polytama1.webp";
 import coverDaihatsu  from "../assets/coverDaihatsu1.webp";
 import coverBNPP      from "../assets/BNPP.png";
 import coverTotalBuah from "../assets/TBS1.png";
+import coverLitera from "../assets/Litera-perpustakaan.png";
 
 import { useLang } from "../components/layout/Navbar";
 
@@ -214,7 +215,7 @@ const PROJECT_META = [
     github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli",
     live: null,
     gradient: "from-violet-500/20 via-purple-500/10 to-transparent",
-    cover: null,
+    cover: coverLitera,
     companyIcon: null,
     companyName: null,
   },
