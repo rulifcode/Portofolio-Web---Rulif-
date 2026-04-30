@@ -40,7 +40,7 @@ function SplashScreen({ onDone }) {
       }}
     >
       <img
-        src="/Subjudul-Photoroom.png"
+        src="/img_Rulif_logo.png"
         alt="Logo"
         style={{
           width: "clamp(160px, 35vw, 280px)",

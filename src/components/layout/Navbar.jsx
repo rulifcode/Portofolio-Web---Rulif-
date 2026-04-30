@@ -598,7 +598,7 @@ export default function Navbar({ dark, setDark }) {
             onMouseLeave={(e) => e.currentTarget.style.animation = "none"}
           >
             <img
-              src="/Subjudul-Photoroom.png"
+              src="/img_Rulif_logo.png"
               alt="Logo"
               style={{
                 height: isDesktop ? "160px" : isMobile ? "140px" : "150px",
