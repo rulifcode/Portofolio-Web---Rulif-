@@ -242,7 +242,7 @@ export default function Contact() {
           fontFamily: "'DM Sans', sans-serif",
           backgroundImage: `url(${bgContact})`,
           backgroundSize: "cover",
-          backgroundPosition: "top center",
+          backgroundPosition: "top left",
           backgroundRepeat: "no-repeat",
         }}
       >
