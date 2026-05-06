@@ -4,7 +4,7 @@ import ScrollReveal from "../components/ScrollReveal/ScrollReveal";
 import { AnimatedBeam } from "../components/AnimatedBeam/AnimatedBeam";
 import { SiFigma } from "react-icons/si";
 
-import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGithub, FaNodeJs } from "react-icons/fa";
+import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGitAlt, FaNodeJs } from "react-icons/fa";
 import { SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs, SiJest, SiSelenium } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 import { useLang } from "../components/layout/Navbar";
@@ -137,7 +137,7 @@ function MobileBeam({ dark }) {
 
   const rightIcons = [
     { ref: figmaRef,   label: "Figma",   icon: <SiFigma className="text-[#F24E1E]" />,   className: "border-orange-400/30 bg-orange-400/10" },
-    { ref: githubRef,  label: "GitHub",  icon: <FaGithub className="text-white" />,       className: "border-white/20 bg-white/5" },
+    { ref: githubRef,  label: "Git",     icon: <FaGitAlt className="text-[#F05032]" />,  className: "border-orange-500/30 bg-orange-500/10" },
     { ref: vscodeRef,  label: "VS Code", icon: <VscVscode className="text-[#007ACC]" />, className: "border-blue-500/30 bg-blue-500/10" },
   ];
 
@@ -210,23 +210,23 @@ function PhotoGrid({ dark }) {
     <div className="relative w-full h-full">
       <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-blue-500/10 via-violet-500/5 to-transparent blur-2xl pointer-events-none" />
       <div className="grid grid-cols-3 grid-rows-2 gap-3 h-[340px]">
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-black/40 group col-span-2 row-span-2">
+        <div className={`relative overflow-hidden rounded-2xl border shadow-2xl group col-span-2 row-span-2 ${dark ? "border-white/10 shadow-black/40" : "border-gray-200 shadow-black/10"}`}>
           <img src={photos[0].src} alt={photos[0].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+          <div className={`absolute inset-0 rounded-2xl ring-1 ring-inset ${dark ? "ring-white/10" : "ring-black/5"}`} />
         </div>
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/30 group col-span-1 row-span-1">
+        <div className={`relative overflow-hidden rounded-2xl border shadow-xl group col-span-1 row-span-1 ${dark ? "border-white/10 shadow-black/30" : "border-gray-200 shadow-black/5"}`}>
           <img src={photos[1].src} alt={photos[1].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
+          <div className={`absolute inset-0 rounded-2xl ring-1 ring-inset ${dark ? "ring-white/10" : "ring-black/5"}`} />
         </div>
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-xl shadow-black/30 group col-span-1 row-span-1">
+        <div className={`relative overflow-hidden rounded-2xl border shadow-xl group col-span-1 row-span-1 ${dark ? "border-white/10 shadow-black/30" : "border-gray-200 shadow-black/5"}`}>
           <img src={photos[2].src} alt={photos[2].alt} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <div className="absolute inset-0 bg-gradient-to-tl from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/10" />
-          <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 border border-white/10">
+          <div className={`absolute inset-0 rounded-2xl ring-1 ring-inset ${dark ? "ring-white/10" : "ring-black/5"}`} />
+          <div className={`absolute bottom-3 left-3 flex items-center gap-1.5 backdrop-blur-md rounded-full px-3 py-1 border ${dark ? "bg-black/50 border-white/10" : "bg-white/70 border-gray-200"}`}>
             <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[9px] text-white/70 font-medium tracking-wider uppercase">Bandung, ID</span>
+            <span className={`text-[9px] font-medium tracking-wider uppercase ${dark ? "text-white/70" : "text-gray-600"}`}>Bandung, ID</span>
           </div>
         </div>
       </div>
@@ -234,7 +234,7 @@ function PhotoGrid({ dark }) {
         <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
           {Array.from({ length: 4 }, (_, row) =>
             Array.from({ length: 4 }, (_, col) => (
-              <circle key={`${row}-${col}`} cx={col * 18 + 9} cy={row * 18 + 9} r="2" fill="white" />
+              <circle key={`${row}-${col}`} cx={col * 18 + 9} cy={row * 18 + 9} r="2" fill={dark ? "white" : "#374151"} />
             ))
           )}
         </svg>
@@ -269,11 +269,11 @@ function StackBeam({ dark }) {
   ];
 
   const rightIcons = [
-    { ref: tsRef,     icon: <SiTypescript className="text-[#3178C6]" />, label: "TypeScript" },
-    { ref: githubRef, icon: <FaGithub className="text-white" />,         label: "GitHub" },
-    { ref: reduxRef,  icon: <SiRedux className="text-[#764ABC]" />,      label: "Redux" },
-    { ref: nextjsRef, icon: <SiNextdotjs className="text-white" />,      label: "Next.js" },
-    { ref: nodejsRef, icon: <FaNodeJs className="text-[#339933]" />,     label: "Node.js" },
+    { ref: tsRef,     icon: <SiTypescript className="text-[#3178C6]" />,                          label: "TypeScript" },
+    { ref: githubRef, icon: <FaGitAlt className="text-[#F05032]" />,                              label: "Git" },
+    { ref: reduxRef,  icon: <SiRedux className="text-[#764ABC]" />,                               label: "Redux" },
+    { ref: nextjsRef, icon: <SiNextdotjs className={dark ? "text-white" : "text-gray-800"} />,     label: "Next.js" },
+    { ref: nodejsRef, icon: <FaNodeJs className="text-[#339933]" />,                              label: "Node.js" },
   ];
 
   return (
@@ -341,9 +341,9 @@ function QABeam({ dark }) {
   ];
 
   const rightIcons = [
-    { ref: cypressRef,  label: "Cypress",  icon: <CypressIcon size={18} />,                   className: "border-emerald-500/30 bg-emerald-500/10" },
-    { ref: githubRef2,  label: "GitHub",   icon: <FaGithub className="text-white" />,          className: "border-white/20 bg-white/5" },
-    { ref: vscodeRef2,  label: "VS Code",  icon: <VscVscode className="text-[#007ACC]" />,    className: "border-blue-500/30 bg-blue-500/10" },
+    { ref: cypressRef,  label: "Cypress",  icon: <CypressIcon size={18} />,                                        className: "border-emerald-500/30 bg-emerald-500/10" },
+    { ref: githubRef2,  label: "Git",      icon: <FaGitAlt className="text-[#F05032]" />,                         className: "border-orange-500/30 bg-orange-500/10" },
+    { ref: vscodeRef2,  label: "VS Code",  icon: <VscVscode className="text-[#007ACC]" />,                         className: "border-blue-500/30 bg-blue-500/10" },
   ];
 
   return (
