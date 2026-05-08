@@ -87,10 +87,15 @@ function Home({ dark }) {
                 {t.cta.projects}
               </a>
               <a
-                href="#contact"
-                className={`px-5 py-2.5 rounded-md font-medium text-sm tracking-wide border transition-all duration-200 text-center whitespace-nowrap ${dark ? "border-white/20 text-white/60 hover:border-white/40 hover:text-white/90 hover:bg-white/5" : "border-black/20 text-black/60 hover:border-black/40 hover:text-black/90 hover:bg-black/5"}`}
+                href="https://rulifdev.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`px-5 py-2.5 rounded-md font-medium text-sm tracking-wide border transition-all duration-200 text-center whitespace-nowrap ${dark
+                    ? "border-white/20 text-white/60 hover:border-white/40 hover:text-white/90 hover:bg-white/5"
+                    : "border-black/20 text-black/60 hover:border-black/40 hover:text-black/90 hover:bg-black/5"
+                  }`}
               >
-                {t.cta.contact}
+                View Part 2
               </a>
             </motion.div>
 
