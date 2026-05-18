@@ -11,6 +11,7 @@ const CERTIFICATES = [
   { id: 8,  title: "Technical Workshop Back End Golang",  issuer: "Hacktiv8 Indonesia", date: "31 July 2025", image: "/certificates/Hacktiv8BETalkshow_Rulif.jpg" },
   { id: 9,  title: "React Advanced",  issuer: "Lumoshive Academy", date: "27 February 2026", image: "/certificates/Certified_ReactAdvanced_Rulif.jpg" },
   { id: 10, title: "React Basic", issuer: "HackerRank", date: "15 September 2025", image: "/certificates/ReactBasic_HackerRank_Rulif.png" },
+  { id: 11, title: "Web Development with Al: Building and Improving Front-End Code Faster", issuer: " KAreerr Elevation Vol. 2 - IT Bootcamp", date: "4-5 May 2026", image: "/certificates/Sertifikat_kaalibr_rulif.png" },
 ];
 
 const TOTAL = CERTIFICATES.length;

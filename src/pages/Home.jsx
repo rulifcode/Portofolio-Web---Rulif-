@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Lanyard from "../components/Lanyard/Lanyard";
 import TextType from "../components/TextType/TextType";
 import ShinyText from "../components/ShinyText/ShinyText";
-import { useLang, TRANSLATIONS } from "../components/layout/Navbar"; // sesuaikan path
+import { useLang, TRANSLATIONS } from "../components/layout/Navbar";
 
 function Home({ dark }) {
   const { lang } = useLang();

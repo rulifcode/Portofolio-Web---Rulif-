@@ -80,7 +80,7 @@ const TRANSLATIONS = {
     development: [
       { title: "Rulif Taskify Movie", description: "Personal project — aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS." },
       { title: "E-Commerce App (Tim Ubuntu)", description: "Final project bootcamp Lumoshive batch III — aplikasi e-commerce fullstack." },
-      { title: "Aurevia Hotel — Frontend Next.js", description: "Frontend pemesanan hotel berbasis Next.js 14 dan Tailwind CSS, terintegrasi dengan Laravel API. Fitur katalog kamar, form reservasi dengan ringkasan harga real-time, banner dinamis, dan UI elegan responsif." },
+      { title: "Aurevia Hotel — Frontend Next.js", description: "Frontend pemesanan hotel berbasis Next.js 14 dan Tailwind CSS, terintegrasi dengan Laravel API." },
       { title: "Furniture Landing Page", description: "Landing page modern untuk brand furniture dengan desain elegan dan animasi smooth." },
       { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal." },
       { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi." },
@@ -112,9 +112,9 @@ const DEV_META = [
 ];
 
 /* ================================================================
-   useCarousel (inline, same as original)
+   useCarousel
    ================================================================ */
-function useCarousel(totalItems, perSlide = 3, intervalMs = 4000, enabled = true) {
+function useCarousel(totalItems, perSlide = 4, intervalMs = 4000, enabled = true) {
   const [slideIndex, setSlideIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef(null);
@@ -154,13 +154,11 @@ function TabButton({ active, dark, onClick, children, count }) {
       className={`flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-200 cursor-pointer ${active ? activeStyle : inactiveStyle}`}
     >
       {children}
-      <span
-        className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
-          active
-            ? dark ? "bg-white/15 text-white/80" : "bg-white/20 text-white/90"
-            : dark ? "bg-white/5 text-white/30" : "bg-gray-100 text-gray-400"
-        }`}
-      >
+      <span className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
+        active
+          ? dark ? "bg-white/15 text-white/80" : "bg-white/20 text-white/90"
+          : dark ? "bg-white/5 text-white/30" : "bg-gray-100 text-gray-400"
+      }`}>
         {count}
       </span>
     </button>
@@ -262,14 +260,14 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
         )}
       </div>
 
-      {/* Cards */}
+      {/* Cards grid — 2 col mobile, 4 col desktop */}
       <div
         className="relative overflow-hidden"
         onMouseEnter={() => carousel.setIsPaused(true)}
         onMouseLeave={() => carousel.setIsPaused(false)}
       >
         <div
-          className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           key={expanded ? "expanded" : `slide-${carousel.slideIndex}`}
           style={{
             animation: expanded
@@ -329,20 +327,16 @@ export default function Projects({ dark }) {
   const allProjects   = [...vodjoProjects, ...devProjects];
   const totalCount    = allProjects.length;
 
-  /* which groups to show based on tab */
   const showQA  = activeTab === "all" || activeTab === "qa";
   const showDev = activeTab === "all" || activeTab === "dev";
-
-  /* divider only when both visible */
   const showDivider = showQA && showDev;
-
   const dividerCls = dark ? "via-white/8" : "via-gray-200";
 
   return (
     <main className="min-h-screen pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto space-y-12">
+      <div className="max-w-6xl mx-auto space-y-12">
 
-        {/* ── Header ────────────────────────────────────────── */}
+        {/* Header */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <div className={`h-px flex-1 bg-gradient-to-r from-transparent ${dark ? "via-white/10" : "via-gray-200"} to-transparent`} />
@@ -359,37 +353,22 @@ export default function Projects({ dark }) {
           </p>
         </div>
 
-        {/* ── Tab Filter ────────────────────────────────────── */}
+        {/* Tab Filter */}
         <div className="flex items-center justify-center gap-2 flex-wrap">
-          <TabButton
-            active={activeTab === "all"}
-            dark={dark}
-            onClick={() => setActiveTab("all")}
-            count={totalCount}
-          >
+          <TabButton active={activeTab === "all"} dark={dark} onClick={() => setActiveTab("all")} count={totalCount}>
             {t.tabs.all}
           </TabButton>
-          <TabButton
-            active={activeTab === "qa"}
-            dark={dark}
-            onClick={() => setActiveTab("qa")}
-            count={vodjoProjects.length}
-          >
+          <TabButton active={activeTab === "qa"} dark={dark} onClick={() => setActiveTab("qa")} count={vodjoProjects.length}>
             <span className={`w-1.5 h-1.5 rounded-full ${activeTab === "qa" ? "bg-emerald-400" : dark ? "bg-white/20" : "bg-gray-300"} transition-colors duration-200`} />
             {t.tabs.qa}
           </TabButton>
-          <TabButton
-            active={activeTab === "dev"}
-            dark={dark}
-            onClick={() => setActiveTab("dev")}
-            count={devProjects.length}
-          >
+          <TabButton active={activeTab === "dev"} dark={dark} onClick={() => setActiveTab("dev")} count={devProjects.length}>
             <span className={`w-1.5 h-1.5 rounded-full ${activeTab === "dev" ? "bg-blue-400" : dark ? "bg-white/20" : "bg-gray-300"} transition-colors duration-200`} />
             {t.tabs.dev}
           </TabButton>
         </div>
 
-        {/* ── Content ───────────────────────────────────────── */}
+        {/* Content */}
         <div
           className="space-y-12"
           key={activeTab}
@@ -405,11 +384,9 @@ export default function Projects({ dark }) {
               showLessLabel={t.showLess}
             />
           )}
-
           {showDivider && (
             <div className={`h-px bg-gradient-to-r from-transparent ${dividerCls} to-transparent`} />
           )}
-
           {showDev && (
             <ProjectGroup
               label={t.groupLabels.development}
@@ -422,7 +399,7 @@ export default function Projects({ dark }) {
           )}
         </div>
 
-        {/* ── Footer CTA ────────────────────────────────────── */}
+        {/* Footer CTA */}
         <div className="flex justify-center pt-4">
           <a
             href="https://github.com/rulifcode"
@@ -446,7 +423,6 @@ export default function Projects({ dark }) {
 
       </div>
 
-      {/* Keyframes */}
       <style>{`
         @keyframes fadeSlideIn {
           from { opacity: 0; transform: translateY(12px); }
