@@ -70,7 +70,7 @@ function Home({ dark }) {
 
             <motion.p
               variants={item}
-              className={`text-base sm:text-lg leading-relaxed mb-8 max-w-md ${dark ? "text-white/40" : "text-black/40"}`}
+              className={`text-base sm:text-lg leading-relaxed mb-8 max-w-md ${dark ? "text-white/70" : "text-black/40"}`}
             >
               {t.desc}
             </motion.p>

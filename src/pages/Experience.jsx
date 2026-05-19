@@ -88,6 +88,8 @@ const T = {
     tagline: "Career Journey",
     title: "Experience",
     project: "Project",
+    seeDetails: "See Details",
+    hideDetails: "Hide Details",
     data: {
       cakrawala: {
         role: "Praktek Lapangan Kerja",
@@ -144,6 +146,8 @@ const T = {
     tagline: "Perjalanan Karier",
     title: "Pengalaman",
     project: "Proyek",
+    seeDetails: "Lihat Detail",
+    hideDetails: "Sembunyikan",
     data: {
       cakrawala: {
         role: "Praktek Lapangan Kerja",
@@ -416,6 +420,124 @@ function ImageSlider({ images, accent }) {
   );
 }
 
+/* ─── Card Inner ─────────────────────────────────────────────────────────────── */
+function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, textFaint, toggleStroke, dark, setOpen, lang }) {
+  const tLabel = T[lang];
+
+  return (
+    <>
+      <div className="flex items-start gap-3.5 mb-2.5">
+        <div
+          className="w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 bg-white transition-all duration-300"
+          style={{
+            border: `1px solid ${exp.accent}28`,
+            transform: hovered ? "scale(1.08) rotate(-3deg)" : "scale(1) rotate(0deg)",
+            boxShadow: hovered ? `0 4px 16px ${exp.accent}28` : "none",
+          }}
+        >
+          <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>{exp.company}</div>
+          <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>{exp.role}</div>
+          <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${textMuted}`}>
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8"/>
+            </svg>
+            <span>{exp.location}</span>
+          </div>
+        </div>
+
+        {/* Top-right + / × toggle */}
+        <div
+          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
+          style={{
+            border: `1px solid ${open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}`,
+            background: open ? `${exp.accent}18` : "transparent",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+          }}
+        >
+          <svg width="8" height="8" viewBox="0 0 9 9" fill="none">
+            <line x1="4.5" y1="0.5" x2="4.5" y2="8.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
+            <line x1="0.5" y1="4.5" x2="8.5" y2="4.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      {/* Badges */}
+      <div className="flex flex-wrap gap-1.5 mt-3">
+        {[exp.type, ...(exp.project ? [exp.project] : [])].map((label, i) => (
+          <span
+            key={i}
+            className="text-xs font-semibold tracking-wide px-3 py-1 rounded-full"
+            style={{
+              color: i === 1 ? exp.accent : dark ? "rgba(255,255,255,0.6)" : "rgba(10,10,10,0.55)",
+              border: `1px solid ${i === 1 ? exp.accent + "38" : dark ? "rgba(255,255,255,0.12)" : "rgba(10,10,10,0.08)"}`,
+              background: i === 1 ? `${exp.accent}0f` : dark ? "rgba(255,255,255,0.05)" : "transparent",
+            }}
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+
+      {/* ── See Details / Hide Details button ── */}
+      <button
+        onClick={(e) => { e.stopPropagation(); setOpen(v => !v); }}
+        className="mt-3.5 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold tracking-widest uppercase transition-all duration-300"
+        style={{
+          border: `1px solid ${open ? exp.accent + "45" : dark ? "rgba(255,255,255,0.10)" : "rgba(10,10,10,0.08)"}`,
+          color: open ? exp.accent : dark ? "rgba(255,255,255,0.45)" : "rgba(10,10,10,0.40)",
+          background: open ? `${exp.accent}0d` : dark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+        }}
+      >
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          style={{
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+            transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1)",
+          }}
+        >
+          <line x1="5" y1="0.5" x2="5" y2="9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+          <line x1="0.5" y1="5" x2="9.5" y2="5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+        </svg>
+        {open ? tLabel.hideDetails : tLabel.seeDetails}
+      </button>
+
+      {/* ── Expandable Detail Panel ── */}
+      <div className="overflow-hidden transition-all duration-700" style={{ maxHeight: open ? "2000px" : "0px" }}>
+        <div className="pt-5">
+          <div className="h-px mb-4" style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }} />
+
+          <ImageSlider images={exp.images} accent={exp.accent} />
+
+          <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
+            {exp.stack.map((s) => (
+              <span key={s} className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded" style={{ color: exp.accent, background: `${exp.accent}14` }}>
+                {s}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {exp.bullets.map((b, i) => (
+              <div key={i} className="flex gap-3 items-start">
+                <div className="flex-shrink-0 mt-2.5 opacity-60" style={{ width: "16px", height: "1px", background: exp.accent }} />
+                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>{b}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 /* ─── Experience Card ────────────────────────────────────────────────────────── */
 function ExpCard({ expStatic, dark, rowIndex, isLast }) {
   const { lang } = useContext(LangContext);
@@ -446,6 +568,19 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
   const cardBorder  = dark
     ? hovered ? `${exp.accent}40` : "rgba(255,255,255,0.10)"
     : hovered ? `${exp.accent}30` : "rgba(0,0,0,0.08)";
+
+  const sharedInnerProps = {
+    exp,
+    open,
+    textPrimary,
+    textSecondary,
+    textMuted,
+    textFaint,
+    toggleStroke,
+    dark,
+    setOpen,
+    lang,
+  };
 
   return (
     <div
@@ -510,7 +645,7 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
               marginTop: "-4px",
             }}
           >
-            <CardInner exp={exp} open={open} hovered={hovered} textPrimary={textPrimary} textSecondary={textSecondary} textMuted={textMuted} textFaint={textFaint} toggleStroke={toggleStroke} dark={dark} />
+            <CardInner {...sharedInnerProps} hovered={hovered} />
           </div>
         </div>
       </div>
@@ -548,7 +683,7 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
               WebkitBackdropFilter: "blur(12px)",
             }}
           >
-            <CardInner exp={exp} open={open} hovered={open} textPrimary={textPrimary} textSecondary={textSecondary} textMuted={textMuted} textFaint={textFaint} toggleStroke={toggleStroke} dark={dark} />
+            <CardInner {...sharedInnerProps} hovered={open} />
           </div>
         </div>
 
@@ -557,93 +692,6 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
         )}
       </div>
     </div>
-  );
-}
-
-/* ─── Card Inner ─────────────────────────────────────────────────────────────── */
-function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, textFaint, toggleStroke, dark }) {
-  return (
-    <>
-      <div className="flex items-start gap-3.5 mb-2.5">
-        <div
-          className="w-11 h-11 rounded-xl overflow-hidden flex items-center justify-center flex-shrink-0 bg-white transition-all duration-300"
-          style={{
-            border: `1px solid ${exp.accent}28`,
-            transform: hovered ? "scale(1.08) rotate(-3deg)" : "scale(1) rotate(0deg)",
-            boxShadow: hovered ? `0 4px 16px ${exp.accent}28` : "none",
-          }}
-        >
-          <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className={`text-xl sm:text-2xl font-bold leading-tight mb-1 tracking-tight ${textPrimary}`}>{exp.company}</div>
-          <div className={`text-sm font-semibold tracking-widest uppercase ${textSecondary}`}>{exp.role}</div>
-          <div className={`flex items-center gap-1 mt-1.5 text-xs font-medium ${textMuted}`}>
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" className="flex-shrink-0">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.8"/>
-            </svg>
-            <span>{exp.location}</span>
-          </div>
-        </div>
-
-        <div
-          className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
-          style={{
-            border: `1px solid ${open ? exp.accent : dark ? "rgba(255,255,255,0.15)" : "rgba(10,10,10,0.1)"}`,
-            background: open ? `${exp.accent}18` : "transparent",
-            transform: open ? "rotate(45deg)" : "rotate(0deg)",
-          }}
-        >
-          <svg width="8" height="8" viewBox="0 0 9 9" fill="none">
-            <line x1="4.5" y1="0.5" x2="4.5" y2="8.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
-            <line x1="0.5" y1="4.5" x2="8.5" y2="4.5" stroke={open ? exp.accent : toggleStroke} strokeWidth="1.2" strokeLinecap="round"/>
-          </svg>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5 mt-3">
-        {[exp.type, ...(exp.project ? [exp.project] : [])].map((label, i) => (
-          <span
-            key={i}
-            className="text-xs font-semibold tracking-wide px-3 py-1 rounded-full"
-            style={{
-              color: i === 1 ? exp.accent : dark ? "rgba(255,255,255,0.6)" : "rgba(10,10,10,0.55)",
-              border: `1px solid ${i === 1 ? exp.accent + "38" : dark ? "rgba(255,255,255,0.12)" : "rgba(10,10,10,0.08)"}`,
-              background: i === 1 ? `${exp.accent}0f` : dark ? "rgba(255,255,255,0.05)" : "transparent",
-            }}
-          >
-            {label}
-          </span>
-        ))}
-      </div>
-
-      <div className="overflow-hidden transition-all duration-700" style={{ maxHeight: open ? "2000px" : "0px" }}>
-        <div className="pt-5">
-          <div className="h-px mb-4" style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }} />
-
-          <ImageSlider images={exp.images} accent={exp.accent} />
-
-          <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
-            {exp.stack.map((s) => (
-              <span key={s} className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded" style={{ color: exp.accent, background: `${exp.accent}14` }}>
-                {s}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-3">
-            {exp.bullets.map((b, i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <div className="flex-shrink-0 mt-2.5 opacity-60" style={{ width: "16px", height: "1px", background: exp.accent }} />
-                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>{b}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
   );
 }
 

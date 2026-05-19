@@ -2,30 +2,28 @@
 import { forwardRef, useRef } from "react";
 import ScrollReveal from "../components/ScrollReveal/ScrollReveal";
 import { AnimatedBeam } from "../components/AnimatedBeam/AnimatedBeam";
-import { SiFigma } from "react-icons/si";
-
-import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGitAlt, FaNodeJs } from "react-icons/fa";
-import { SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs, SiJest, SiSelenium } from "react-icons/si";
+import { SiFigma, SiTailwindcss, SiTypescript, SiRedux, SiNextdotjs, SiJest, SiSelenium, SiLaravel, SiCodeigniter } from "react-icons/si";
+import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaGitAlt, FaNodeJs, FaWordpress } from "react-icons/fa";
 import { VscVscode } from "react-icons/vsc";
 import { useLang } from "../components/layout/Navbar";
 
 // ── Translations ───────────────────────────────────────────────
 const ABOUT_TRANSLATIONS = {
   EN: {
-    bio: "I'm Rulif Fadria Nirwansyah, 21 years old, born and based in Bandung. I have a strong interest in web development, particularly as a Front-End Developer, with the goal of growing into a Full Stack Developer. Beyond front-end, I also have a background in Quality Assurance, which helps me be more thorough in ensuring the quality, functionality, and user experience of an application.",
-    passion: "I have a strong passion for building modern, responsive, and aesthetically pleasing web interfaces. To me, good code isn't just about functionality — it's about the experience the user feels.",
-    techStack: "I always keep up with the latest relevant technologies. Not just to look up-to-date, but because I genuinely believe the right tools can make the output far more impactful and efficient.",
-    qa: "Beyond front-end, I also have experience as a Software Quality Assurance engineer — ensuring every released feature works flawlessly, is free of bugs, and meets high quality standards.",
-    mobile: "I've also ventured into mobile development, building applications that run smoothly across various devices with high performance and an intuitive UI.",
-    closing: "I believe the best technology is the kind that's invisible — working behind the scenes to create an experience that feels natural, fast, and enjoyable for every user.",
+    bio: "I'm Rulif Fadria Nirwansyah, a 21-year-old developer born and based in Bandung. My primary focus is Front-End Development — building modern, scalable web applications using JavaScript libraries and PHP frameworks — with a broader goal of growing into a well-rounded Full Stack Developer.",
+    passion: "I'm passionate about crafting modern, responsive, and visually refined web interfaces. My approach goes beyond meeting functional requirements — I care deeply about translating Figma designs into pixel-perfect implementations that feel intuitive and performant for every user.",
+    techStack: "Staying current with the technology landscape is something I approach deliberately. From React.js and Next.js on the frontend to Laravel, CodeIgniter, and WordPress on the backend — I choose tools based on the value they bring to the product, not just familiarity. The right stack makes the difference between software that works and software that scales.",
+    qa: "Beyond frontend, I also have experience as a Software Quality Assurance engineer — a role that has sharpened my perspective as a Full Stack Developer. Understanding how software breaks is just as valuable as knowing how to build it. I apply automation testing to validate end-to-end application behavior and work within Agile/Scrum workflows to ensure quality is embedded throughout every stage of development.",
+    mobile: "My development work extends into the mobile space as well. Using Flutter and React Native, I've built cross-platform applications with a focus on smooth performance, consistent UI behavior across devices, and clean component architecture that mirrors my frontend development principles.",
+    closing: "I believe the best interfaces are the ones users never have to think about — where the code, the design, and the performance align seamlessly behind the scenes. That invisible quality is what I work toward in every project I take on.",
   },
   ID: {
-    bio: "Saya Rulif Fadria Nirwansyah, 21 tahun, lahir dan berdomisili di Bandung. Saya memiliki ketertarikan besar di bidang pengembangan web, khususnya sebagai Front-End Developer, dengan tujuan berkembang menjadi Full Stack Developer. Selain berfokus pada front-end development, saya juga memiliki pemahaman di bidang Quality Assurance, yang membantu saya lebih teliti dalam memastikan kualitas, fungsionalitas, dan pengalaman pengguna dari sebuah aplikasi.",
-    passion: "Saya memiliki passion yang kuat dalam membangun antarmuka web yang modern, responsif, dan estetis. Bagi saya, kode yang baik bukan hanya soal fungsi — tapi juga soal pengalaman yang dirasakan pengguna.",
-    techStack: "Saya selalu ngikutin perkembangan teknologi yang lagi relevan sekarang. Bukan cuma biar kelihatan update, tapi karena saya percaya tools yang tepat bisa bikin hasil kerja jauh lebih impactful dan efisien.",
-    qa: "Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance — memastikan setiap fitur yang dirilis berjalan dengan sempurna, bebas dari bug, dan sesuai standar kualitas yang tinggi.",
-    mobile: "Saya juga merambah dunia mobile development, membangun aplikasi yang berjalan lancar di berbagai perangkat dengan performa tinggi dan UI yang intuitif.",
-    closing: "Saya percaya bahwa teknologi terbaik adalah yang tidak terlihat — yang bekerja di balik layar untuk menciptakan pengalaman yang terasa alami, cepat, dan menyenangkan bagi setiap pengguna.",
+    bio: "Saya Rulif Fadria Nirwansyah, developer berusia 21 tahun yang lahir dan berdomisili di Bandung. Fokus utama saya adalah Front-End Development — membangun aplikasi web modern dan scalable menggunakan JavaScript library dan PHP framework — dengan tujuan berkembang menjadi Full Stack Developer yang menyeluruh.",
+    passion: "Saya passionate dalam membangun antarmuka web yang modern, responsif, dan estetis. Pendekatan saya bukan sekadar memenuhi kebutuhan fungsional — saya benar-benar peduli dalam menerjemahkan desain Figma menjadi implementasi pixel-perfect yang intuitif dan performant bagi setiap pengguna.",
+    techStack: "Mengikuti perkembangan teknologi adalah sesuatu yang saya lakukan secara sadar dan terukur. Dari React.js dan Next.js di sisi frontend hingga Laravel, CodeIgniter, dan WordPress di backend — saya memilih tools berdasarkan nilai yang mereka berikan pada produk, bukan sekadar kebiasaan. Stack yang tepat menentukan perbedaan antara software yang hanya berjalan dan software yang bisa berkembang.",
+    qa: "Selain frontend, saya juga memiliki pengalaman sebagai Software Quality Assurance engineer — sebuah peran yang mempertajam perspektif saya sebagai Full Stack Developer. Memahami bagaimana software bisa gagal sama berharganya dengan mengetahui cara membangunnya. Saya menerapkan automation testing untuk memvalidasi perilaku aplikasi secara end-to-end dan bekerja dalam kerangka Agile/Scrum untuk memastikan kualitas tertanam di setiap tahap pengembangan.",
+    mobile: "Pengalaman saya juga mencakup mobile development. Menggunakan Flutter dan React Native, saya membangun aplikasi cross-platform dengan fokus pada performa yang mulus, konsistensi UI di berbagai perangkat, dan arsitektur komponen yang bersih — mencerminkan prinsip yang sama dengan pengembangan frontend saya.",
+    closing: "Saya percaya bahwa antarmuka terbaik adalah yang tidak pernah membuat pengguna berpikir dua kali — di mana kode, desain, dan performa selaras dengan sempurna di balik layar. Kualitas yang tak terlihat itulah yang selalu saya kejar di setiap proyek.",
   },
 };
 
@@ -248,32 +246,32 @@ function StackBeam({ dark }) {
   const containerRef = useRef(null);
   const vscodeRef    = useRef(null);
   const reactRef     = useRef(null);
-  const tailwindRef  = useRef(null);
+  const nextjsRef    = useRef(null);
   const htmlRef      = useRef(null);
   const cssRef       = useRef(null);
   const jsRef        = useRef(null);
+  const tailwindRef  = useRef(null);
+  const laravelRef   = useRef(null);
+  const wpRef        = useRef(null);
+  const ciRef        = useRef(null);
   const phpRef       = useRef(null);
-  const tsRef        = useRef(null);
   const githubRef    = useRef(null);
-  const reduxRef     = useRef(null);
-  const nextjsRef    = useRef(null);
-  const nodejsRef    = useRef(null);
 
   const leftIcons = [
-    { ref: reactRef,    icon: <FaReact className="text-[#61DAFB]" />,       label: "React" },
-    { ref: tailwindRef, icon: <SiTailwindcss className="text-[#38BDF8]" />, label: "Tailwind" },
-    { ref: htmlRef,     icon: <FaHtml5 className="text-[#E44D26]" />,       label: "HTML" },
-    { ref: cssRef,      icon: <FaCss3Alt className="text-[#1572B6]" />,     label: "CSS" },
+    { ref: reactRef,    icon: <FaReact className="text-[#61DAFB]" />,       label: "React.js" },
+    { ref: nextjsRef,   icon: <SiNextdotjs className={dark ? "text-white" : "text-gray-800"} />, label: "Next.js" },
+    { ref: htmlRef,     icon: <FaHtml5 className="text-[#E44D26]" />,       label: "HTML5" },
+    { ref: cssRef,      icon: <FaCss3Alt className="text-[#1572B6]" />,     label: "CSS3" },
     { ref: jsRef,       icon: <FaJs className="text-[#F7DF1E]" />,          label: "JavaScript" },
-    { ref: phpRef,      icon: <FaPhp className="text-[#8892BF]" />,         label: "PHP" },
+    { ref: tailwindRef, icon: <SiTailwindcss className="text-[#38BDF8]" />, label: "Tailwind" },
   ];
 
   const rightIcons = [
-    { ref: tsRef,     icon: <SiTypescript className="text-[#3178C6]" />,                          label: "TypeScript" },
-    { ref: githubRef, icon: <FaGitAlt className="text-[#F05032]" />,                              label: "Git" },
-    { ref: reduxRef,  icon: <SiRedux className="text-[#764ABC]" />,                               label: "Redux" },
-    { ref: nextjsRef, icon: <SiNextdotjs className={dark ? "text-white" : "text-gray-800"} />,     label: "Next.js" },
-    { ref: nodejsRef, icon: <FaNodeJs className="text-[#339933]" />,                              label: "Node.js" },
+    { ref: laravelRef, icon: <SiLaravel className="text-[#FF2D20]" />,                          label: "Laravel" },
+    { ref: wpRef,      icon: <FaWordpress className="text-[#21759B]" />,                         label: "WordPress" },
+    { ref: ciRef,      icon: <SiCodeigniter className="text-[#EF4223]" />,                       label: "CodeIgniter" },
+    { ref: phpRef,     icon: <FaPhp className="text-[#8892BF]" />,                              label: "PHP" },
+    { ref: githubRef,  icon: <FaGitAlt className="text-[#F05032]" />,                           label: "Git" },
   ];
 
   return (
@@ -341,9 +339,9 @@ function QABeam({ dark }) {
   ];
 
   const rightIcons = [
-    { ref: cypressRef,  label: "Cypress",  icon: <CypressIcon size={18} />,                                        className: "border-emerald-500/30 bg-emerald-500/10" },
-    { ref: githubRef2,  label: "Git",      icon: <FaGitAlt className="text-[#F05032]" />,                         className: "border-orange-500/30 bg-orange-500/10" },
-    { ref: vscodeRef2,  label: "VS Code",  icon: <VscVscode className="text-[#007ACC]" />,                         className: "border-blue-500/30 bg-blue-500/10" },
+    { ref: cypressRef,  label: "Cypress",  icon: <CypressIcon size={18} />,                   className: "border-emerald-500/30 bg-emerald-500/10" },
+    { ref: githubRef2,  label: "Git",      icon: <FaGitAlt className="text-[#F05032]" />,     className: "border-orange-500/30 bg-orange-500/10" },
+    { ref: vscodeRef2,  label: "VS Code",  icon: <VscVscode className="text-[#007ACC]" />,    className: "border-blue-500/30 bg-blue-500/10" },
   ];
 
   return (
