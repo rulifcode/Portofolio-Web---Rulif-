@@ -52,7 +52,6 @@ const TRANSLATIONS = {
       { title: "Furniture Landing Page", description: "A modern landing page for a furniture brand with elegant design, smooth animations, and a fully responsive layout." },
       { title: "Food Recipe App", description: "A food recipe app integrated with an external API, displaying various recipes with search and category filter features." },
       { title: "Perpustakaan Online", description: "A digital library management system built with Native PHP & MySQLi, featuring book borrowing, member management, and reporting." },
-      { title: "React E-Commerce Firebase", description: "A modern e-commerce platform with Firebase authentication, real-time product management, and a responsive UI." },
       { title: "Gaotek Inc — Web WordPress", description: "Developed and maintained the Gaotek Indonesia website. Handled theme updates, SEO optimization, WooCommerce product data via Excel, and UI slicing based on Figma designs." },
     ],
   },
@@ -84,7 +83,6 @@ const TRANSLATIONS = {
       { title: "Furniture Landing Page", description: "Landing page modern untuk brand furniture dengan desain elegan dan animasi smooth." },
       { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal." },
       { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi." },
-      { title: "React E-Commerce Firebase", description: "Platform e-commerce modern dengan autentikasi Firebase." },
       { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia." },
     ],
   },
@@ -107,7 +105,6 @@ const DEV_META = [
   { tech: ["React", "JavaScript", "Tailwind CSS"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React", "CSS", "REST API"], github: "https://github.com/rulifcode/mp-food-recipe-api", live: "https://mp-food-recipe-api.vercel.app/", gradient: "from-rose-500/20 via-pink-500/10 to-transparent", cover: coverRecipe, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["PHP", "MySQLi", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React", "Firebase", "CSS"], github: "https://github.com/rulifcode/react-ecommerce-firebase", live: null, gradient: "from-emerald-500/20 via-teal-500/10 to-transparent", cover: null, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
 ];
 
