@@ -22,6 +22,99 @@ import logoVodjo from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
 import logoGaotek from "../assets/GAOTek.png";
 
+/* ================================================================
+   TECH ICON MAP — Devicons CDN, fallback to text badge
+   ================================================================ */
+const DEVICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
+
+const TECH_ICON_MAP = {
+  // Languages & Runtimes
+  "PHP":           `${DEVICON_BASE}/php/php-original.svg`,
+  "MySQL":         `${DEVICON_BASE}/mysql/mysql-original.svg`,
+  "TypeScript":    `${DEVICON_BASE}/typescript/typescript-original.svg`,
+  "JavaScript":    `${DEVICON_BASE}/javascript/javascript-original.svg`,
+
+  // Frameworks & Libraries
+  "React.js":      `${DEVICON_BASE}/react/react-original.svg`,
+  "Next.js":       `${DEVICON_BASE}/nextjs/nextjs-original.svg`,
+  "Node.js":       `${DEVICON_BASE}/nodejs/nodejs-original.svg`,
+  "Laravel 12":    `${DEVICON_BASE}/laravel/laravel-original.svg`,
+  "Laravel":       `${DEVICON_BASE}/laravel/laravel-original.svg`,
+  "Tailwind CSS":  `${DEVICON_BASE}/tailwindcss/tailwindcss-original.svg`,
+  "CSS":           `${DEVICON_BASE}/css3/css3-original.svg`,
+  "HTML":          `${DEVICON_BASE}/html5/html5-original.svg`,
+  "Blade":         `${DEVICON_BASE}/laravel/laravel-original.svg`,
+
+  // Tools & Platforms
+  "Firebase":      `${DEVICON_BASE}/firebase/firebase-original.svg`,
+  "WordPress":     `${DEVICON_BASE}/wordpress/wordpress-original.svg`,
+  "Figma":         `${DEVICON_BASE}/figma/figma-original.svg`,
+  "Axios":         `${DEVICON_BASE}/axios/axios-plain.svg`,
+  "Cypress":       `${DEVICON_BASE}/cypressio/cypressio-original.svg`,
+  "Playwright":    `${DEVICON_BASE}/playwright/playwright-original.svg`,
+  "Postman":       `${DEVICON_BASE}/postman/postman-original.svg`,
+  "Cloudinary":    `${DEVICON_BASE}/cloudinary/cloudinary-original.svg`,
+  "SEO":           null,
+  "WooCommerce":   null,
+  "Framer Motion": null,
+  "TMDB API":      null,
+  "REST API":      null,
+  "Agile":         null,
+  "Manual Testing":null,
+  "Bug Report":    null,
+  "Test Case":     null,
+  "CMS":           null,
+  "iOS":           `${DEVICON_BASE}/apple/apple-original.svg`,
+  "Android":       `${DEVICON_BASE}/android/android-original.svg`,
+  "Custom Hooks":  null,
+};
+
+/* ================================================================
+   TechBadge — icon if available, text badge otherwise
+   ================================================================ */
+function TechBadge({ name, dark }) {
+  const iconUrl = TECH_ICON_MAP[name];
+
+  if (iconUrl) {
+    return (
+      <span
+        title={name}
+        className={`inline-flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 ${
+          dark
+            ? "border-white/10 bg-white/5 hover:bg-white/10"
+            : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+        }`}
+      >
+        <img
+          src={iconUrl}
+          alt={name}
+          className="w-3.5 h-3.5 object-contain"
+          loading="lazy"
+          onError={(e) => {
+            // fallback to text if image fails
+            e.currentTarget.parentElement.outerHTML = `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border ${
+              dark
+                ? "border-white/10 bg-white/5 text-white/40"
+                : "border-gray-200 bg-gray-50 text-gray-400"
+            }">${name}</span>`;
+          }}
+        />
+      </span>
+    );
+  }
+
+  return (
+    <span
+      className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border transition-all duration-200 ${
+        dark
+          ? "border-white/10 bg-white/5 text-white/40"
+          : "border-gray-200 bg-gray-50 text-gray-400"
+      }`}
+    >
+      {name}
+    </span>
+  );
+}
 
 /* ================================================================
    TRANSLATIONS
@@ -56,8 +149,8 @@ const TRANSLATIONS = {
       { title: "Food Recipe App", description: "A food recipe app integrated with an external API, displaying various recipes with search and category filter features." },
       { title: "Perpustakaan Online", description: "A digital library management system built with Native PHP & MySQLi, featuring book borrowing, member management, and reporting." },
       { title: "Gaotek Inc — Web WordPress", description: "Developed and maintained the Gaotek Indonesia website. Handled theme updates, SEO optimization, WooCommerce product data via Excel, and UI slicing based on Figma designs." },
-      { title: "CRUD React.js & Axios", description: "A responsive product management web application built with React 18, Vite, and Tailwind CSS. This project implements CRUD operations, search, filtering, and pagination using FakeStore API. The application is structured using a Container/Presentational architecture with custom hooks for data fetching, filtering, and state management to keep the code clean and maintainable." },
-      { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by the Next.js frontend" }
+      { title: "CRUD React.js & Axios", description: "A responsive product management web application built with React 18, Vite, and Tailwind CSS. Implements CRUD operations, search, filtering, and pagination using FakeStore API. Structured using a Container/Presentational architecture with custom hooks for data fetching, filtering, and state management." },
+      { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by the Next.js frontend." },
     ],
   },
   ID: {
@@ -74,25 +167,24 @@ const TRANSLATIONS = {
       development: "Proyek personal, freelance, dan bootcamp — dari landing page hingga aplikasi full-stack.",
     },
     vodjo: [
-      { title: "Ngafal Ngefeel", description: "QA untuk aplikasi belajar mobile (iOS & Android). Melakukan pengujian fungsional, API, dan otomasi menggunakan Cypress, Playwright & Postman." },
-      { title: "Gana Konsultan Indonesia", description: "QA untuk website korporat berbasis WordPress. Melakukan pengujian fungsional, membuat test case, melaporkan bug, dan berkolaborasi dengan tim dev." },
-      { title: "PT. Polytama Propindo", description: "QA untuk enterprise CMS yang mengelola produk petrokimia, feedback, dan laporan operasional." },
-      { title: "TMS Daihatsu", description: "QA untuk website berbasis WordPress. Melakukan pengujian fungsional, membuat laporan bug detail." },
-      { title: "BNPP RI", description: "QA ongoing untuk website resmi Badan Nasional Pengelola Perbatasan Republik Indonesia." },
-      { title: "Total Buah Segar", description: "QA ongoing untuk aplikasi mobile Android. Melakukan pengujian fungsional, membuat test case." },
-      { title: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by a Next.js frontend and a Flutter mobile app."}
+      { title: "Ngafal Ngefeel", description: "QA untuk aplikasi belajar mobile (iOS & Android). Melakukan pengujian fungsional, API, dan otomasi menggunakan Cypress, Playwright & Postman. Mengumpulkan feedback klien via CMS web dengan metodologi Agile." },
+      { title: "Gana Konsultan Indonesia", description: "QA untuk website korporat berbasis WordPress. Melakukan pengujian fungsional, membuat test case, melaporkan bug, dan berkolaborasi dengan tim dev dalam sprint Agile." },
+      { title: "PT. Polytama Propindo", description: "QA untuk enterprise CMS yang mengelola produk petrokimia, feedback, dan laporan operasional. Membuat test case, melakukan pengujian fungsional, dan melaporkan temuan." },
+      { title: "TMS Daihatsu", description: "QA untuk website berbasis WordPress. Melakukan pengujian fungsional, membuat laporan bug detail, dan mendukung tim dev dalam memperbaiki isu yang ditemukan." },
+      { title: "BNPP RI", description: "QA ongoing untuk website resmi Badan Nasional Pengelola Perbatasan Republik Indonesia. Pengujian fungsional, pembuatan test case, dan pelaporan bug." },
+      { title: "Total Buah Store", description: "QA ongoing untuk aplikasi mobile Android. Melakukan pengujian fungsional, membuat test case, dan berkolaborasi dengan developer untuk memastikan kualitas aplikasi." },
     ],
     development: [
-      { title: "Rulif Taskify Movie", description: "Personal project — aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS." },
-      { title: "E-Commerce App (Tim Ubuntu)", description: "Final project bootcamp Lumoshive batch III — aplikasi e-commerce fullstack." },
-      { title: "Aurevia Hotel — Frontend Next.js", description: "Frontend pemesanan hotel berbasis Next.js 14 dan Tailwind CSS, terintegrasi dengan Laravel API." },
-      { title: "Furniture Landing Page", description: "Landing page modern untuk brand furniture dengan desain elegan dan animasi smooth." },
-      { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal." },
-      { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi." },
-      { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia." },
-      { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Project ini mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Aplikasi disusun menggunakan arsitektur Container/Presentational serta custom hooks untuk pengelolaan data, filtering, dan state management agar kode tetap rapi dan mudah dikembangkan." },
-      { title: "Backend Laravel CMS DAshboard Aurevia Hotal", description: "CMS dashboard & REST API untuk sistem manajemen hotel berbasis web. Dibangun dengan Laravel 12, dilengkapi role-based access control (Admin & Resepsionis), upload media via Cloudinary, dan dikonsumsi oleh frontend Next.js" }
-    ]
+      { title: "Rulif Taskify Movie", description: "Proyek personal — aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS. Mengintegrasikan TMDB API dengan SSG, server-side streaming via Vidsrc, dan animasi Framer Motion." },
+      { title: "E-Commerce App (Tim Ubuntu)", description: "Final project bootcamp Lumoshive batch III — aplikasi e-commerce fullstack dengan fitur autentikasi, manajemen produk, keranjang belanja, dan checkout." },
+      { title: "Aurevia Hotel — Frontend Next.js", description: "Frontend pemesanan hotel berbasis Next.js 14 dan Tailwind CSS, terintegrasi dengan Laravel API. Fitur katalog kamar, form booking dengan ringkasan harga real-time, banner dinamis, dan UI responsif yang elegan." },
+      { title: "Furniture Landing Page", description: "Landing page modern untuk brand furniture dengan desain elegan, animasi smooth, dan layout yang sepenuhnya responsif." },
+      { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal, menampilkan berbagai resep dengan fitur pencarian dan filter kategori." },
+      { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi, dengan fitur peminjaman buku, manajemen anggota, dan pelaporan." },
+      { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia. Menangani pembaruan tema, optimasi SEO, data produk WooCommerce via Excel, dan slicing UI berdasarkan desain Figma." },
+      { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Disusun menggunakan arsitektur Container/Presentational dengan custom hooks untuk pengelolaan data, filtering, dan state management." },
+      { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API untuk sistem manajemen hotel berbasis web. Dibangun dengan Laravel 12, dilengkapi role-based access control (Admin & Resepsionis), upload media via Cloudinary, dan dikonsumsi oleh frontend Next.js." },
+    ],
   },
 };
 
@@ -109,16 +201,13 @@ const VODJO_META = [
 const DEV_META = [
   { tech: ["Next.js", "Node.js", "Firebase", "Tailwind CSS", "Framer Motion", "TMDB API"], github: "https://github.com/rulifcode/ruliftaskify-movie", live: "https://ruliftaskify-movie.vercel.app/", gradient: "from-purple-500/20 via-violet-500/10 to-transparent", cover: coverTaskify, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
-  { tech: ["Next.js", "Tailwind CSS", "Laravel API", "TypeScript"], github: "https://github.com/rulifcode/Frontend_NextJS_Hotel", live: "https://aurevia-nextjs.vercel.app/", gradient: "from-sky-500/20 via-indigo-500/10 to-transparent", cover: coverRessortHotel, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["Next.js", "Tailwind CSS", "Laravel", "TypeScript"], github: "https://github.com/rulifcode/Frontend_NextJS_Hotel", live: "https://aurevia-nextjs.vercel.app/", gradient: "from-sky-500/20 via-indigo-500/10 to-transparent", cover: coverRessortHotel, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React.js", "CSS", "REST API"], github: "https://github.com/rulifcode/mp-food-recipe-api", live: "https://mp-food-recipe-api.vercel.app/", gradient: "from-rose-500/20 via-pink-500/10 to-transparent", cover: coverRecipe, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["PHP", "MySQLi", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["PHP", "MySQL", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
   { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
-  {
-    tech: ["Laravel 12", "MySQL", "Blade", "Tailwind CSS", "Cloudinary", "PHP", "REST API"], github: "https://github.com/rulifcode/Backend_Laravel_Hotel", live: null, gradient: "from-orange-500/20 via-amber-500/10 to-transparent", cover: coverHotel, companyIcon: null, companyName: null, category: "dev", title: "Aurevia Hotel CMS",
-    description: "Full-stack hotel management system with role-based CMS dashboard and REST API. Built with Laravel 12, supports image/video banner sliders via Cloudinary, and consumed by a Next.js frontend and Flutter mobile app."
-  }
+  { tech: ["Laravel 12", "MySQL", "Blade", "Tailwind CSS", "Cloudinary", "PHP", "REST API"], github: "https://github.com/rulifcode/Backend_Laravel_Hotel", live: null, gradient: "from-orange-500/20 via-amber-500/10 to-transparent", cover: coverHotel, companyIcon: null, companyName: null, category: "dev" },
 ];
 
 /* ================================================================
