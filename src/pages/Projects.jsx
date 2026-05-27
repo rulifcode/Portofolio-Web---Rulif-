@@ -17,9 +17,11 @@ import coverTotalBuah from "../assets/TBS1.png";
 import coverRessortHotel from "../assets/aureviacover.png";
 import coverLitera from "../assets/Litera-perpustakaan.png";
 import coverCRUD from "../assets/crud_project_react_axios.png";
+import coverHotel from "../assets/Laravel_AureviaHotel_Dashboard.png";
 import logoVodjo from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
 import logoGaotek from "../assets/GAOTek.png";
+
 
 /* ================================================================
    TRANSLATIONS
@@ -55,6 +57,7 @@ const TRANSLATIONS = {
       { title: "Perpustakaan Online", description: "A digital library management system built with Native PHP & MySQLi, featuring book borrowing, member management, and reporting." },
       { title: "Gaotek Inc — Web WordPress", description: "Developed and maintained the Gaotek Indonesia website. Handled theme updates, SEO optimization, WooCommerce product data via Excel, and UI slicing based on Figma designs." },
       { title: "CRUD React.js & Axios", description: "A responsive product management web application built with React 18, Vite, and Tailwind CSS. This project implements CRUD operations, search, filtering, and pagination using FakeStore API. The application is structured using a Container/Presentational architecture with custom hooks for data fetching, filtering, and state management to keep the code clean and maintainable." },
+      { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by the Next.js frontend" }
     ],
   },
   ID: {
@@ -77,6 +80,7 @@ const TRANSLATIONS = {
       { title: "TMS Daihatsu", description: "QA untuk website berbasis WordPress. Melakukan pengujian fungsional, membuat laporan bug detail." },
       { title: "BNPP RI", description: "QA ongoing untuk website resmi Badan Nasional Pengelola Perbatasan Republik Indonesia." },
       { title: "Total Buah Segar", description: "QA ongoing untuk aplikasi mobile Android. Melakukan pengujian fungsional, membuat test case." },
+      { title: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by a Next.js frontend and a Flutter mobile app."}
     ],
     development: [
       { title: "Rulif Taskify Movie", description: "Personal project — aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS." },
@@ -86,8 +90,8 @@ const TRANSLATIONS = {
       { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal." },
       { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi." },
       { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia." },
-      { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Project ini mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Aplikasi disusun menggunakan arsitektur Container/Presentational serta custom hooks untuk pengelolaan data, filtering, dan state management agar kode tetap rapi dan mudah dikembangkan." }
-
+      { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Project ini mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Aplikasi disusun menggunakan arsitektur Container/Presentational serta custom hooks untuk pengelolaan data, filtering, dan state management agar kode tetap rapi dan mudah dikembangkan." },
+      { title: "Backend Laravel CMS DAshboard Aurevia Hotal", description: "CMS dashboard & REST API untuk sistem manajemen hotel berbasis web. Dibangun dengan Laravel 12, dilengkapi role-based access control (Admin & Resepsionis), upload media via Cloudinary, dan dikonsumsi oleh frontend Next.js" }
     ]
   },
 };
@@ -111,6 +115,10 @@ const DEV_META = [
   { tech: ["PHP", "MySQLi", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
   { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
+  {
+    tech: ["Laravel 12", "MySQL", "Blade", "Tailwind CSS", "Cloudinary", "PHP", "REST API"], github: "https://github.com/rulifcode/Backend_Laravel_Hotel", live: null, gradient: "from-orange-500/20 via-amber-500/10 to-transparent", cover: coverHotel, companyIcon: null, companyName: null, category: "dev", title: "Aurevia Hotel CMS",
+    description: "Full-stack hotel management system with role-based CMS dashboard and REST API. Built with Laravel 12, supports image/video banner sliders via Cloudinary, and consumed by a Next.js frontend and Flutter mobile app."
+  }
 ];
 
 /* ================================================================
@@ -157,8 +165,8 @@ function TabButton({ active, dark, onClick, children, count }) {
     >
       {children}
       <span className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${active
-          ? dark ? "bg-white/15 text-white/80" : "bg-white/20 text-white/90"
-          : dark ? "bg-white/5 text-white/30" : "bg-gray-100 text-gray-400"
+        ? dark ? "bg-white/15 text-white/80" : "bg-white/20 text-white/90"
+        : dark ? "bg-white/5 text-white/30" : "bg-gray-100 text-gray-400"
         }`}>
         {count}
       </span>
@@ -176,8 +184,8 @@ function NavButton({ dark, onClick, direction }) {
       onClick={onClick}
       aria-label={isNext ? "Next" : "Previous"}
       className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 cursor-pointer ${dark
-          ? "border-white/15 bg-white/5 text-white/50 hover:bg-white/10 hover:text-white"
-          : "border-gray-200 bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+        ? "border-white/15 bg-white/5 text-white/50 hover:bg-white/10 hover:text-white"
+        : "border-gray-200 bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
         }`}
     >
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -247,8 +255,8 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
                   key={i}
                   onClick={() => carousel.goTo(i)}
                   className={`rounded-full transition-all duration-300 cursor-pointer ${i === carousel.slideIndex
-                      ? `w-6 h-2 ${dark ? "bg-white/70" : "bg-gray-700"}`
-                      : `w-2 h-2 ${dark ? "bg-white/20 hover:bg-white/40" : "bg-gray-300 hover:bg-gray-400"}`
+                    ? `w-6 h-2 ${dark ? "bg-white/70" : "bg-gray-700"}`
+                    : `w-2 h-2 ${dark ? "bg-white/20 hover:bg-white/40" : "bg-gray-300 hover:bg-gray-400"}`
                     }`}
                 />
               ))}
@@ -285,8 +293,8 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
           <button
             onClick={() => setExpanded((v) => !v)}
             className={`group flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-medium transition-all duration-300 cursor-pointer ${dark
-                ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
-                : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
+              ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
+              : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
               }`}
           >
             {expanded ? (
@@ -403,8 +411,8 @@ export default function Projects({ dark }) {
             target="_blank"
             rel="noopener noreferrer"
             className={`group flex items-center gap-2 px-6 py-3 rounded-full border text-sm transition-all duration-300 ${dark
-                ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
-                : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
+              ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
+              : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
               }`}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
