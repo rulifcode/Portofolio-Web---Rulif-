@@ -16,6 +16,7 @@ import coverBNPP from "../assets/BNPP.png";
 import coverTotalBuah from "../assets/TBS1.png";
 import coverRessortHotel from "../assets/aureviacover.png";
 import coverLitera from "../assets/Litera-perpustakaan.png";
+import coverCRUD from "../assets/crud_project_react_axios.png";
 import logoVodjo from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
 import logoGaotek from "../assets/GAOTek.png";
@@ -53,6 +54,7 @@ const TRANSLATIONS = {
       { title: "Food Recipe App", description: "A food recipe app integrated with an external API, displaying various recipes with search and category filter features." },
       { title: "Perpustakaan Online", description: "A digital library management system built with Native PHP & MySQLi, featuring book borrowing, member management, and reporting." },
       { title: "Gaotek Inc — Web WordPress", description: "Developed and maintained the Gaotek Indonesia website. Handled theme updates, SEO optimization, WooCommerce product data via Excel, and UI slicing based on Figma designs." },
+      { title: "CRUD React.js & Axios", description: "A responsive product management web application built with React 18, Vite, and Tailwind CSS. This project implements CRUD operations, search, filtering, and pagination using FakeStore API. The application is structured using a Container/Presentational architecture with custom hooks for data fetching, filtering, and state management to keep the code clean and maintainable." },
     ],
   },
   ID: {
@@ -84,7 +86,9 @@ const TRANSLATIONS = {
       { title: "Food Recipe App", description: "Aplikasi resep makanan yang terintegrasi dengan API eksternal." },
       { title: "Perpustakaan Online", description: "Sistem manajemen perpustakaan digital berbasis Native PHP & MySQLi." },
       { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia." },
-    ],
+      { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Project ini mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Aplikasi disusun menggunakan arsitektur Container/Presentational serta custom hooks untuk pengelolaan data, filtering, dan state management agar kode tetap rapi dan mudah dikembangkan." }
+
+    ]
   },
 };
 
@@ -100,12 +104,13 @@ const VODJO_META = [
 
 const DEV_META = [
   { tech: ["Next.js", "Node.js", "Firebase", "Tailwind CSS", "Framer Motion", "TMDB API"], github: "https://github.com/rulifcode/ruliftaskify-movie", live: "https://ruliftaskify-movie.vercel.app/", gradient: "from-purple-500/20 via-violet-500/10 to-transparent", cover: coverTaskify, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React", "JavaScript", "Tailwind CSS"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
+  { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
   { tech: ["Next.js", "Tailwind CSS", "Laravel API", "TypeScript"], github: "https://github.com/rulifcode/Frontend_NextJS_Hotel", live: "https://aurevia-nextjs.vercel.app/", gradient: "from-sky-500/20 via-indigo-500/10 to-transparent", cover: coverRessortHotel, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React", "JavaScript", "Tailwind CSS"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React", "CSS", "REST API"], github: "https://github.com/rulifcode/mp-food-recipe-api", live: "https://mp-food-recipe-api.vercel.app/", gradient: "from-rose-500/20 via-pink-500/10 to-transparent", cover: coverRecipe, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["React.js", "CSS", "REST API"], github: "https://github.com/rulifcode/mp-food-recipe-api", live: "https://mp-food-recipe-api.vercel.app/", gradient: "from-rose-500/20 via-pink-500/10 to-transparent", cover: coverRecipe, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["PHP", "MySQLi", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
+  { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
 ];
 
 /* ================================================================
@@ -151,11 +156,10 @@ function TabButton({ active, dark, onClick, children, count }) {
       className={`flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-200 cursor-pointer ${active ? activeStyle : inactiveStyle}`}
     >
       {children}
-      <span className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${
-        active
+      <span className={`text-[10px] px-1.5 py-0.5 rounded-full transition-all duration-200 ${active
           ? dark ? "bg-white/15 text-white/80" : "bg-white/20 text-white/90"
           : dark ? "bg-white/5 text-white/30" : "bg-gray-100 text-gray-400"
-      }`}>
+        }`}>
         {count}
       </span>
     </button>
@@ -171,11 +175,10 @@ function NavButton({ dark, onClick, direction }) {
     <button
       onClick={onClick}
       aria-label={isNext ? "Next" : "Previous"}
-      className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 cursor-pointer ${
-        dark
+      className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-200 cursor-pointer ${dark
           ? "border-white/15 bg-white/5 text-white/50 hover:bg-white/10 hover:text-white"
           : "border-gray-200 bg-gray-50 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
-      }`}
+        }`}
     >
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d={isNext ? "M9 18l6-6-6-6" : "M15 18l-6-6 6-6"} />
@@ -205,9 +208,9 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
   const displayCards = expanded
     ? projects
     : projects.slice(
-        carousel.slideIndex * CARDS_PER_SLIDE,
-        carousel.slideIndex * CARDS_PER_SLIDE + CARDS_PER_SLIDE,
-      );
+      carousel.slideIndex * CARDS_PER_SLIDE,
+      carousel.slideIndex * CARDS_PER_SLIDE + CARDS_PER_SLIDE,
+    );
 
   if (projects.length === 0) return null;
 
@@ -220,9 +223,8 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
             <h3 className={`text-xl font-bold ${dark ? "text-white/90" : "text-gray-900"}`}>
               {label}
             </h3>
-            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${
-              dark ? "border-white/10 bg-white/5 text-white/40" : "border-gray-200 bg-gray-50 text-gray-400"
-            }`}>
+            <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${dark ? "border-white/10 bg-white/5 text-white/40" : "border-gray-200 bg-gray-50 text-gray-400"
+              }`}>
               {projects.length}
             </span>
           </div>
@@ -244,11 +246,10 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
                 <button
                   key={i}
                   onClick={() => carousel.goTo(i)}
-                  className={`rounded-full transition-all duration-300 cursor-pointer ${
-                    i === carousel.slideIndex
+                  className={`rounded-full transition-all duration-300 cursor-pointer ${i === carousel.slideIndex
                       ? `w-6 h-2 ${dark ? "bg-white/70" : "bg-gray-700"}`
                       : `w-2 h-2 ${dark ? "bg-white/20 hover:bg-white/40" : "bg-gray-300 hover:bg-gray-400"}`
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -283,11 +284,10 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
         <div className="flex justify-center">
           <button
             onClick={() => setExpanded((v) => !v)}
-            className={`group flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-medium transition-all duration-300 cursor-pointer ${
-              dark
+            className={`group flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-medium transition-all duration-300 cursor-pointer ${dark
                 ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
                 : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
-            }`}
+              }`}
           >
             {expanded ? (
               <>
@@ -320,11 +320,11 @@ export default function Projects({ dark }) {
   const [activeTab, setActiveTab] = useState("all");
 
   const vodjoProjects = t.vodjo.map((p, i) => ({ ...p, ...VODJO_META[i] }));
-  const devProjects   = t.development.map((p, i) => ({ ...p, ...DEV_META[i] }));
-  const allProjects   = [...vodjoProjects, ...devProjects];
-  const totalCount    = allProjects.length;
+  const devProjects = t.development.map((p, i) => ({ ...p, ...DEV_META[i] }));
+  const allProjects = [...vodjoProjects, ...devProjects];
+  const totalCount = allProjects.length;
 
-  const showQA  = activeTab === "all" || activeTab === "qa";
+  const showQA = activeTab === "all" || activeTab === "qa";
   const showDev = activeTab === "all" || activeTab === "dev";
   const showDivider = showQA && showDev;
   const dividerCls = dark ? "via-white/8" : "via-gray-200";
@@ -402,11 +402,10 @@ export default function Projects({ dark }) {
             href="https://github.com/rulifcode"
             target="_blank"
             rel="noopener noreferrer"
-            className={`group flex items-center gap-2 px-6 py-3 rounded-full border text-sm transition-all duration-300 ${
-              dark
+            className={`group flex items-center gap-2 px-6 py-3 rounded-full border text-sm transition-all duration-300 ${dark
                 ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
                 : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
-            }`}
+              }`}
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
