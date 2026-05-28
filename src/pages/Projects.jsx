@@ -18,60 +18,11 @@ import coverRessortHotel from "../assets/aureviacover.png";
 import coverLitera from "../assets/Litera-perpustakaan.png";
 import coverCRUD from "../assets/crud_project_react_axios.png";
 import coverHotel from "../assets/Laravel_AureviaHotel_Dashboard.png";
+import coverIndustrix from "../assets/industrix_todo.png";
 import logoVodjo from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
 import logoGaotek from "../assets/GAOTek.png";
 
-/* ================================================================
-   TECH ICON MAP — Devicons CDN, fallback to text badge
-   ================================================================ */
-const DEVICON_BASE = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons";
-
-const TECH_ICON_MAP = {
-  // Languages & Runtimes
-  "PHP":           `${DEVICON_BASE}/php/php-original.svg`,
-  "MySQL":         `${DEVICON_BASE}/mysql/mysql-original.svg`,
-  "TypeScript":    `${DEVICON_BASE}/typescript/typescript-original.svg`,
-  "JavaScript":    `${DEVICON_BASE}/javascript/javascript-original.svg`,
-
-  // Frameworks & Libraries
-  "React.js":      `${DEVICON_BASE}/react/react-original.svg`,
-  "Next.js":       `${DEVICON_BASE}/nextjs/nextjs-original.svg`,
-  "Node.js":       `${DEVICON_BASE}/nodejs/nodejs-original.svg`,
-  "Laravel 12":    `${DEVICON_BASE}/laravel/laravel-original.svg`,
-  "Laravel":       `${DEVICON_BASE}/laravel/laravel-original.svg`,
-  "Tailwind CSS":  `${DEVICON_BASE}/tailwindcss/tailwindcss-original.svg`,
-  "CSS":           `${DEVICON_BASE}/css3/css3-original.svg`,
-  "HTML":          `${DEVICON_BASE}/html5/html5-original.svg`,
-  "Blade":         `${DEVICON_BASE}/laravel/laravel-original.svg`,
-
-  // Tools & Platforms
-  "Firebase":      `${DEVICON_BASE}/firebase/firebase-original.svg`,
-  "WordPress":     `${DEVICON_BASE}/wordpress/wordpress-original.svg`,
-  "Figma":         `${DEVICON_BASE}/figma/figma-original.svg`,
-  "Axios":         `${DEVICON_BASE}/axios/axios-plain.svg`,
-  "Cypress":       `${DEVICON_BASE}/cypressio/cypressio-original.svg`,
-  "Playwright":    `${DEVICON_BASE}/playwright/playwright-original.svg`,
-  "Postman":       `${DEVICON_BASE}/postman/postman-original.svg`,
-  "Cloudinary":    `${DEVICON_BASE}/cloudinary/cloudinary-original.svg`,
-  "SEO":           null,
-  "WooCommerce":   null,
-  "Framer Motion": null,
-  "TMDB API":      null,
-  "REST API":      null,
-  "Agile":         null,
-  "Manual Testing":null,
-  "Bug Report":    null,
-  "Test Case":     null,
-  "CMS":           null,
-  "iOS":           `${DEVICON_BASE}/apple/apple-original.svg`,
-  "Android":       `${DEVICON_BASE}/android/android-original.svg`,
-  "Custom Hooks":  null,
-};
-
-/* ================================================================
-   TechBadge — icon if available, text badge otherwise
-   ================================================================ */
 function TechBadge({ name, dark }) {
   const iconUrl = TECH_ICON_MAP[name];
 
@@ -79,11 +30,10 @@ function TechBadge({ name, dark }) {
     return (
       <span
         title={name}
-        className={`inline-flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 ${
-          dark
-            ? "border-white/10 bg-white/5 hover:bg-white/10"
-            : "border-gray-200 bg-gray-50 hover:bg-gray-100"
-        }`}
+        className={`inline-flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 ${dark
+          ? "border-white/10 bg-white/5 hover:bg-white/10"
+          : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+          }`}
       >
         <img
           src={iconUrl}
@@ -92,11 +42,10 @@ function TechBadge({ name, dark }) {
           loading="lazy"
           onError={(e) => {
             // fallback to text if image fails
-            e.currentTarget.parentElement.outerHTML = `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border ${
-              dark
-                ? "border-white/10 bg-white/5 text-white/40"
-                : "border-gray-200 bg-gray-50 text-gray-400"
-            }">${name}</span>`;
+            e.currentTarget.parentElement.outerHTML = `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border ${dark
+              ? "border-white/10 bg-white/5 text-white/40"
+              : "border-gray-200 bg-gray-50 text-gray-400"
+              }">${name}</span>`;
           }}
         />
       </span>
@@ -105,11 +54,10 @@ function TechBadge({ name, dark }) {
 
   return (
     <span
-      className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border transition-all duration-200 ${
-        dark
-          ? "border-white/10 bg-white/5 text-white/40"
-          : "border-gray-200 bg-gray-50 text-gray-400"
-      }`}
+      className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border transition-all duration-200 ${dark
+        ? "border-white/10 bg-white/5 text-white/40"
+        : "border-gray-200 bg-gray-50 text-gray-400"
+        }`}
     >
       {name}
     </span>
@@ -151,6 +99,9 @@ const TRANSLATIONS = {
       { title: "Gaotek Inc — Web WordPress", description: "Developed and maintained the Gaotek Indonesia website. Handled theme updates, SEO optimization, WooCommerce product data via Excel, and UI slicing based on Figma designs." },
       { title: "CRUD React.js & Axios", description: "A responsive product management web application built with React 18, Vite, and Tailwind CSS. Implements CRUD operations, search, filtering, and pagination using FakeStore API. Structured using a Container/Presentational architecture with custom hooks for data fetching, filtering, and state management." },
       { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API for a web-based hotel management system. Built with Laravel 12, equipped with role-based access control (Admin & Receptionist), media upload via Cloudinary, and consumed by the Next.js frontend." },
+      {
+        title: "Industrix Todo", description: "A full-stack todo app built with Go (Gin, GORM), React 18 (TypeScript), and PostgreSQL. Features CRUD, pagination, filtering, category management, and Docker support."
+      },
     ],
   },
   ID: {
@@ -184,6 +135,8 @@ const TRANSLATIONS = {
       { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia. Menangani pembaruan tema, optimasi SEO, data produk WooCommerce via Excel, dan slicing UI berdasarkan desain Figma." },
       { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Disusun menggunakan arsitektur Container/Presentational dengan custom hooks untuk pengelolaan data, filtering, dan state management." },
       { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API untuk sistem manajemen hotel berbasis web. Dibangun dengan Laravel 12, dilengkapi role-based access control (Admin & Resepsionis), upload media via Cloudinary, dan dikonsumsi oleh frontend Next.js." },
+      { title: "Industrix Todo", description: "Aplikasi todo full-stack dengan Go (Gin, GORM), React 18 (TypeScript), dan PostgreSQL. Fitur CRUD, pagination, filtering, manajemen kategori, dan dukungan Docker."
+      }
     ],
   },
 };
@@ -208,6 +161,9 @@ const DEV_META = [
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
   { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["Laravel 12", "MySQL", "Blade", "Tailwind CSS", "Cloudinary", "PHP", "REST API"], github: "https://github.com/rulifcode/Backend_Laravel_Hotel", live: null, gradient: "from-orange-500/20 via-amber-500/10 to-transparent", cover: coverHotel, companyIcon: null, companyName: null, category: "dev" },
+  {
+    tech: ["Go", "React.js", "TypeScript", "PostgreSQL", "Docker", "Tailwind CSS"], github: "https://github.com/rulifcode/industrix-todo", live: null, gradient: "from-emerald-500/20 via-teal-500/10 to-transparent", cover: coverIndustrix, companyIcon: null, companyName: null, category: "dev"
+  },
 ];
 
 /* ================================================================

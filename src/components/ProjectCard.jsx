@@ -1,5 +1,54 @@
 import { useState, useEffect, useCallback } from "react";
 
+
+const TECH_ICON_MAP = {
+  // Languages & Runtimes
+  "PHP":           "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",
+  "MySQL":         "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
+  "TypeScript":    "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+  "JavaScript":    "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+  "Go":            "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg",
+  "PostgreSQL":    "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+
+  // Frameworks & Libraries
+  "React.js":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
+  "Next.js":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
+  "Node.js":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+  "Laravel 12":    "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
+  "Laravel":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
+  "Tailwind CSS":  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+  "CSS":           "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg",
+  "HTML":          "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+  "Blade":null,
+
+  // Tools & Platforms
+  "Firebase":      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
+  "WordPress":     "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wordpress/wordpress-plain.svg",
+  "Figma":         "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",
+  "Axios":         "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/axios/axios-plain.svg",
+  "Cypress":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cypressio/cypressio-original.svg",
+  "Playwright":    "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/playwright/playwright-original.svg",
+  "Postman":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg",
+  "Cloudinary":    null,
+  "Docker":        "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+  "iOS":           "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg",
+  "Android":       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg",
+
+  // Text-only badges
+  "SEO":           null,
+  "WooCommerce":   null,
+  "Framer Motion": null,
+  "TMDB API":      null,
+  "REST API":      null,
+  "Agile":         null,
+  "Manual Testing":null,
+  "Bug Report":    null,
+  "Test Case":     null,
+  "CMS":           null,
+  "Custom Hooks":  null,
+};
+
+
 function ImageViewer({ src, alt, onClose }) {
   useEffect(() => {
     const handleKey = (e) => e.key === "Escape" && onClose();
@@ -151,15 +200,34 @@ export default function ProjectCard({
 
           {/* Tech badges */}
           {tech.length > 0 && (
-            <div className="relative z-10 flex flex-wrap gap-1 sm:gap-2 mt-auto">
-              {tech.map((t) => (
-                <span
-                  key={t}
-                  className={`text-[8px] sm:text-[10px] font-medium px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full border tracking-wide ${badgeCls}`}
-                >
-                  {t}
-                </span>
-              ))}
+            <div className="relative z-10 flex flex-wrap gap-1 sm:gap-1.5 mt-auto">
+              {tech.map((name) => {
+                const iconUrl = TECH_ICON_MAP[name];
+                return iconUrl ? (
+                  <span
+                    key={name}
+                    title={name}
+                    className={`inline-flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 ${dark
+                        ? "border-white/10 bg-white/5 hover:bg-white/10"
+                        : "border-gray-200 bg-gray-50 hover:bg-gray-100"
+                      }`}
+                  >
+                    <img
+                      src={iconUrl}
+                      alt={name}
+                      className="w-3.5 h-3.5 object-contain"
+                      loading="lazy"
+                    />
+                  </span>
+                ) : (
+                  <span
+                    key={name}
+                    className={`text-[8px] sm:text-[10px] font-medium px-1.5 sm:px-2 py-0.5 rounded-full border tracking-wide ${badgeCls}`}
+                  >
+                    {name}
+                  </span>
+                );
+              })}
             </div>
           )}
 
