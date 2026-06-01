@@ -6,11 +6,13 @@ import logoCakrawala from "../assets/cgy2.png";
 import logoGaotek    from "../assets/GAOTek.png";
 import logoVodjo     from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
+import logoMba from "../assets/PT Mari Buka Akses.webp";
 
 // ── Slider Images — Cakrawala ─────────────────────────────────────────────────
 import imgCakrawala1 from "../assets/cgy3.webp";
 import imgCakrawala2 from "../assets/graduation.jpeg";
 import imgCakrawala3 from "../assets/smk.webp";
+
 
 // ── Slider Images — Gaotek ───────────────────────────────────────────────────
 import imgGaotek1 from "../assets/gaotek1.png";
@@ -26,22 +28,53 @@ import imgLumoshive1 from "../assets/transkripnilai.png";
 import imgLumoshive2 from "../assets/lumos1.jpeg";
 import imgLumoshive3 from "../assets/lumos2.jpeg";
 
+// ── Slider Images — MBA ────────────────────────────────────────────────
+import imgMba1 from "../assets/MBA.png";
+
+
 /* ─── Static per-experience data (tidak diterjemahkan) ──────────────────────── */
 const EXP_STATIC = [
-  {
-    id: 1,
-    key: "cakrawala",
-    company: "PT. Cakrawala Global Yaksa",
-    location: "Bandung, Indonesia",
-    period: "Jul 2022 – Dec 2022",
-    duration: { EN: "6 months", ID: "6 bulan" },
-    type: { EN: "Internship · On-site", ID: "Magang · Luring" },
-    accent: "#7dab8f",
-    logo: logoCakrawala,
-    images: [imgCakrawala1, imgCakrawala2, imgCakrawala3],
-    stack: ["CodeIgniter", "Laravel", "MySQL", "cPanel"],
+
+        {
+    id: 5,
+    key: "Mba",
+    company: "PT. Mari Buka Akses",
+    location: "Denpasar,Bali, Indonesia · WFH",
+    period: "May 2026 – Present",
+    duration: { EN: "Ongoing", ID: "Berlanjut" },
+    type: { EN: "Freelance · Work From Home", ID: "Freelance · Work From Home" },
+    accent: "#D2E3FC",
+    logo: logoMba,
+    images: [imgMba1],
+    stack: ["Postman", "API Testing", "Frontend Development", "Backend Development", "Agile", "Rest API", "Javascript Library", "PHP Frameworks"],
   },
-  {
+      {
+    id: 3,
+    key: "vodjo",
+    company: "Vodjo",
+    location: "Bandung,Jawa Barat, Indonesia · Hybrid",
+    period: "Sep 2025 – Present",
+    duration: { EN: "Ongoing", ID: "Berlanjut" },
+    type: { EN: "Internship · Hybrid", ID: "Magang · Hybrid" },
+    accent: "#c08a82",
+    logo: logoVodjo,
+    images: [imgVodjo1, imgVodjo2, imgVodjo3],
+    stack: ["Postman", "API Testing", "QA Manual & Automation Testing", "Playwright & Cypress", "Test Cases", "Problem Solving"],
+  },
+    {
+    id: 4,
+    key: "lumoshive",
+    company: "Lumoshive Academy",
+    location: "Jakarta Selatan, Indonesia · Online ",
+    period: "Dec 2025 – Mar 2026",
+    duration: { EN: "4 months", ID: "4 bulan" },
+    type: { EN: "Bootcamp Batch 3", ID: "Bootcamp Batch 3" },
+    accent: "#9b87c2",
+    logo: logoLumoshive,
+    images: [imgLumoshive1, imgLumoshive2, imgLumoshive3],
+    stack: ["React.js", "TypeScript", "Redux", "Tailwind CSS", "Axios", "Golang", "Jest", "Git"],
+  },
+    {
     id: 2,
     key: "gaotek",
     company: "Gaotek Inc",
@@ -55,31 +88,19 @@ const EXP_STATIC = [
     stack: ["WordPress", "WooCommerce", "SEO", "XAMPP"],
   },
   {
-    id: 3,
-    key: "vodjo",
-    company: "Vodjo",
-    location: "Bandung, Indonesia · Hybrid",
-    period: "Sep 2025 – Present",
-    duration: { EN: "Ongoing", ID: "Berlanjut" },
-    type: { EN: "Internship · Hybrid", ID: "Magang · Hybrid" },
-    accent: "#c08a82",
-    logo: logoVodjo,
-    images: [imgVodjo1, imgVodjo2, imgVodjo3],
-    stack: ["Postman", "API Testing", "QA Docs", "Bug Tracking"],
+    id: 1,
+    key: "cakrawala",
+    company: "PT. Cakrawala Global Yaksa",
+    location: "Bandung, Indonesia",
+    period: "Jul 2022 – Dec 2022",
+    duration: { EN: "6 months", ID: "6 bulan" },
+    type: { EN: "Internship · On-site", ID: "Magang · Luring" },
+    accent: "#7dab8f",
+    logo: logoCakrawala,
+    images: [imgCakrawala1, imgCakrawala2, imgCakrawala3],
+    stack: ["CodeIgniter", "Laravel", "MySQL", "cPanel"],
   },
-  {
-    id: 4,
-    key: "lumoshive",
-    company: "Lumoshive Academy",
-    location: "Jakarta, Indonesia",
-    period: "Dec 2025 – Mar 2026",
-    duration: { EN: "4 months", ID: "4 bulan" },
-    type: { EN: "Bootcamp Batch 3", ID: "Bootcamp Batch 3" },
-    accent: "#9b87c2",
-    logo: logoLumoshive,
-    images: [imgLumoshive1, imgLumoshive2, imgLumoshive3],
-    stack: ["React.js", "TypeScript", "Redux", "Tailwind CSS", "Axios", "Golang", "Jest", "Git"],
-  },
+
 ];
 
 /* ─── Translations ───────────────────────────────────────────────────────────── */
@@ -140,6 +161,16 @@ const T = {
           "Participated in live coding sessions to strengthen debugging and problem-solving skills.",
         ],
       },
+            Mba: {
+        role: "Programmer",
+        project: null,
+        bullets: [
+          "Developed web application interfaces for the Kolivo.AI project using Next.js, implementing AI-based features aligned with business requirements.",
+          "Integrated frontend with Laravel-based backend services via REST API",
+          "Collaborated with backend, QA, and UI/UX teams using Agile/Scrum and GitLab for source control",
+          "Performed bug fixing, debugging, and performance improvements throughout the development cycle.",
+        ],
+      },
     },
   },
   ID: {
@@ -196,6 +227,16 @@ const T = {
           "Menerjemahkan desain UI/UX menjadi antarmuka web responsif (slicing desain ke kode).",
           "Mengimplementasikan mock data dan integrasi API untuk prototyping aplikasi.",
           "Berpartisipasi dalam sesi live coding untuk memperkuat kemampuan debugging dan pemecahan masalah.",
+        ],
+      },
+           Mba: {
+        role: "Programmer",
+        project: null,
+        bullets: [
+          "Mengembangkan antarmuka aplikasi web untuk proyek Kolivo.AI menggunakan Next.js, mengimplementasikan fitur berbasis AI yang selaras dengan persyaratan bisnis.",
+          "Mengintegrasikan frontend dengan layanan backend berbasis Laravel melalui REST API.",
+          "Berkolaborasi dengan tim backend, QA, dan UI/UX menggunakan Agile/Scrum dan GitLab untuk kontrol versi, Serta Posisi Quality assurance secara langsung",
+          "Melakukan perbaikan bug, debugging, dan peningkatan kinerja sepanjang siklus pengembangan.",
         ],
       },
     },
