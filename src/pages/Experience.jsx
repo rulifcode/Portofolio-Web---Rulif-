@@ -13,7 +13,6 @@ import imgCakrawala1 from "../assets/cgy3.webp";
 import imgCakrawala2 from "../assets/graduation.jpeg";
 import imgCakrawala3 from "../assets/smk.webp";
 
-
 // ── Slider Images — Gaotek ───────────────────────────────────────────────────
 import imgGaotek1 from "../assets/gaotek1.png";
 import imgGaotek2 from "../assets/gaotek2.png";
@@ -34,8 +33,7 @@ import imgMba1 from "../assets/MBA.png";
 
 /* ─── Static per-experience data (tidak diterjemahkan) ──────────────────────── */
 const EXP_STATIC = [
-
-        {
+  {
     id: 5,
     key: "Mba",
     company: "PT. Mari Buka Akses",
@@ -48,7 +46,7 @@ const EXP_STATIC = [
     images: [imgMba1],
     stack: ["Postman", "API Testing", "Frontend Development", "Backend Development", "Agile", "Rest API", "Javascript Library", "PHP Frameworks"],
   },
-      {
+  {
     id: 3,
     key: "vodjo",
     company: "Vodjo",
@@ -61,7 +59,7 @@ const EXP_STATIC = [
     images: [imgVodjo1, imgVodjo2, imgVodjo3],
     stack: ["Postman", "API Testing", "QA Manual & Automation Testing", "Playwright & Cypress", "Test Cases", "Problem Solving"],
   },
-    {
+  {
     id: 4,
     key: "lumoshive",
     company: "Lumoshive Academy",
@@ -74,7 +72,7 @@ const EXP_STATIC = [
     images: [imgLumoshive1, imgLumoshive2, imgLumoshive3],
     stack: ["React.js", "TypeScript", "Redux", "Tailwind CSS", "Axios", "Golang", "Jest", "Git"],
   },
-    {
+  {
     id: 2,
     key: "gaotek",
     company: "Gaotek Inc",
@@ -100,7 +98,6 @@ const EXP_STATIC = [
     images: [imgCakrawala1, imgCakrawala2, imgCakrawala3],
     stack: ["CodeIgniter", "Laravel", "MySQL", "cPanel"],
   },
-
 ];
 
 /* ─── Translations ───────────────────────────────────────────────────────────── */
@@ -161,7 +158,7 @@ const T = {
           "Participated in live coding sessions to strengthen debugging and problem-solving skills.",
         ],
       },
-            Mba: {
+      Mba: {
         role: "Programmer",
         project: null,
         bullets: [
@@ -229,7 +226,7 @@ const T = {
           "Berpartisipasi dalam sesi live coding untuk memperkuat kemampuan debugging dan pemecahan masalah.",
         ],
       },
-           Mba: {
+      Mba: {
         role: "Programmer",
         project: null,
         bullets: [
@@ -261,9 +258,6 @@ function useInView(threshold = 0.1) {
 /* ─── Lightbox ───────────────────────────────────────────────────────────────── */
 function Lightbox({ images, startIndex, onClose }) {
   const [current, setCurrent] = useState(startIndex);
-  const [portrait, setPortrait] = useState(null);
-
-  useEffect(() => { setPortrait(null); }, [current]);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -273,90 +267,261 @@ function Lightbox({ images, startIndex, onClose }) {
     };
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
-    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
   }, []);
-
-  const handleLoad = (e) => {
-    const { naturalWidth, naturalHeight } = e.target;
-    setPortrait(naturalHeight > naturalWidth);
-  };
 
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-[9999] flex items-center justify-center animate-[lbIn_0.2s_ease]"
-      style={{ background: "rgba(0,0,0,0.92)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{
+        background: "rgba(0,0,0,0.82)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        animation: "lbOverlayIn 0.25s cubic-bezier(0.16,1,0.3,1)",
+      }}
     >
-      <style>{`@keyframes lbIn { from { opacity:0; transform:scale(0.96) } to { opacity:1; transform:scale(1) } }`}</style>
+      <style>{`
+        @keyframes lbOverlayIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes lbModalIn {
+          from { opacity: 0; transform: scale(0.93) translateY(12px); }
+          to   { opacity: 1; transform: scale(1)    translateY(0px);  }
+        }
+        @keyframes lbImgIn {
+          from { opacity: 0; transform: scale(0.97); }
+          to   { opacity: 1; transform: scale(1);    }
+        }
+      `}</style>
 
-      <button
-        onClick={onClose}
-        title="Tutup (Esc)"
-        className="absolute top-5 right-5 z-10 w-11 h-11 rounded-full flex items-center justify-center text-white text-2xl leading-none border border-white/30 bg-white/10 hover:bg-white/20 hover:border-white/50 transition-all duration-200"
+      {/* ── Modal pop-up container ── */}
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          width: "min(92vw, 880px)",
+          maxHeight: "92vh",
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: "20px",
+          overflow: "hidden",
+          background: "rgba(12,12,18,0.97)",
+          border: "1px solid rgba(255,255,255,0.10)",
+          boxShadow: "0 40px 100px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.04)",
+          animation: "lbModalIn 0.3s cubic-bezier(0.16,1,0.3,1)",
+        }}
       >
-        ×
-      </button>
-
-      {images.length > 1 && (
-        <button
-          onClick={(e) => { e.stopPropagation(); setCurrent(c => (c - 1 + images.length) % images.length); }}
-          className="absolute left-5 w-12 h-12 rounded-full flex items-center justify-center text-white border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-200"
+        {/* ── Header ── */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "12px 16px",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
+            flexShrink: 0,
+          }}
         >
-          <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
-            <path d="M6.5 2L3.5 5L6.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      )}
+          {/* Decorative dots */}
+          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "rgba(255,255,255,0.12)" }} />
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "rgba(255,255,255,0.07)" }} />
+            <div style={{ width: 10, height: 10, borderRadius: "50%", background: "rgba(255,255,255,0.07)" }} />
+          </div>
 
-      {images.length > 1 && (
-        <button
-          onClick={(e) => { e.stopPropagation(); setCurrent(c => (c + 1) % images.length); }}
-          className="absolute right-5 w-12 h-12 rounded-full flex items-center justify-center text-white border border-white/25 bg-white/10 hover:bg-white/20 transition-all duration-200"
-        >
-          <svg width="14" height="14" viewBox="0 0 10 10" fill="none">
-            <path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-      )}
+          {/* Counter */}
+          {images.length > 1 && (
+            <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, fontWeight: 500, letterSpacing: "0.1em" }}>
+              {current + 1} / {images.length}
+            </span>
+          )}
 
-      <img
-        key={current}
-        src={images[current]}
-        alt={`zoom-${current}`}
-        onLoad={handleLoad}
-        onClick={(e) => e.stopPropagation()}
-        className={[
-          "rounded-2xl object-contain select-none pointer-events-none transition-opacity duration-200",
-          portrait === null
-            ? "max-w-[88vw] max-h-[90vh] w-auto h-auto"
-            : portrait
-            ? "h-[90vh] w-auto max-w-[88vw]"
-            : "w-[88vw] h-auto max-h-[90vh]",
-        ].join(" ")}
-        style={{ boxShadow: "0 40px 100px rgba(0,0,0,0.7)" }}
-      />
-
-      {images.length > 1 && (
-        <div className="absolute bottom-13 text-white/55 text-xs bg-black/45 px-3.5 py-1 rounded-full">
-          {current + 1} / {images.length}
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            title="Close (Esc)"
+            style={{
+              width: 28,
+              height: 28,
+              borderRadius: "50%",
+              border: "1px solid rgba(255,255,255,0.15)",
+              background: "rgba(255,255,255,0.06)",
+              color: "rgba(255,255,255,0.6)",
+              fontSize: 16,
+              lineHeight: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.14)";
+              e.currentTarget.style.color = "white";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.6)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+            }}
+          >
+            ×
+          </button>
         </div>
-      )}
 
-      {images.length > 1 && (
-        <div className="absolute bottom-5 flex gap-2">
-          {images.map((_, i) => (
+        {/* ── Image area ── */}
+        <div
+          style={{
+            flex: 1,
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            minHeight: 0,
+            padding: "20px",
+          }}
+        >
+          <img
+            key={current}
+            src={images[current]}
+            alt={`zoom-${current}`}
+            draggable={false}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "calc(92vh - 130px)",
+              width: "auto",
+              height: "auto",
+              objectFit: "contain",
+              borderRadius: "10px",
+              display: "block",
+              animation: "lbImgIn 0.22s cubic-bezier(0.16,1,0.3,1)",
+              boxShadow: "0 8px 40px rgba(0,0,0,0.5)",
+            }}
+          />
+
+          {/* Prev button */}
+          {images.length > 1 && (
             <button
-              key={i}
-              onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
-              className="h-1.5 rounded-full border-none p-0 cursor-pointer transition-all duration-300"
+              onClick={() => setCurrent(c => (c - 1 + images.length) % images.length)}
               style={{
-                width: i === current ? "20px" : "6px",
-                background: i === current ? "white" : "rgba(255,255,255,0.35)",
+                position: "absolute",
+                left: 12,
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.18)",
+                background: "rgba(0,0,0,0.55)",
+                backdropFilter: "blur(8px)",
+                color: "white",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
               }}
-            />
-          ))}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "rgba(0,0,0,0.55)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
+                <path d="M6.5 2L3.5 5L6.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
+
+          {/* Next button */}
+          {images.length > 1 && (
+            <button
+              onClick={() => setCurrent(c => (c + 1) % images.length)}
+              style={{
+                position: "absolute",
+                right: 12,
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.18)",
+                background: "rgba(0,0,0,0.55)",
+                backdropFilter: "blur(8px)",
+                color: "white",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.background = "rgba(255,255,255,0.15)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.background = "rgba(0,0,0,0.55)";
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
+                <path d="M3.5 2L6.5 5L3.5 8" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
         </div>
-      )}
+
+        {/* ── Footer dot indicators ── */}
+        {images.length > 1 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 8,
+              padding: "12px 16px",
+              borderTop: "1px solid rgba(255,255,255,0.07)",
+              flexShrink: 0,
+            }}
+          >
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                style={{
+                  height: 6,
+                  width: i === current ? 20 : 6,
+                  borderRadius: 999,
+                  border: "none",
+                  padding: 0,
+                  cursor: "pointer",
+                  background: i === current ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.22)",
+                  transition: "all 0.3s cubic-bezier(0.16,1,0.3,1)",
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Click-outside hint */}
+      <p
+        style={{
+          position: "absolute",
+          bottom: 16,
+          color: "rgba(255,255,255,0.2)",
+          fontSize: 11,
+          letterSpacing: "0.15em",
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      >
+        ESC or click outside to close
+      </p>
     </div>
   );
 }
