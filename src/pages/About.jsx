@@ -450,17 +450,6 @@ export default function About({ dark }) {
           </div>
         </section>
 
-        {/* Section 5 — Mobile Dev */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}
-              textClassName={dark ? "text-white/90" : "text-black/90"}>
-              {t.mobile}
-            </ScrollReveal>
-          </div>
-          <MobileBeam dark={dark} />
-        </section>
-
         {/* Section 6 */}
         <section className="max-w-3xl mx-auto">
           <ScrollReveal baseOpacity={0.1} enableBlur baseRotation={3} blurStrength={4}

@@ -82,11 +82,11 @@ const TRANSLATIONS = {
       development: "Personal, freelance, and bootcamp projects — from landing pages to full-stack apps.",
     },
     vodjo: [
-      { title: "Ngafal Ngefeel", description: "QA for a mobile learning app (iOS & Android). Performed functional, API, and automation testing using Cypress, Playwright & Postman. Collected client feedback via web CMS using Agile methodology." },
-      { title: "Gana Konsultan Indonesia", description: "QA for a WordPress corporate website. Conducted functional testing, wrote test cases, reported bugs, and collaborated with the dev team in Agile sprints." },
-      { title: "PT. Polytama Propindo", description: "QA for an enterprise CMS managing petrochemical products, feedback, and operational reports. Wrote test cases, performed functional testing, and reported findings." },
-      { title: "TMS Daihatsu", description: "QA for a WordPress-based website. Performed functional testing, wrote detailed bug reports, and supported the dev team in fixing identified issues." },
-      { title: "BNPP RI", description: "Ongoing QA engagement for the official website of Badan Nasional Pengelola Perbatasan Republik Indonesia. Functional testing, test case creation, and bug reporting." },
+      { title: "Ngafal Ngefeel", description: "Software QA for a mobile learning app (iOS & Android). Performed functional, API, and automation testing using Cypress, Playwright & Postman. Collected client feedback via web CMS using Agile methodology." },
+      { title: "Gana Konsultan Indonesia", description: "Software QA for a WordPress corporate website. Conducted functional testing, wrote test cases, reported bugs, and collaborated with the dev team in Agile sprints." },
+      { title: "PT. Polytama Propindo", description: "Software QA for an enterprise CMS managing petrochemical products, feedback, and operational reports. Wrote test cases, performed functional testing, and reported findings." },
+      { title: "TMS Daihatsu", description: "Software for a WordPress-based website. Performed functional testing, wrote detailed bug reports, and supported the dev team in fixing identified issues." },
+      { title: "BNPP RI", description: "Software QA engagement for the official website of Badan Nasional Pengelola Perbatasan Republik Indonesia. Functional testing, test case creation, and bug reporting." },
       { title: "Total Buah Store", description: "Ongoing QA for an Android mobile app. Performing functional testing, writing test cases, and collaborating with developers to ensure app quality." },
     ],
     development: [
@@ -118,12 +118,12 @@ const TRANSLATIONS = {
       development: "Proyek personal, freelance, dan bootcamp — dari landing page hingga aplikasi full-stack.",
     },
     vodjo: [
-      { title: "Ngafal Ngefeel", description: "QA untuk aplikasi belajar mobile (iOS & Android). Melakukan pengujian fungsional, API, dan otomasi menggunakan Cypress, Playwright & Postman. Mengumpulkan feedback klien via CMS web dengan metodologi Agile." },
-      { title: "Gana Konsultan Indonesia", description: "QA untuk website korporat berbasis WordPress. Melakukan pengujian fungsional, membuat test case, melaporkan bug, dan berkolaborasi dengan tim dev dalam sprint Agile." },
+      { title: "Ngafal Ngefeel", description: "Sebagai Software QA untuk aplikasi belajar mobile (iOS & Android). Melakukan pengujian fungsional, API, dan otomasi menggunakan Cypress, Playwright & Postman. Mengumpulkan feedback klien via CMS web dengan metodologi Agile." },
+      { title: "Gana Konsultan Indonesia", description: "Sebagai Software QA untuk website korporat berbasis WordPress. Melakukan pengujian fungsional, membuat test case, melaporkan bug, dan berkolaborasi dengan tim dev dalam sprint Agile." },
       { title: "PT. Polytama Propindo", description: "QA untuk enterprise CMS yang mengelola produk petrokimia, feedback, dan laporan operasional. Membuat test case, melakukan pengujian fungsional, dan melaporkan temuan." },
-      { title: "TMS Daihatsu", description: "QA untuk website berbasis WordPress. Melakukan pengujian fungsional, membuat laporan bug detail, dan mendukung tim dev dalam memperbaiki isu yang ditemukan." },
-      { title: "BNPP RI", description: "QA ongoing untuk website resmi Badan Nasional Pengelola Perbatasan Republik Indonesia. Pengujian fungsional, pembuatan test case, dan pelaporan bug." },
-      { title: "Total Buah Store", description: "QA ongoing untuk aplikasi mobile Android. Melakukan pengujian fungsional, membuat test case, dan berkolaborasi dengan developer untuk memastikan kualitas aplikasi." },
+      { title: "TMS Daihatsu", description: " Sebagai Software QA untuk website berbasis WordPress. Melakukan pengujian fungsional, membuat laporan bug detail, dan mendukung tim dev dalam memperbaiki isu yang ditemukan." },
+      { title: "BNPP RI", description: "Sebagai Software QA website resmi Badan Nasional Pengelola Perbatasan Republik Indonesia. Pengujian fungsional, pembuatan test case, dan pelaporan bug." },
+      { title: "Total Buah Store", description: "Software QA ongoing untuk aplikasi mobile Android. Melakukan pengujian fungsional, membuat test case, dan berkolaborasi dengan developer untuk memastikan kualitas aplikasi." },
     ],
     development: [
       { title: "Rulif Taskify Movie", description: "Proyek personal — aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS. Mengintegrasikan TMDB API dengan SSG, server-side streaming via Vidsrc, dan animasi Framer Motion." },
@@ -143,23 +143,23 @@ const TRANSLATIONS = {
 
 /* ── Shared meta ────────────────────────────────────────────────── */
 const VODJO_META = [
-  { tech: ["Cypress", "Playwright", "Postman", "Agile", "iOS", "Android"], github: null, live: "https://play.google.com/store/apps/details?id=com.nn.ngafalngefeel", gradient: "from-teal-500/20 via-cyan-500/10 to-transparent", cover: coverNgafal, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["WordPress", "Postman", "Agile", "Manual Testing"], github: null, live: "https://ganakonsultan.com/", gradient: "from-lime-500/20 via-green-500/10 to-transparent", cover: coverGana, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["CMS", "Postman", "Manual Testing", "Agile"], github: null, live: "https://crm.masplene.com/dashboard", gradient: "from-blue-500/20 via-sky-500/10 to-transparent", cover: coverPolytama, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["WordPress", "Manual Testing", "Bug Report", "Agile"], github: null, live: "https://www.tmsdaihatsu.co.id/", gradient: "from-red-500/20 via-orange-500/10 to-transparent", cover: coverDaihatsu, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Manual Testing", "Test Case", "Bug Report", "Agile"], github: null, live: "https://bnpp.go.id/", gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Android", "Manual Testing", "Test Case", "Agile"], github: null, live: null, gradient: "from-pink-500/20 via-rose-500/10 to-transparent", cover: coverTotalBuah, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Cypress", "Playwright", "Postman", "Agile", "iOS", "Android","Figma"], github: null, live: "https://play.google.com/store/apps/details?id=com.nn.ngafalngefeel", gradient: "from-teal-500/20 via-cyan-500/10 to-transparent", cover: coverNgafal, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["WordPress", "Postman", "Agile", "Manual Testing","Figma"], github: null, live: "https://ganakonsultan.com/", gradient: "from-lime-500/20 via-green-500/10 to-transparent", cover: coverGana, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["CMS", "Postman", "Manual Testing", "Agile", "Figma"], github: null, live: "https://crm.masplene.com/dashboard", gradient: "from-blue-500/20 via-sky-500/10 to-transparent", cover: coverPolytama, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["WordPress", "Manual Testing", "Bug Report", "Agile", "Figma"], github: null, live: "https://www.tmsdaihatsu.co.id/", gradient: "from-red-500/20 via-orange-500/10 to-transparent", cover: coverDaihatsu, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Manual Testing", "Test Case", "Bug Report", "Agile", "Figma"], github: null, live: "https://bnpp.go.id/", gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Android", "Manual Testing", "Test Case", "Agile", "Figma"], github: null, live: null, gradient: "from-pink-500/20 via-rose-500/10 to-transparent", cover: coverTotalBuah, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
 ];
 
 const DEV_META = [
   { tech: ["Next.js", "Node.js", "Firebase", "Tailwind CSS", "Framer Motion", "TMDB API"], github: "https://github.com/rulifcode/ruliftaskify-movie", live: "https://ruliftaskify-movie.vercel.app/", gradient: "from-purple-500/20 via-violet-500/10 to-transparent", cover: coverTaskify, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
-  { tech: ["Next.js", "Tailwind CSS", "Laravel", "TypeScript"], github: "https://github.com/rulifcode/Frontend_NextJS_Hotel", live: "https://aurevia-nextjs.vercel.app/", gradient: "from-sky-500/20 via-indigo-500/10 to-transparent", cover: coverRessortHotel, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["React.js", "JavaScript", "Tailwind CSS"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["React.js", "JavaScript", "Tailwind CSS", "Figma"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
+  { tech: ["Next.js", "Tailwind CSS", "Laravel", "TypeScript", "Figma"], github: "https://github.com/rulifcode/Frontend_NextJS_Hotel", live: "https://aurevia-nextjs.vercel.app/", gradient: "from-sky-500/20 via-indigo-500/10 to-transparent", cover: coverRessortHotel, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["React.js", "JavaScript", "Tailwind CSS", "Figma"], github: "https://github.com/rulifcode/furniture-react-landing-page", live: "https://furniture-react-landing-page-rulif.vercel.app/", gradient: "from-amber-500/20 via-orange-500/10 to-transparent", cover: coverFurniture, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React.js", "CSS", "REST API"], github: "https://github.com/rulifcode/mp-food-recipe-api", live: "https://mp-food-recipe-api.vercel.app/", gradient: "from-rose-500/20 via-pink-500/10 to-transparent", cover: coverRecipe, companyIcon: null, companyName: null, category: "dev" },
-  { tech: ["PHP", "MySQL", "HTML", "CSS"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["PHP", "MySQL", "HTML", "CSS", "Figma"], github: "https://github.com/rulifcode/Perpustakaan_Online-Native_PHP_Mysqli", live: null, gradient: "from-violet-500/20 via-purple-500/10 to-transparent", cover: coverLitera, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["WordPress", "WooCommerce", "PHP", "MySQL", "SEO", "Figma"], github: null, live: "https://id.gaotek.com/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverGaotek, companyIcon: logoGaotek, companyName: "Gaotek", category: "dev" },
-  { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
+  { tech: ["React.js", "Axios", "Custom Hooks", "Tailwind CSS", "Figma"], github: "https://github.com/rulifcode/mp-crud-react-axios", live: "https://mp-crud-react-axios.vercel.app/", gradient: "from-orange-500/20 via-yellow-500/10 to-transparent", cover: coverCRUD, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["Laravel 12", "MySQL", "Blade", "Tailwind CSS", "Cloudinary", "PHP", "REST API"], github: "https://github.com/rulifcode/Backend_Laravel_Hotel", live: null, gradient: "from-orange-500/20 via-amber-500/10 to-transparent", cover: coverHotel, companyIcon: null, companyName: null, category: "dev" },
   {
     tech: ["Go", "React.js", "TypeScript", "PostgreSQL", "Docker", "Tailwind CSS"], github: "https://github.com/rulifcode/industrix-todo", live: null, gradient: "from-emerald-500/20 via-teal-500/10 to-transparent", cover: coverIndustrix, companyIcon: null, companyName: null, category: "dev"
