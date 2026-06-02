@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { useLang, TRANSLATIONS } from "../components/layout/Navbar";
 import bgContact from "../assets/background_contact.webp";
+
+// ─── GANTI 3 VALUE INI DENGAN MILIK KAMU ───────────────────────────────────
+const EMAILJS_SERVICE_ID  = "service_5e6olw2";   // contoh: "service_abc123"
+const EMAILJS_TEMPLATE_ID = "template_i452zck";  // contoh: "template_xyz789"
+const EMAILJS_PUBLIC_KEY  = "xdoj3X8-k8h62Ux_H";   // contoh: "aBcDeFgHiJkLmNoP"
+// ───────────────────────────────────────────────────────────────────────────
 
 const FOOTER_LINKS = [
   {
@@ -32,7 +39,8 @@ export default function Contact() {
 
   const [form, setForm] = useState({ name: "", email: "", subject: "", budget: "", message: "" });
   const [errors, setErrors] = useState({});
-  const [toast, setToast] = useState(false);
+  const [toast, setToast] = useState(null); // null | "success" | "error"
+  const [sending, setSending] = useState(false);
   const [footerVis, setFooterVis] = useState(false);
   const footerRef = useRef(null);
 
@@ -50,19 +58,45 @@ export default function Contact() {
     if (errors[e.target.name]) setErrors((prev) => ({ ...prev, [e.target.name]: false }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // Validasi
     const newErrors = {};
-    if (!form.name.trim()) newErrors.name = true;
-    if (!form.email.trim()) newErrors.email = true;
+    if (!form.name.trim())    newErrors.name    = true;
+    if (!form.email.trim())   newErrors.email   = true;
     if (!form.message.trim()) newErrors.message = true;
     if (Object.keys(newErrors).length) {
       setErrors(newErrors);
       return;
     }
-    setToast(true);
-    setTimeout(() => setToast(false), 3500);
-    setForm({ name: "", email: "", subject: "", budget: "", message: "" });
-    setErrors({});
+
+    setSending(true);
+
+    // Template params — harus cocok dengan variable di EmailJS template kamu
+    const templateParams = {
+      from_name:    form.name,
+      from_email:   form.email,
+      subject:      form.subject || "No subject",
+      company:      form.budget  || "—",
+      message:      form.message,
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+      setToast("success");
+      setForm({ name: "", email: "", subject: "", budget: "", message: "" });
+      setErrors({});
+    } catch (err) {
+      console.error("EmailJS error: - Contact.jsx:94", err);
+      setToast("error");
+    } finally {
+      setSending(false);
+      setTimeout(() => setToast(null), 3500);
+    }
   };
 
   return (
@@ -89,6 +123,9 @@ export default function Contact() {
         @keyframes footerFadeUp {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
         }
 
         .contact-field {
@@ -126,14 +163,23 @@ export default function Contact() {
           cursor: pointer; transition: all 0.2s ease;
           letter-spacing: 0.02em; white-space: nowrap;
         }
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
           background: rgba(255,255,255,0.13);
           border-color: rgba(255,255,255,0.28);
           color: #fff;
         }
-        .submit-btn:hover .btn-arrow { transform: translate(2px, -2px); }
-        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:hover:not(:disabled) .btn-arrow { transform: translate(2px, -2px); }
+        .submit-btn:active:not(:disabled) { transform: scale(0.98); }
+        .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
         .btn-arrow { transition: transform 0.2s; display: inline-block; }
+        .btn-spinner {
+          width: 13px; height: 13px;
+          border: 1.5px solid rgba(255,255,255,0.2);
+          border-top-color: rgba(255,255,255,0.8);
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          flex-shrink: 0;
+        }
         .left-anim { animation: fadeSlideIn 0.5s ease forwards; }
         .right-anim { animation: fadeSlideIn 0.55s 0.08s ease both; }
 
@@ -214,18 +260,13 @@ export default function Contact() {
           .submit-btn { width: 100% !important; justify-content: center !important; }
           .cf-footer { padding: 36px 20px 24px !important; }
 
-          /* zigzag footer links */
           .cf-links-row {
             flex-direction: column !important;
             gap: 12px !important;
             align-items: stretch !important;
           }
-          .cf-link-plain:nth-child(odd) {
-            align-items: flex-start !important;
-          }
-          .cf-link-plain:nth-child(even) {
-            align-items: flex-end !important;
-          }
+          .cf-link-plain:nth-child(odd) { align-items: flex-start !important; }
+          .cf-link-plain:nth-child(even) { align-items: flex-end !important; }
         }
 
         @media (max-width: 480px) {
@@ -364,11 +405,11 @@ export default function Contact() {
                 <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Subject</label>
                 <select className="contact-field" name="subject" value={form.subject} onChange={handleChange} style={{ color: form.subject ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.3)", cursor: "pointer" }}>
                   <option value="" disabled>Select topic</option>
-                  <option value="freelance">Freelance project</option>
-                  <option value="job">Job opportunity</option>
-                  <option value="collab">Collaboration</option>
-                  <option value="hi">Just saying hi</option>
-                  <option value="other">Other</option>
+                  <option value="Freelance project">Freelance project</option>
+                  <option value="Job opportunity">Job opportunity</option>
+                  <option value="Collaboration">Collaboration</option>
+                  <option value="Just saying hi">Just saying hi</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
@@ -383,8 +424,12 @@ export default function Contact() {
 
             <div className="contact-submit-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 24 }}>
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.16)" }}>{t.footer}</span>
-              <button className="submit-btn" onClick={handleSubmit}>
-                Send message <span className="btn-arrow">↗</span>
+              <button className="submit-btn" onClick={handleSubmit} disabled={sending}>
+                {sending ? (
+                  <><div className="btn-spinner" /> Sending…</>
+                ) : (
+                  <>Send message <span className="btn-arrow">↗</span></>
+                )}
               </button>
             </div>
           </div>
@@ -418,7 +463,7 @@ export default function Contact() {
         </footer>
 
         {/* Toast */}
-        {toast && (
+        {toast === "success" && (
           <div style={{
             position: "fixed", bottom: 24, right: 24,
             background: "rgba(52,211,153,0.08)",
@@ -430,6 +475,20 @@ export default function Contact() {
             fontFamily: "'DM Sans', sans-serif",
           }}>
             ✓ Message sent! I'll reply soon.
+          </div>
+        )}
+        {toast === "error" && (
+          <div style={{
+            position: "fixed", bottom: 24, right: 24,
+            background: "rgba(239,68,68,0.08)",
+            border: "1px solid rgba(239,68,68,0.22)",
+            borderRadius: 10, padding: "12px 18px",
+            fontSize: 13, color: "rgba(239,68,68,0.9)",
+            display: "flex", alignItems: "center", gap: 8,
+            zIndex: 999, animation: "slideUp 0.3s ease",
+            fontFamily: "'DM Sans', sans-serif",
+          }}>
+            ✕ Failed to send. Please try again.
           </div>
         )}
       </main>
