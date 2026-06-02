@@ -147,7 +147,7 @@ const VODJO_META = [
   { tech: ["WordPress", "Postman", "Agile", "Manual Testing"], github: null, live: "https://ganakonsultan.com/", gradient: "from-lime-500/20 via-green-500/10 to-transparent", cover: coverGana, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
   { tech: ["CMS", "Postman", "Manual Testing", "Agile"], github: null, live: "https://crm.masplene.com/dashboard", gradient: "from-blue-500/20 via-sky-500/10 to-transparent", cover: coverPolytama, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
   { tech: ["WordPress", "Manual Testing", "Bug Report", "Agile"], github: null, live: "https://www.tmsdaihatsu.co.id/", gradient: "from-red-500/20 via-orange-500/10 to-transparent", cover: coverDaihatsu, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Manual Testing", "Test Case", "Bug Report", "Agile"], github: null, live: null, gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Manual Testing", "Test Case", "Bug Report", "Agile"], github: null, live: "https://bnpp.go.id/", gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
   { tech: ["Android", "Manual Testing", "Test Case", "Agile"], github: null, live: null, gradient: "from-pink-500/20 via-rose-500/10 to-transparent", cover: coverTotalBuah, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
 ];
 
