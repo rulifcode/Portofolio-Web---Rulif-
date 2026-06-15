@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { useLang, TRANSLATIONS } from "../components/layout/Navbar";
 import bgContact from "../assets/background_contact.webp";
+import useContactContent from "../hooks/useContactContent";
 
 // ─── GANTI 3 VALUE INI DENGAN MILIK KAMU ───────────────────────────────────
 const EMAILJS_SERVICE_ID  = "service_5e6olw2";   // contoh: "service_abc123"
@@ -9,32 +10,63 @@ const EMAILJS_TEMPLATE_ID = "template_i452zck";  // contoh: "template_xyz789"
 const EMAILJS_PUBLIC_KEY  = "xdoj3X8-k8h62Ux_H";   // contoh: "aBcDeFgHiJkLmNoP"
 // ───────────────────────────────────────────────────────────────────────────
 
-const FOOTER_LINKS = [
-  {
-    label: "Instagram",
-    value: "@ruliffadrian",
-    href: "https://instagram.com/ruliffadrian",
+const CONTACT_UI = {
+  EN: {
+    formTitle: "Send a message",
+    formSubtitle: "Fill in the details below and I'll get back to you within 24 hours.",
+    labels: {
+      name: "Full name",
+      email: "Email",
+      subject: "Subject",
+      company: "Company / Profile",
+      message: "Message",
+    },
+    placeholders: {
+      name: "Your name",
+      email: "you@email.com",
+      subject: "Select topic",
+      company: "e.g. Startup, Agency, Personal",
+      message: "Tell me about your project or idea...",
+    },
+    subjects: ["Freelance project", "Job opportunity", "Collaboration", "Just saying hi", "Other"],
+    sending: "Sending...",
+    send: "Send message",
+    noSubject: "No subject",
+    success: "Message sent! I'll reply soon.",
+    error: "Failed to send. Please try again.",
+    rights: "All rights reserved.",
   },
-  {
-    label: "LinkedIn",
-    value: "ruliffadrian",
-    href: "https://linkedin.com/in/ruliffadrian",
+  ID: {
+    formTitle: "Kirim pesan",
+    formSubtitle: "Isi detail di bawah ini dan saya akan membalas secepatnya.",
+    labels: {
+      name: "Nama lengkap",
+      email: "Email",
+      subject: "Subjek",
+      company: "Perusahaan / Profil",
+      message: "Pesan",
+    },
+    placeholders: {
+      name: "Nama kamu",
+      email: "kamu@email.com",
+      subject: "Pilih topik",
+      company: "contoh: Startup, Agency, Personal",
+      message: "Ceritakan project, ide, atau kebutuhan kamu...",
+    },
+    subjects: ["Project freelance", "Peluang kerja", "Kolaborasi", "Sekadar menyapa", "Lainnya"],
+    sending: "Mengirim...",
+    send: "Kirim pesan",
+    noSubject: "Tanpa subjek",
+    success: "Pesan terkirim! Saya akan segera membalas.",
+    error: "Gagal mengirim. Silakan coba lagi.",
+    rights: "Semua hak dilindungi.",
   },
-  {
-    label: "WhatsApp",
-    value: "+62 813-8291-6024",
-    href: "https://wa.me/6281382916024",
-  },
-  {
-    label: "Email",
-    value: "ruliffax@gmail.com",
-    href: "mailto:ruliffax@gmail.com",
-  },
-];
+};
 
 export default function Contact() {
   const { lang } = useLang();
-  const t = TRANSLATIONS[lang].contact;
+  const t = useContactContent(lang, TRANSLATIONS[lang].contact);
+  const ui = CONTACT_UI[lang] || CONTACT_UI.EN;
   const currentYear = new Date().getFullYear();
 
   const [form, setForm] = useState({ name: "", email: "", subject: "", budget: "", message: "" });
@@ -75,7 +107,7 @@ export default function Contact() {
     const templateParams = {
       from_name:    form.name,
       from_email:   form.email,
-      subject:      form.subject || "No subject",
+      subject:      form.subject || ui.noSubject,
       company:      form.budget  || "—",
       message:      form.message,
     };
@@ -189,6 +221,22 @@ export default function Contact() {
           font-family: 'DM Sans', sans-serif;
         }
         .cf-footer-inner { max-width: 1200px; margin: 0 auto; }
+        .cf-brand {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 20px;
+          opacity: 0;
+        }
+        .cf-brand.vis { animation: footerFadeUp 0.45s ease forwards; }
+        .cf-brand-logo {
+          width: 110px;
+          height: auto;
+          filter: invert(1);
+          opacity: 0.72;
+          user-select: none;
+          pointer-events: none;
+        }
 
         .cf-links { opacity: 0; }
         .cf-links.vis { animation: footerFadeUp 0.5s 0.1s ease forwards; }
@@ -314,7 +362,7 @@ export default function Contact() {
                 lineHeight: 1.08, color: "rgba(255,255,255,0.93)", marginBottom: 18,
               }}
             >
-              Get In Touch
+              {t.title}
             </h2>
 
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.32)", lineHeight: 1.8, maxWidth: 280, marginBottom: 32 }}>
@@ -383,10 +431,10 @@ export default function Contact() {
             style={{ width: "54%", padding: "240px 0 56px 52px" }}
           >
             <p style={{ fontFamily: "'Syne', sans-serif", fontSize: 22, fontWeight: 600, letterSpacing: "-0.025em", color: "rgba(255,255,255,0.9)", marginBottom: 6 }}>
-              Send a message
+              {ui.formTitle}
             </p>
             <p style={{ fontSize: 12, color: "rgba(255,255,255,0.26)", marginBottom: 32, lineHeight: 1.7 }}>
-              Fill in the details below and I'll get back to you within 24 hours.
+              {ui.formSubtitle}
             </p>
 
             <div
@@ -394,31 +442,29 @@ export default function Contact() {
               style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Full name</label>
-                <input className={`contact-field${errors.name ? " error" : ""}`} type="text" name="name" placeholder="Your name" value={form.name} onChange={handleChange} />
+                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{ui.labels.name}</label>
+                <input className={`contact-field${errors.name ? " error" : ""}`} type="text" name="name" placeholder={ui.placeholders.name} value={form.name} onChange={handleChange} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Email</label>
-                <input className={`contact-field${errors.email ? " error" : ""}`} type="email" name="email" placeholder="you@email.com" value={form.email} onChange={handleChange} />
+                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{ui.labels.email}</label>
+                <input className={`contact-field${errors.email ? " error" : ""}`} type="email" name="email" placeholder={ui.placeholders.email} value={form.email} onChange={handleChange} />
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Subject</label>
+                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{ui.labels.subject}</label>
                 <select className="contact-field" name="subject" value={form.subject} onChange={handleChange} style={{ color: form.subject ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.3)", cursor: "pointer" }}>
-                  <option value="" disabled>Select topic</option>
-                  <option value="Freelance project">Freelance project</option>
-                  <option value="Job opportunity">Job opportunity</option>
-                  <option value="Collaboration">Collaboration</option>
-                  <option value="Just saying hi">Just saying hi</option>
-                  <option value="Other">Other</option>
+                  <option value="" disabled>{ui.placeholders.subject}</option>
+                  {ui.subjects.map((subject) => (
+                    <option key={subject} value={subject}>{subject}</option>
+                  ))}
                 </select>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Company / Profile</label>
-                <input className="contact-field" type="text" name="budget" placeholder="e.g. Startup, Agency, Personal" value={form.budget} onChange={handleChange} />
+                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{ui.labels.company}</label>
+                <input className="contact-field" type="text" name="budget" placeholder={ui.placeholders.company} value={form.budget} onChange={handleChange} />
               </div>
               <div style={{ gridColumn: "1 / -1", display: "flex", flexDirection: "column", gap: 7 }}>
-                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Message</label>
-                <textarea className={`contact-field${errors.message ? " error" : ""}`} name="message" placeholder="Tell me about your project or idea..." value={form.message} onChange={handleChange} style={{ resize: "none", height: 108, lineHeight: 1.65 }} />
+                <label style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>{ui.labels.message}</label>
+                <textarea className={`contact-field${errors.message ? " error" : ""}`} name="message" placeholder={ui.placeholders.message} value={form.message} onChange={handleChange} style={{ resize: "none", height: 108, lineHeight: 1.65 }} />
               </div>
             </div>
 
@@ -426,9 +472,9 @@ export default function Contact() {
               <span style={{ fontSize: 11, color: "rgba(255,255,255,0.16)" }}>{t.footer}</span>
               <button className="submit-btn" onClick={handleSubmit} disabled={sending}>
                 {sending ? (
-                  <><div className="btn-spinner" /> Sending…</>
+                  <><div className="btn-spinner" /> {ui.sending}</>
                 ) : (
-                  <>Send message <span className="btn-arrow">↗</span></>
+                  <>{ui.send} <span className="btn-arrow">↗</span></>
                 )}
               </button>
             </div>
@@ -438,11 +484,15 @@ export default function Contact() {
         {/* ── FOOTER ── */}
         <footer className="cf-footer" ref={footerRef}>
           <div className="cf-footer-inner">
+            <div className={`cf-brand${footerVis ? " vis" : ""}`}>
+              <img src="/img_Rulif_logo.png" alt="Rulif logo" className="cf-brand-logo" />
+            </div>
+
             <div
               className={`cf-links cf-links-row${footerVis ? " vis" : ""}`}
               style={{ display: "flex", flexDirection: "row", gap: 40, marginBottom: 28, justifyContent: "center" }}
             >
-              {FOOTER_LINKS.map((link) => (
+              {t.links.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -457,7 +507,7 @@ export default function Contact() {
             </div>
 
             <div className={`cf-bottom${footerVis ? " vis" : ""}`}>
-              <span className="cf-copy">© {currentYear} Ruliff Adrian. All rights reserved.</span>
+              <span className="cf-copy">© {currentYear} Rulif Fadria Nirwansyah. {ui.rights}</span>
             </div>
           </div>
         </footer>
@@ -474,7 +524,7 @@ export default function Contact() {
             zIndex: 999, animation: "slideUp 0.3s ease",
             fontFamily: "'DM Sans', sans-serif",
           }}>
-            ✓ Message sent! I'll reply soon.
+            ✓ {ui.success}
           </div>
         )}
         {toast === "error" && (
@@ -488,7 +538,7 @@ export default function Contact() {
             zIndex: 999, animation: "slideUp 0.3s ease",
             fontFamily: "'DM Sans', sans-serif",
           }}>
-            ✕ Failed to send. Please try again.
+            ✕ {ui.error}
           </div>
         )}
       </main>

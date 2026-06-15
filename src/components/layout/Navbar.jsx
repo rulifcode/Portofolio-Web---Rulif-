@@ -145,7 +145,7 @@ export const TRANSLATIONS = {
       title: "Kontak",
       desc: "Terbuka untuk peluang baru, kolaborasi, atau sekadar ngobrol seputar teknologi.",
       availability: "Tersedia untuk peluang",
-      footer: "Preferably via Email atau WhatsApp untuk response lebih cepat.",
+      footer: "Lebih disarankan via Email atau WhatsApp agar respons lebih cepat.",
     },
   },
 };

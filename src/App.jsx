@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { LangContext } from "./components/layout/Navbar";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
@@ -8,6 +8,8 @@ import Experience from "./pages/Experience";
 import Project from "./pages/Projects";
 import Certificate from "./pages/Certificate";
 import Contact from "./pages/Contact";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProjectDetail from "./pages/ProjectDetail";
 import MentorFeedback from "./components/ui/MentorFeedback";
 import SoftAurora from "./components/SoftAurora/SoftAurora";
 import SplashScreen from "./components/SplashScreen";
@@ -85,7 +87,14 @@ function App() {
 
         <div className="min-h-screen flex flex-col">
           <Navbar dark={dark} setDark={setDark} />
-          <AppSections dark={dark} />
+          <Routes>
+            <Route path="/" element={<AppSections dark={dark} />} />
+            <Route path="/projects" element={<Project dark={dark} />} />
+            <Route path="/project" element={<Project dark={dark} />} />
+            <Route path="/projects/:slug" element={<ProjectDetail dark={dark} />} />
+            <Route path="/project/:slug" element={<ProjectDetail dark={dark} />} />
+            <Route path="/admin" element={<AdminDashboard dark={dark} />} />
+          </Routes>
         </div>
       </Router>
     </LangContext.Provider>

@@ -1,22 +1,22 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import useCertificates from "../hooks/useCertificates";
+import { useLang } from "../components/layout/Navbar";
 
-const CERTIFICATES = [
-  { id: 1,  title: "Front Web Development With React Batch 3",  issuer: "Lumoshive Academy", date: "13 March 2026", image: "/certificates/lumosfinish.png" },
-  { id: 2,  title: "Konsep Pemrograman",  issuer: "Digital Talent Scholarship", date: "8 October 2025", image: "/certificates/KonsepPemrogramanRulif.png" },
-  { id: 3,  title: "Prompt Engineering | Software Developer",  issuer: "Dicoding Indonesia", date: "5 October 2025", image: "/certificates/dicodingrulifprompt.png" },
-  { id: 4,  title: "Google Analytics",  issuer: "Google Skillshop", date: "16 September 2025", image: "/certificates/GoogleAnalyticsRulif.png" },
-  { id: 5,  title: "Web Automation",  issuer: "MySkill", date: "11 September 2025", image: "/certificates/Myskill_webautomation_rulif.png" },
-  { id: 6,  title: "Data Science & Analytics",  issuer: "HP Foundation", date: "23 July 2025", image: "/certificates/HpLife_Sertificate_Rulif.png" },
-  { id: 7,  title: "Code generation & Optimization",  issuer: "IBM", date: "24 July 2025", image: "/certificates/IBM_Rulif_CodeOptimization.png" },
-  { id: 8,  title: "Technical Workshop Back End Golang",  issuer: "Hacktiv8 Indonesia", date: "31 July 2025", image: "/certificates/Hacktiv8BETalkshow_Rulif.jpg" },
-  { id: 9,  title: "React Advanced",  issuer: "Lumoshive Academy", date: "27 February 2026", image: "/certificates/Certified_ReactAdvanced_Rulif.jpg" },
-  { id: 10, title: "React Basic", issuer: "HackerRank", date: "15 September 2025", image: "/certificates/ReactBasic_HackerRank_Rulif.png" },
-  { id: 11, title: "Web Development with Al: Building and Improving Front-End Code Faster", issuer: " KAreerr Elevation Vol. 2 - IT Bootcamp", date: "4-5 May 2026", image: "/certificates/Sertifikat_kaalibr_rulif.png" },
-];
-
-const TOTAL = CERTIFICATES.length;
 const AUTO_INTERVAL = 3200;
 const wrap = (n, max) => ((n % max) + max) % max;
+
+const CERT_TRANSLATIONS = {
+  EN: {
+    tagline: "Credentials",
+    title: "Certificate",
+    subtitle: "Selected certificates and training records that support my work across frontend, QA, analytics, and backend fundamentals.",
+  },
+  ID: {
+    tagline: "Kredensial",
+    title: "Sertifikat",
+    subtitle: "Pilihan sertifikat dan catatan pelatihan yang mendukung pekerjaan saya di frontend, QA, analytics, dan dasar backend.",
+  },
+};
 
 // ── Single Card ───────────────────────────────────────────────────────────────
 function CertCard({ cert, offset, dark, onClick, isActive }) {
@@ -170,13 +170,18 @@ function CertCard({ cert, offset, dark, onClick, isActive }) {
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 export default function Certificate({ dark }) {
+  const { lang } = useLang();
+  const t = CERT_TRANSLATIONS[lang] || CERT_TRANSLATIONS.EN;
+  const certificates = useCertificates();
+  const total = certificates.length;
   const [active, setActive]   = useState(0);
   const [paused, setPaused]   = useState(false);
   const [dragStart, setDragStart] = useState(null);
   const timerRef = useRef(null);
+  const activeIndex = total > 0 ? Math.min(active, total - 1) : 0;
 
-  const next = useCallback(() => setActive((a) => wrap(a + 1, TOTAL)), []);
-  const prev = useCallback(() => setActive((a) => wrap(a - 1, TOTAL)), []);
+  const next = useCallback(() => setActive((a) => wrap(a + 1, total)), [total]);
+  const prev = useCallback(() => setActive((a) => wrap(a - 1, total)), [total]);
 
   useEffect(() => {
     if (paused) return;
@@ -278,6 +283,53 @@ export default function Certificate({ dark }) {
         animation: "floatY 8s ease-in-out infinite",
       }} />
 
+      <div style={{
+        textAlign: "center",
+        maxWidth: "560px",
+        marginBottom: "42px",
+        position: "relative",
+        zIndex: 5,
+      }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          justifyContent: "center",
+          marginBottom: "14px",
+        }}>
+          <div style={{ height: 1, width: 48, background: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)" }} />
+          <span style={{
+            fontSize: "10px",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: dark ? "rgba(255,255,255,0.30)" : "rgba(0,0,0,0.35)",
+            fontWeight: 500,
+          }}>
+            {t.tagline}
+          </span>
+          <div style={{ height: 1, width: 48, background: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)" }} />
+        </div>
+
+        <h2 style={{
+          margin: 0,
+          fontSize: "clamp(38px, 5vw, 64px)",
+          fontWeight: 700,
+          lineHeight: 1,
+          color: dark ? "rgba(255,255,255,0.92)" : "rgba(0,0,0,0.88)",
+        }}>
+          {t.title}
+        </h2>
+        <p style={{
+          margin: "14px auto 0",
+          maxWidth: "500px",
+          fontSize: "13px",
+          lineHeight: 1.7,
+          color: dark ? "rgba(255,255,255,0.38)" : "rgba(0,0,0,0.45)",
+        }}>
+          {t.subtitle}
+        </p>
+      </div>
+
       {/* ── Counter badge ── */}
       <div style={{
         marginBottom: "48px",
@@ -305,7 +357,7 @@ export default function Certificate({ dark }) {
               color: dark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.75)",
               fontVariantNumeric: "tabular-nums",
             }}>
-              {String(active + 1).padStart(2, "0")}
+              {String(activeIndex + 1).padStart(2, "0")}
             </span>
           </div>
         </div>
@@ -314,7 +366,7 @@ export default function Certificate({ dark }) {
           color: dark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.22)",
           letterSpacing: "0.1em",
         }}>
-          / {String(TOTAL).padStart(2, "0")}
+          / {String(total).padStart(2, "0")}
         </span>
       </div>
 
@@ -336,8 +388,8 @@ export default function Certificate({ dark }) {
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        {CERTIFICATES.map((cert, i) => {
-          const offset = wrap(i - active + Math.floor(TOTAL / 2), TOTAL) - Math.floor(TOTAL / 2);
+        {certificates.map((cert, i) => {
+          const offset = wrap(i - activeIndex + Math.floor(total / 2), total) - Math.floor(total / 2);
           return (
             <CertCard
               key={cert.id}
@@ -359,7 +411,7 @@ export default function Certificate({ dark }) {
         <NavArrow dir="left" dark={dark} onClick={prev} />
 
         <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-          {CERTIFICATES.map((_, i) => (
+          {certificates.map((_, i) => (
             <button
               key={i}
               onClick={() => goTo(i)}
@@ -397,7 +449,7 @@ export default function Certificate({ dark }) {
           color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.5)",
           letterSpacing: "0.02em",
         }}>
-          {CERTIFICATES[active].title}
+          {certificates[activeIndex]?.title}
         </p>
         <p style={{
           margin: "4px 0 0",
@@ -405,7 +457,7 @@ export default function Certificate({ dark }) {
           color: dark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.28)",
           letterSpacing: "0.05em",
         }}>
-          {CERTIFICATES[active].issuer} · {CERTIFICATES[active].date}
+          {certificates[activeIndex]?.issuer} · {certificates[activeIndex]?.date}
         </p>
       </div>
     </section>

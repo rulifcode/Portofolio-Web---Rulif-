@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useContext } from "react";
 import { LangContext } from "../components/layout/Navbar"; 
+import useExperiences from "../hooks/useExperiences";
 
 // ── Logo Icons ────────────────────────────────────────────────────────────────
 import logoCakrawala from "../assets/cgy2.png";
@@ -105,6 +106,13 @@ const T = {
   EN: {
     tagline: "Career Journey",
     title: "Experience",
+    summary: {
+      roles: "Roles",
+      companies: "Companies",
+      scope: "Hybrid / Remote / WFH",
+      stack: "Main Tools",
+      logoLabel: "Experience logos",
+    },
     project: "Project",
     seeDetails: "See Details",
     hideDetails: "Hide Details",
@@ -173,6 +181,13 @@ const T = {
   ID: {
     tagline: "Perjalanan Karier",
     title: "Pengalaman",
+    summary: {
+      roles: "Peran",
+      companies: "Perusahaan",
+      scope: "Hybrid / Remote / WFH",
+      stack: "Tools Utama",
+      logoLabel: "Logo pengalaman",
+    },
     project: "Proyek",
     seeDetails: "Lihat Detail",
     hideDetails: "Sembunyikan",
@@ -251,7 +266,7 @@ function useInView(threshold = 0.1) {
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
+  }, [threshold]);
   return [ref, inView];
 }
 
@@ -271,7 +286,7 @@ function Lightbox({ images, startIndex, onClose }) {
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [images.length, onClose]);
 
   return (
     <div
@@ -629,6 +644,9 @@ function ImageSlider({ images, accent }) {
 /* ─── Card Inner ─────────────────────────────────────────────────────────────── */
 function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, textFaint, toggleStroke, dark, setOpen, lang }) {
   const tLabel = T[lang];
+  const images = Array.isArray(exp.images) ? exp.images.filter(Boolean) : [];
+  const stack = Array.isArray(exp.stack) ? exp.stack.filter(Boolean) : [];
+  const bullets = Array.isArray(exp.bullets) ? exp.bullets.filter(Boolean) : [];
 
   return (
     <>
@@ -641,7 +659,11 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
             boxShadow: hovered ? `0 4px 16px ${exp.accent}28` : "none",
           }}
         >
-          <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
+          {exp.logo ? (
+            <img src={exp.logo} alt={exp.company} className="w-full h-full object-contain p-1" />
+          ) : (
+            <span className="text-sm font-bold text-black/70">{exp.company?.charAt(0) || "E"}</span>
+          )}
         </div>
 
         <div className="flex-1 min-w-0">
@@ -720,24 +742,28 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
         <div className="pt-5">
           <div className="h-px mb-4" style={{ background: `linear-gradient(to right, ${exp.accent}30, transparent)` }} />
 
-          <ImageSlider images={exp.images} accent={exp.accent} />
+          {images.length > 0 && <ImageSlider images={images} accent={exp.accent} />}
 
-          <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
-            {exp.stack.map((s) => (
-              <span key={s} className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded" style={{ color: exp.accent, background: `${exp.accent}14` }}>
-                {s}
-              </span>
-            ))}
-          </div>
+          {stack.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-4 mb-4">
+              {stack.map((s) => (
+                <span key={s} className="text-xs font-bold tracking-widest uppercase px-2.5 py-1 rounded" style={{ color: exp.accent, background: `${exp.accent}14` }}>
+                  {s}
+                </span>
+              ))}
+            </div>
+          )}
 
-          <div className="flex flex-col gap-3">
-            {exp.bullets.map((b, i) => (
-              <div key={i} className="flex gap-3 items-start">
-                <div className="flex-shrink-0 mt-2.5 opacity-60" style={{ width: "16px", height: "1px", background: exp.accent }} />
-                <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>{b}</p>
-              </div>
-            ))}
-          </div>
+          {bullets.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {bullets.map((b, i) => (
+                <div key={i} className="flex gap-3 items-start">
+                  <div className="flex-shrink-0 mt-2.5 opacity-60" style={{ width: "16px", height: "1px", background: exp.accent }} />
+                  <p className={`text-sm leading-relaxed m-0 tracking-wide ${textFaint}`}>{b}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -745,9 +771,29 @@ function CardInner({ exp, open, hovered, textPrimary, textSecondary, textMuted, 
 }
 
 /* ─── Experience Card ────────────────────────────────────────────────────────── */
+function resolveLocalized(value, lang, fallback = "") {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value[lang] || value.EN || value.ID || fallback;
+  }
+
+  return value || fallback;
+}
+
+function resolveBullets(expStatic, lang, fallbackBullets = []) {
+  if (Array.isArray(expStatic.bullets)) return expStatic.bullets;
+
+  const description = resolveLocalized(expStatic.description, lang, "");
+  if (!description) return fallbackBullets;
+
+  return String(description)
+    .split(/\r?\n/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 function ExpCard({ expStatic, dark, rowIndex, isLast }) {
   const { lang } = useContext(LangContext);
-  const t = T[lang].data[expStatic.key];
+  const t = T[lang].data[expStatic.key] || {};
 
   const [ref, inView] = useInView(0.08);
   const [open, setOpen] = useState(false);
@@ -756,11 +802,13 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
   // Merge static + translated
   const exp = {
     ...expStatic,
-    role: t.role,
-    project: t.project,
-    bullets: t.bullets,
-    duration: expStatic.duration[lang],
-    type: expStatic.type[lang],
+    role: t.role || resolveLocalized(expStatic.role, lang, ""),
+    project: Object.prototype.hasOwnProperty.call(t, "project")
+      ? t.project
+      : resolveLocalized(expStatic.project, lang, null),
+    bullets: resolveBullets(expStatic, lang, t.bullets || []),
+    duration: resolveLocalized(expStatic.duration, lang, ""),
+    type: resolveLocalized(expStatic.type, lang, ""),
   };
 
   const textPrimary   = dark ? "text-white"      : "text-black/90";
@@ -905,6 +953,7 @@ function ExpCard({ expStatic, dark, rowIndex, isLast }) {
 export default function Experience({ dark }) {
   const { lang } = useContext(LangContext);
   const t = T[lang];
+  const experiences = useExperiences(EXP_STATIC);
 
   const [titleRef, titleInView] = useInView(0.2);
 
@@ -929,13 +978,13 @@ export default function Experience({ dark }) {
       </div>
 
       <div className="flex flex-col">
-        {EXP_STATIC.map((expStatic, i) => (
+        {experiences.map((expStatic, i) => (
           <ExpCard
             key={expStatic.id}
             expStatic={expStatic}
             dark={dark}
             rowIndex={i}
-            isLast={i === EXP_STATIC.length - 1}
+            isLast={i === experiences.length - 1}
           />
         ))}
       </div>

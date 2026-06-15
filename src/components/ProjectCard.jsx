@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 
 
 const TECH_ICON_MAP = {
@@ -48,6 +49,13 @@ const TECH_ICON_MAP = {
   "Custom Hooks":  null,
 };
 
+function isPdfFile(value) {
+  return /^data:application\/pdf/i.test(value || "") || /\.pdf($|\?)/i.test(value || "");
+}
+
+function isVideoFile(value) {
+  return /^data:video\//i.test(value || "") || /\.(mp4|webm|ogg|mov)($|\?)/i.test(value || "");
+}
 
 function ImageViewer({ src, alt, onClose }) {
   useEffect(() => {
@@ -99,15 +107,18 @@ export default function ProjectCard({
   dark = true,
   companyIcon = null,
   companyName = null,
+  detailHref = null,
 }) {
   const [viewerOpen, setViewerOpen] = useState(false);
+  const isPdfCover = isPdfFile(cover);
+  const isVideoCover = isVideoFile(cover);
 
   const openViewer = useCallback((e) => {
-    if (!cover) return;
+    if (!cover || isPdfCover || isVideoCover) return;
     e.preventDefault();
     e.stopPropagation();
     setViewerOpen(true);
-  }, [cover]);
+  }, [cover, isPdfCover, isVideoCover]);
 
   const closeViewer = useCallback(() => setViewerOpen(false), []);
 
@@ -147,7 +158,30 @@ export default function ProjectCard({
       >
         {/* Cover Image */}
         <div className="relative w-full h-28 sm:h-44 overflow-hidden">
-          {cover ? (
+          {cover && isPdfCover ? (
+            <a
+              href={cover}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br ${gradient}`}
+            >
+              <span className={`${noPreviewText} text-xs font-semibold tracking-widest uppercase`}>
+                PDF Preview
+              </span>
+              <span className={`${dark ? "text-white/45" : "text-black/45"} text-[10px]`}>
+                Open file
+              </span>
+            </a>
+          ) : cover && isVideoCover ? (
+            <video
+              src={cover}
+              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+          ) : cover ? (
             <>
               <img
                 src={cover}
@@ -286,7 +320,28 @@ export default function ProjectCard({
               </a>
             )}
 
-            {!github && !live && (
+            {detailHref && (
+              <Link
+                to={detailHref}
+                className={`flex items-center gap-1.5 text-[11px] transition-colors duration-200 ${linkCls}`}
+              >
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+                Details
+              </Link>
+            )}
+
+            {!github && !live && !detailHref && (
               <span className="flex items-center gap-1.5 text-[11px] text-amber-400/80">
                 <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
                 On Going
@@ -297,7 +352,7 @@ export default function ProjectCard({
       </div>
 
       {/* Lightbox Viewer */}
-      {viewerOpen && cover && (
+      {viewerOpen && cover && !isPdfCover && !isVideoCover && (
         <ImageViewer src={cover} alt={title} onClose={closeViewer} />
       )}
     </>

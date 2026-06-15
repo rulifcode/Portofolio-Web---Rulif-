@@ -1,294 +1,417 @@
-# 🌐 Rulif Fadria Nirwansyah — Portfolio Website
+# Rulif Fadria Nirwansyah Portfolio
 
-> Personal portfolio website showcasing projects, experience, certificates, and skills as a Front-End Developer based in Bandung, Indonesia.
+Personal portfolio website for Rulif Fadria Nirwansyah, focused on front-end development, full-stack development, software quality assurance, mobile development, certificates, experience, and project showcase.
 
-🔗 **Live:** [rulifweb.vercel.app](https://rulifweb.vercel.app/)
+Live site:
 
----
+- Portfolio Part 1: https://rulifweb.vercel.app/
+- Portfolio Part 2: https://rulifdev.vercel.app/
 
-## 📸 Overview
+## Overview
 
-A modern single-page portfolio built with **React 19 + Vite**, featuring:
+This project is a React + Vite portfolio with a rich visual interface, bilingual content, project cards, project detail pages, certificates, experience timeline, 3D lanyard, and a Firebase-ready admin dashboard for long-term content management.
 
-- ✨ Dark / Light mode with SoftAurora animated background
-- 🌏 Bilingual support (EN / ID) with context-based translation
-- 🎨 Premium UI with Framer Motion, GSAP, and Three.js animations
-- 📱 Fully responsive design (mobile, tablet, desktop)
-- 🔍 SEO optimized with Open Graph, Twitter Card, and JSON-LD structured data
-- 🎴 Interactive 3D Lanyard ID card (React Three Fiber)
-- 🚀 Deployed on Vercel with optimized chunking
+The admin dashboard is available at `/admin` so portfolio data can be managed without editing React files directly.
 
----
+Current Firebase direction:
 
-## 🛠️ Tech Stack
+- Firestore for project, experience, certificate, and contact data.
+- Firebase Auth for admin login.
+- Optional face-api.js verification after Firebase Auth login.
+- Admin dashboard for projects, experience, certificates, and contact content.
+- Optional Firebase Storage for cover images.
+- Static/local fallback while Firebase is not configured.
 
-| Category       | Technologies                                                                 |
-| -------------- | ---------------------------------------------------------------------------- |
-| **Framework**  | React 19, Vite 7                                                             |
-| **Styling**    | Tailwind CSS 4, Vanilla CSS                                                  |
-| **Animation**  | Framer Motion, GSAP, Three.js, React Three Fiber/Drei                        |
-| **Routing**    | React Router DOM v7                                                          |
-| **UI Library** | Lucide React, React Icons, Radix UI, Shadcn                                 |
-| **Font**       | Inter (Google Fonts), Geist (Fontsource)                                     |
-| **Build**      | Vite with manual chunks (vendor, motion, three)                              |
-| **Deployment** | Vercel                                                                       |
-| **Testing**    | Vitest, React Testing Library                                                |
+## Main Features
 
----
+- Dark/light mode.
+- Bilingual EN/ID content.
+- Animated hero with ShinyText and TextType.
+- Interactive 3D lanyard card.
+- About section with photo grid and tech visuals.
+- Experience timeline with expandable cards and image slider.
+- Projects section grouped by Development and QA.
+- Project detail pages for Development projects.
+- Certificate gallery.
+- Mentor feedback section.
+- Contact section.
+- Firebase-ready admin data services.
+- Optional admin face verification using local face-api.js models.
 
-## 📁 Project Structure
+## Tech Stack
 
-```
-rulifweb/
-├── public/
-│   ├── certificates/           # Certificate images (10 files)
-│   ├── CV_Rulif_Fadrian_Nirwansyah_2026.pdf
-│   ├── img_Rulif_logo.png      # Logo
-│   ├── og-cover.png            # Open Graph cover
-│   ├── Subjudul.png            # Favicon
-│   ├── robots.txt
-│   └── sitemap.xml
-├── src/
-│   ├── assets/                 # Project covers, company logos, photos (50+ files)
-│   ├── components/
-│   │   ├── layout/
-│   │   │   └── Navbar.jsx      # Navbar + LangContext + TRANSLATIONS (740 lines)
-│   │   ├── ui/
-│   │   │   ├── MentorFeedback.jsx  # Mentor feedback carousel with World Map
-│   │   │   ├── button.jsx          # Shadcn button component
-│   │   │   └── world-map.jsx       # Dotted world map visualization
-│   │   ├── AnimatedBeam/       # Animated beam connector component
-│   │   ├── Lanyard/            # 3D Lanyard ID card (React Three Fiber)
-│   │   ├── ScrollReveal/       # Scroll-based text reveal animation
-│   │   ├── ShinyText/          # Shiny text hover effect
-│   │   ├── SoftAurora/         # Aurora gradient background (WebGL shader)
-│   │   ├── TextType/           # Typewriter text effect
-│   │   ├── ProjectCard.jsx     # Project card with tech badges
-│   │   └── ThemeToggle.jsx     # Theme toggle button
-│   ├── hooks/
-│   │   ├── useCarousel.js      # Carousel logic hook
-│   │   └── useDarkMode.jsx     # Dark mode persistence hook
-│   ├── lib/
-│   │   └── utils.js            # Utility functions (cn helper)
-│   ├── pages/
-│   │   ├── Home.jsx            # Hero section + 3D Lanyard
-│   │   ├── About.jsx           # Bio + Photo Grid + Tech Stack/QA/Mobile Beam visuals
-│   │   ├── Experience.jsx      # Timeline with expandable cards + image slider + lightbox
-│   │   ├── Projects.jsx        # Grouped carousel (QA / Dev) with tab filter
-│   │   ├── Certificate.jsx     # Certificate gallery
-│   │   └── Contact.jsx         # Contact form + social links
-│   ├── App.jsx                 # Main app with SplashScreen, Router, SoftAurora bg
-│   ├── App.css
-│   ├── index.css
-│   └── main.jsx                # Entry point
-├── index.html                  # SEO meta, Open Graph, JSON-LD, Google Fonts
-├── vite.config.js              # Vite config with Tailwind plugin + manual chunks
-├── components.json             # Shadcn configuration
-├── package.json
-└── README.md
+| Area | Stack |
+| --- | --- |
+| Framework | React 19, Vite 7 |
+| Styling | Tailwind CSS 4, CSS |
+| Animation | Framer Motion, GSAP, OGL |
+| 3D | Three.js, React Three Fiber, Drei, Rapier |
+| Face verification | face-api.js |
+| Routing | React Router DOM v7 |
+| Icons/UI | Lucide React, React Icons, Radix UI, shadcn helpers |
+| Backend-ready | Firebase, Firestore, Firebase Auth |
+| Build | Vite |
+| Deploy | Vercel |
+
+## Requirements
+
+Use Node.js 20.x.
+
+The project may install and run on newer Node versions, but `package.json` declares:
+
+```json
+"engines": {
+  "node": "20.x"
+}
 ```
 
----
+## Getting Started
 
-## 🎯 Sections / Pages
-
-| Section              | Description                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------ |
-| **Home**             | Hero with ShinyText name, TextType roles, CTA buttons, 3D Lanyard card (desktop/mobile)          |
-| **About**            | Bio with ScrollReveal, Photo Grid, AnimatedBeam visuals (Tech Stack, QA Tools, Mobile Dev)       |
-| **Experience**       | Interactive timeline (4 entries: Cakrawala, Gaotek, Vodjo, Lumoshive) with image slider/lightbox |
-| **Projects**         | Tab filter (All/QA/Dev), grouped carousel with auto-slide, expand/collapse, 14 total projects    |
-| **Certificate**      | Certificate gallery (10 certificates)                                                            |
-| **Mentor Feedback**  | Mentor testimonials with world map visualization                                                 |
-| **Contact**          | Contact information + social links                                                               |
-
----
-
-## ✨ Key Features
-
-- **Splash Screen** — Animated logo on load with fade-out transition
-- **Magnetic Nav Links** — Desktop nav links follow cursor with magnetic effect
-- **3D Lanyard** — Interactive 3D ID card using React Three Fiber + Rapier physics
-- **AnimatedBeam** — SVG beam connectors showing tech stack relationships
-- **ScrollReveal** — Text reveals with blur + rotation on scroll
-- **Image Lightbox** — Full-screen image viewer with keyboard navigation + swipe
-- **Auto Carousel** — Project cards auto-slide with manual controls and pagination dots
-- **Bilingual (EN/ID)** — Full translation system via React Context
-
----
-
-## 🚀 Getting Started
+Install dependencies:
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start dev server
+Start development server:
+
+```bash
 npm run dev
+```
 
-# Build for production
+Build production files:
+
+```bash
 npm run build
+```
 
-# Preview production build
+Preview production build:
+
+```bash
 npm run preview
+```
 
-# Lint
+Run lint:
+
+```bash
 npm run lint
 ```
 
-**Requirements:** Node.js 20.x
+Note: full lint may still report existing strict React Hooks lint issues in legacy visual components. The Firebase/project files should be linted separately while the legacy lint cleanup is handled.
 
----
+## Environment Variables
 
-## 🔗 Links
+Create `.env.local` in the project root:
 
-- **Portfolio (Part 1):** [rulifweb.vercel.app](https://rulifweb.vercel.app/)
-- **Portfolio (Part 2):** [rulifdev.vercel.app](https://rulifdev.vercel.app/)
-- **GitHub:** [github.com/rulifcode](https://github.com/rulifcode)
-- **LinkedIn:** [linkedin.com/in/ruliffadrian](https://www.linkedin.com/in/ruliffadrian/)
-- **WhatsApp:** [wa.me/6281382916024](https://wa.me/6281382916024)
+```env
+# Firebase web app config.
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
 
----
+# Optional admin face verification after Firebase Auth login.
+VITE_ADMIN_FACE_LOGIN_ENABLED=false
+VITE_ADMIN_FACE_LABEL=Rulif Admin
+VITE_ADMIN_FACE_DESCRIPTOR=
+VITE_ADMIN_FACE_MATCH_THRESHOLD=0.5
+VITE_FACE_API_MODEL_URL=/models
+```
 
----
+Use `.env.example` as the template. `.env.local` is ignored by git and is meant for your local values.
 
-# 📋 CMS Page — Persiapan & Task List
+Firebase values come from Firebase Console > Project settings > General > Your apps > Web app config.
 
-> Catatan persiapan untuk membuat halaman **CMS (Content Management System)** agar konten portfolio bisa dikelola secara dinamis tanpa harus edit kode langsung.
+If any value is empty, `src/lib/firebase.js` keeps Firebase disabled and the app uses fallback behavior.
 
-## 🎯 Tujuan CMS
+Current local Firebase app:
 
-Membuat dashboard admin sederhana untuk mengelola konten portfolio secara dinamis — sehingga data seperti projects, experience, certificates, dan teks lainnya bisa di-update tanpa harus deploy ulang.
+- Project ID: `rulifweb-portfolio`
+- Auth domain: `rulifweb-portfolio.firebaseapp.com`
+- Storage bucket: `rulifweb-portfolio.firebasestorage.app`
 
----
+Firebase SDK status:
 
-## 📌 Task yang Harus Di-Update / Dibuat
+- `firebase` is already installed in `package.json`.
+- The app already initializes Firebase in `src/lib/firebase.js`.
+- Enabled SDK usage in code: Firebase App, Auth, and Firestore.
+- Firebase Storage is documented for later upload support, but the current dashboard drag/drop stores file data directly in the form as data URLs. For production videos or large files, use Firebase Storage and save the download URL to Firestore.
 
-### 1. 🏠 Home Section
-- [ ] **Hero Text** — Buat CMS field untuk: nama, deskripsi hero (EN & ID), role list (TextType)
-- [ ] **CTA Buttons** — URL dan label tombol bisa diedit dari CMS
-- [ ] **Logo** — Upload logo dari CMS
+Face login values:
 
-### 2. 👤 About Section
-- [ ] **Bio Text** — Semua paragraf bio (EN & ID) bisa diedit dari CMS
-- [ ] **Photos** — Upload/ganti foto About section (PhotoGrid) dari CMS
-- [ ] **Tech Stack Icons** — Manage daftar teknologi yang ditampilkan di AnimatedBeam
+- `VITE_ADMIN_FACE_LOGIN_ENABLED`: set to `true` to require face verification after Firebase Auth login.
+- `VITE_ADMIN_FACE_DESCRIPTOR`: 128-number face descriptor generated from the `/admin` face setup screen when face login is enabled but descriptor is still empty.
+- `VITE_ADMIN_FACE_LABEL`: display label for the registered admin face.
+- `VITE_ADMIN_FACE_MATCH_THRESHOLD`: face match sensitivity. `0.5` is a practical starting point.
+- `VITE_FACE_API_MODEL_URL`: model folder path. The current models are in `public/models`, so `/models` is correct.
 
-### 3. 💼 Experience Section
-- [ ] **Experience Entries** — CRUD data pengalaman kerja (company, role, period, duration, location, type)
-- [ ] **Experience Bullets** — Edit deskripsi bullet points per experience (EN & ID)
-- [ ] **Experience Images** — Upload/manage slider images per experience
-- [ ] **Company Logos** — Upload logo perusahaan
-- [ ] **Tech Stack per Experience** — Manage daftar teknologi per entry
+Recommended face setup flow:
 
-### 4. 📂 Projects Section
-- [ ] **Project Entries** — CRUD data project (title, description EN & ID, tech stack, links, cover image)
-- [ ] **Project Categories** — Manage kategori/grup (QA, Development, dll.)
-- [ ] **Project Covers** — Upload cover image per project
-- [ ] **Company Icons** — Upload/assign company icon per project
-- [ ] **Project Links** — Edit GitHub URL & live demo URL per project
+1. Keep `VITE_ADMIN_FACE_LOGIN_ENABLED=false` while setting up Firebase Auth.
+2. Login to `/admin` with Firebase Email/Password.
+3. Temporarily set `VITE_ADMIN_FACE_LOGIN_ENABLED=true` while `VITE_ADMIN_FACE_DESCRIPTOR` is still empty.
+4. Open `/admin`, use the face setup screen to generate the descriptor.
+5. Put the descriptor into `.env.local`, then restart the dev server.
+6. Keep Firestore rules restricted by admin email. Face login is an extra UI gate, not the database permission layer.
 
-### 5. 📜 Certificate Section
-- [ ] **Certificate Entries** — CRUD data sertifikat (title, issuer, date, image)
-- [ ] **Certificate Images** — Upload image sertifikat dari CMS
+Important: face verification runs in the browser, so it is an extra admin gate, not the main security layer. Keep Firebase Auth and Firestore rules as the source of truth. Do not put admin passwords in any `VITE_` env variable.
 
-### 6. 💬 Mentor Feedback Section
-- [ ] **Feedback Entries** — CRUD data mentor (nama, role, foto, feedback text EN & ID)
-- [ ] **Map Locations** — Edit titik lokasi mentor di world map
+## Firebase Setup
 
-### 7. 📞 Contact Section
-- [ ] **Contact Info** — Edit teks deskripsi, availability status (EN & ID)
-- [ ] **Social Links** — Manage URL social media (WhatsApp, LinkedIn, GitHub, Instagram, Email)
+Detailed Firebase instructions are in:
 
-### 8. 🧭 Navbar & Global
-- [ ] **Nav Labels** — Edit label navigasi (EN & ID)
-- [ ] **CV File** — Upload/update file CV PDF
-- [ ] **SEO Meta** — Edit title, description, keywords, OG image dari CMS
-- [ ] **Favicon & Logo** — Upload favicon dan logo dari CMS
+```text
+FIREBASE_SETUP_CHATGPT.md
+```
 
----
+That file contains:
 
-## 🏗️ Arsitektur CMS yang Disarankan
+- Firebase Console setup steps.
+- Firestore collection schema.
+- `projects` document example.
+- Security rules.
+- Auth setup.
+- Storage notes.
+- Seed data plan.
+- A prompt you can copy to ChatGPT.
 
-### Option A: Headless CMS (Recommended untuk MVP)
-| Service         | Kelebihan                                 |
-| --------------- | ----------------------------------------- |
-| **Supabase**    | PostgreSQL + Auth + Storage, gratis tier   |
-| **Firebase**    | Realtime DB + Auth + Storage              |
-| **Strapi**      | Self-hosted, full control, open source    |
-| **Sanity.io**   | Realtime, flexible schema, generous free  |
+Official references:
 
-### Option B: Custom Admin Panel
-- React + Vite admin dashboard
-- REST API (Node.js/Express atau Golang)
-- PostgreSQL / MongoDB untuk database
-- Cloudinary / Supabase Storage untuk upload gambar
+- Firebase pricing: https://firebase.google.com/pricing
+- Firebase web setup: https://firebase.google.com/docs/web/setup
+- Firestore docs: https://firebase.google.com/docs/firestore
+- Firebase Auth docs: https://firebase.google.com/docs/auth
 
----
+## Firebase Data Architecture
 
-## 📝 Perubahan Kode yang Diperlukan
+Main collections/documents:
 
-### Data Layer
-- [ ] Pindahkan semua **hardcoded data** dari komponen ke file JSON / API call
-- [ ] Buat **data service layer** (`src/services/`) untuk fetch data dari CMS/API
-- [ ] Buat **loading states** dan **skeleton UI** untuk setiap section
-- [ ] Buat **error handling** jika data gagal di-fetch
+```text
+projects
+experiences
+certificates
+siteContent/contact
+```
 
-### Files yang Perlu Refactor (Pindahkan Hardcoded Data)
-| File | Data yang Hardcoded |
-| ---- | ------------------- |
-| `Navbar.jsx` | `TRANSLATIONS` object (~150 lines), `NAV_HREFS` |
-| `Home.jsx` | Hero text, role list, CTA labels |
-| `About.jsx` | `ABOUT_TRANSLATIONS`, tech stack icons list |
-| `Experience.jsx` | `EXP_STATIC` array, `T` translations object |
-| `Projects.jsx` | `TRANSLATIONS`, `VODJO_META`, `DEV_META` arrays |
-| `Certificate.jsx` | Certificate data & images |
-| `Contact.jsx` | Contact info, social links |
-| `MentorFeedback.jsx` | Mentor data, feedback text |
+The admin dashboard can manage Development projects, QA projects, experience entries, certificates, and contact content.
 
-### Admin Dashboard (New)
-- [ ] Buat route `/admin` atau subdomain terpisah
-- [ ] Login/auth untuk admin
-- [ ] Form CRUD untuk setiap section
-- [ ] Image upload dengan preview
-- [ ] Preview perubahan sebelum publish
-- [ ] Multi-language editor (EN/ID side by side)
+Recommended document ID:
 
----
+```text
+{slug}
+```
 
-## ⚡ Prioritas Implementasi
+Example:
 
-| Priority | Task | Effort |
-| -------- | ---- | ------ |
-| 🔴 P0 | Setup database & API layer | Medium |
-| 🔴 P0 | Refactor hardcoded data ke data service | High |
-| 🟡 P1 | CMS: Projects CRUD | Medium |
-| 🟡 P1 | CMS: Experience CRUD | Medium |
-| 🟡 P1 | CMS: Certificate CRUD | Low |
-| 🟢 P2 | CMS: About section editor | Low |
-| 🟢 P2 | CMS: Home section editor | Low |
-| 🟢 P2 | CMS: Contact & social links | Low |
-| 🔵 P3 | CMS: Mentor Feedback CRUD | Low |
-| 🔵 P3 | CMS: SEO meta editor | Low |
-| 🔵 P3 | CMS: CV upload | Low |
-| 🔵 P3 | Image optimization pipeline | Medium |
+```text
+projects/rulif-taskify-movie
+```
 
----
+Document fields:
 
-## 📌 Notes
+```js
+{
+  slug: "rulif-taskify-movie",
+  category: "dev",
+  title: {
+    EN: "Rulif Taskify Movie",
+    ID: "Rulif Taskify Movie"
+  },
+  description: {
+    EN: "Personal project - a movie discovery app built with Next.js, Node.js, Firebase, and Tailwind CSS.",
+    ID: "Proyek personal - aplikasi pencarian film berbasis Next.js, Node.js, Firebase, dan Tailwind CSS."
+  },
+  tech: ["Next.js", "Node.js", "Firebase", "Tailwind CSS"],
+  github: "https://github.com/rulifcode/ruliftaskify-movie",
+  live: "https://ruliftaskify-movie.vercel.app/",
+  cover: "https://example.com/project-cover.jpg",
+  gradient: "from-purple-500/20 via-violet-500/10 to-transparent",
+  companyName: null,
+  sortOrder: 1,
+  published: true,
+  updatedAt: "serverTimestamp()"
+}
+```
 
-- Semua teks saat ini **hardcoded bilingual (EN/ID)** di dalam komponen React — ini harus dipindahkan ke database/CMS
-- Asset gambar disimpan di `src/assets/` (bundled) dan `public/` (static) — perlu migrasi ke cloud storage
-- Saat ini belum ada backend/API — semua data client-side only
-- Splash screen, theme toggle, dan language toggle bisa tetap client-side (tidak perlu CMS)
+## Firebase Related Files
 
----
+| File | Purpose |
+| --- | --- |
+| `src/lib/firebase.js` | Initializes Firebase app, Auth, and Firestore from Vite env variables. |
+| `src/lib/adminFaceAuth.js` | Reads optional face verification env values and parses the face descriptor. |
+| `src/services/projectsService.js` | Project CRUD helpers, Firestore reads/writes, seed helper, localStorage fallback. |
+| `src/services/adminContentService.js` | Generic admin content helpers for experience, certificates, and site content. |
+| `src/hooks/useProjects.js` | Public hook that loads Firestore project data and falls back to static data. |
+| `src/hooks/useCertificates.js` | Public hook for dynamic certificates with static fallback. |
+| `src/hooks/useContactContent.js` | Public hook for dynamic contact copy and links with static fallback. |
+| `src/data/projectsData.js` | Static fallback project data, translations, project slug helper, seed data. |
+| `src/pages/Projects.jsx` | Public project listing grouped into Development and QA. |
+| `src/pages/ProjectDetail.jsx` | Detail page for development project route `/projects/:slug`. |
+| `src/pages/AdminDashboard.jsx` | Admin login, optional face verification, and CRUD dashboard. |
+| `src/components/ProjectCard.jsx` | Project card UI with GitHub, live demo, and detail link. |
 
-## 👤 Author
+## Routes
 
-**Rulif Fadria Nirwansyah**
-Front-End Developer · Bandung, Indonesia
+| Route | Description |
+| --- | --- |
+| `/` | Main portfolio single-page experience. |
+| `/projects` | Project listing route. |
+| `/project` | Alias for the project listing route. |
+| `/projects/:slug` | Detail page for a development project. |
+| `/project/:slug` | Alias for development project detail. |
+| `/admin` | Admin dashboard route for content CRUD. |
 
----
+## Admin Dashboard
 
-*Last updated: May 2026*
+The admin dashboard lets portfolio data be managed without editing code.
+
+Current dashboard scope:
+
+- Login with Firebase Auth Email/Password.
+- Optional face verification after Firebase Auth login.
+- List Development and QA projects from Firestore/local fallback.
+- Create/edit/delete projects.
+- Seed default projects.
+- Toggle `published`.
+- Manage experience entries.
+- Manage certificates.
+- Manage contact copy and social links.
+
+Fields needed in the admin form:
+
+- Slug.
+- Title EN.
+- Title ID.
+- Description EN.
+- Description ID.
+- Tech stack.
+- GitHub URL.
+- Live URL.
+- Cover URL/path.
+- Gradient class.
+- Company name.
+- Sort order.
+- Published.
+
+## Project Structure
+
+```text
+rulifweb/
+  public/
+    certificates/
+    CV_Rulif_Fadrian_Nirwansyah_June_2026.pdf
+    img_Rulif_logo.png
+    og-cover.png
+    robots.txt
+    sitemap.xml
+  src/
+    assets/
+    components/
+      AnimatedBeam/
+      Lanyard/
+      ScrollReveal/
+      ShinyText/
+      SoftAurora/
+      TextType/
+      layout/
+      ui/
+      ProjectCard.jsx
+      SplashScreen.jsx
+      ThemeToggle.jsx
+    data/
+      projectsData.js
+    hooks/
+      useCarousel.js
+      useDarkMode.jsx
+      useProjects.js
+    lib/
+      firebase.js
+      adminFaceAuth.js
+      utils.js
+    pages/
+      About.jsx
+      Certificate.jsx
+      Contact.jsx
+      Experience.jsx
+      Home.jsx
+      ProjectDetail.jsx
+      Projects.jsx
+      AdminDashboard.jsx
+    services/
+      adminContentService.js
+      projectsService.js
+    App.jsx
+    index.css
+    main.jsx
+  FIREBASE_SETUP_CHATGPT.md
+  README.md
+  README_VERCEL_DEPLOY.md
+  vercel.json
+  package.json
+  vite.config.js
+```
+
+## Static Fallback Behavior
+
+The app is designed to keep running even before Firebase is configured.
+
+Behavior:
+
+- If Firebase env variables are complete, project data can come from Firestore.
+- If Firebase env variables are missing, the app uses static data from `src/data/projectsData.js`.
+- Admin service helpers fall back to `localStorage` when Firebase is disabled.
+- Face verification only runs when Firebase is configured and `VITE_ADMIN_FACE_LOGIN_ENABLED=true`.
+- Admin media inputs accept URL/path plus drag/drop files for PDF, image, and video. Drag/drop data is stored as data URLs; for large media use Firebase Storage and paste the download URL.
+
+This keeps development smooth while the Firebase Console setup is still in progress.
+
+## Deployment Notes
+
+The project is ready for Vercel deployment. Detailed deployment steps are in:
+
+```text
+README_VERCEL_DEPLOY.md
+```
+
+Quick summary:
+
+- Vercel Framework Preset: `Vite`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Node.js Version: `20.x`
+- Add all `VITE_FIREBASE_*` variables in Vercel Project Settings.
+- Add the Vercel domain to Firebase Authentication > Authorized domains.
+
+The root `vercel.json` contains an SPA rewrite so direct URLs and refreshes keep working:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+
+This is required for React Router routes such as `/admin`, `/projects`, and `/projects/:slug`.
+
+## Next Implementation Tasks
+
+- Add Firestore security rules.
+- Add optional Firebase Storage upload for project cover images.
+- Continue moving other hardcoded sections to data/service layers later.
+
+## Useful Links
+
+- GitHub: https://github.com/rulifcode
+- LinkedIn: https://www.linkedin.com/in/ruliffadrian/
+- WhatsApp: https://wa.me/6281382916024
+
+## Author
+
+Rulif Fadria Nirwansyah  
+Front-End Developer based in Bandung, Indonesia
