@@ -1,5 +1,4 @@
-// App.jsx
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { LangContext } from "./components/layout/Navbar";
 import Navbar from "./components/layout/Navbar";
@@ -11,54 +10,62 @@ import Certificate from "./pages/Certificate";
 import Contact from "./pages/Contact";
 import MentorFeedback from "./components/ui/MentorFeedback";
 import SoftAurora from "./components/SoftAurora/SoftAurora";
+import SplashScreen from "./components/SplashScreen";
 
-// ── Splash Screen ──────────────────────────────────────────────
-function SplashScreen({ onDone }) {
-  const [hiding, setHiding] = useState(false);
+const AURORA_COLORS = {
+  dark: ["#0d0d14", "#1a1040", "#0a0f1e"],
+  light: ["#dce8ff", "#f0ecff", "#f5f5f3"],
+};
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setHiding(true);
-      setTimeout(onDone, 400);
-    }, 1200);
-    return () => clearTimeout(timer);
-  }, [onDone]);
-  
+const PAGE_SECTIONS = [
+  { id: "home", Component: Home },
+  { id: "about", Component: About },
+  { id: "experience", Component: Experience },
+  { id: "projects", Component: Project },
+  { id: "certificate", Component: Certificate },
+  { id: "mentor-feedback", Component: MentorFeedback },
+  { id: "contact", Component: Contact },
+];
+
+function AppBackground({ dark }) {
   return (
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 9999,
-        background: "#0a0a0c",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: hiding ? 0 : 1,
-        transition: "opacity 0.7s ease",
-        pointerEvents: hiding ? "none" : "all",
-      }}
+      className="fixed inset-0 -z-10"
+      style={{ background: dark ? "#0a0a0c" : "#f0f0ee", pointerEvents: "none" }}
     >
-      <img
-        src="/img_Rulif_logo.png"
-        alt="Logo"
-        style={{
-          width: "clamp(160px, 35vw, 280px)",
-          objectFit: "contain",
-          filter: "brightness(0) invert(1)",
-          animation: "splashPop 0.6s cubic-bezier(0.34,1.56,0.64,1) both",
-        }}
+      <SoftAurora
+        gradientColors={dark ? AURORA_COLORS.dark : AURORA_COLORS.light}
+        angle={0}
+        noise={0.3}
+        blindCount={12}
+        blindMinWidth={50}
+        spotlightRadius={0.5}
+        spotlightSoftness={1}
+        spotlightOpacity={1}
+        mouseDampening={0.15}
+        distortAmount={0}
+        shineDirection="left"
+        mixBlendMode="lighten"
       />
-      <style>{`
-        @keyframes splashPop {
-          from { opacity: 0; transform: scale(0.7); }
-          to   { opacity: 1; transform: scale(1); }
-        }
-      `}</style>
     </div>
   );
 }
-// ──────────────────────────────────────────────────────────────
+
+function AppSections({ dark }) {
+  return (
+    <main>
+      {PAGE_SECTIONS.map((section) => {
+        const SectionComponent = section.Component;
+
+        return (
+          <section key={section.id} id={section.id}>
+            <SectionComponent dark={dark} />
+          </section>
+        );
+      })}
+    </main>
+  );
+}
 
 function App() {
   const [dark, setDark] = useState(true);
@@ -69,45 +76,16 @@ function App() {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const darkColors = ['#0d0d14', '#1a1040', '#0a0f1e'];
-  const lightColors = ['#dce8ff', '#f0ecff', '#f5f5f3'];
-
   return (
     <LangContext.Provider value={{ lang, setLang }}>
       {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
 
       <Router>
-        <div
-          className="fixed inset-0 -z-10"
-          style={{ background: dark ? "#0a0a0c" : "#f0f0ee", pointerEvents: "none" }}
-        >
-          <SoftAurora
-            gradientColors={dark ? darkColors : lightColors}
-            angle={0}
-            noise={0.3}
-            blindCount={12}
-            blindMinWidth={50}
-            spotlightRadius={0.5}
-            spotlightSoftness={1}
-            spotlightOpacity={1}
-            mouseDampening={0.15}
-            distortAmount={0}
-            shineDirection="left"
-            mixBlendMode="lighten"
-          />
-        </div>
+        <AppBackground dark={dark} />
 
         <div className="min-h-screen flex flex-col">
           <Navbar dark={dark} setDark={setDark} />
-          <main>
-            <section id="home"><Home dark={dark} /></section>
-            <section id="about"><About dark={dark} /></section>
-            <section id="experience"><Experience dark={dark} /></section>
-            <section id="projects"><Project dark={dark} /></section>
-            <section id="certificate"><Certificate dark={dark} /></section>
-            <section id="mentor-feedback"><MentorFeedback dark={dark} /></section>
-            <section id="contact"><Contact dark={dark} /></section>
-          </main>
+          <AppSections dark={dark} />
         </div>
       </Router>
     </LangContext.Provider>

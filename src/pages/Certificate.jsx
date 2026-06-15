@@ -210,10 +210,6 @@ export default function Certificate({ dark }) {
     setTimeout(() => setPaused(false), 4000);
   };
 
-  // neutral accent — adapts to dark/light cleanly
-  const accent = dark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.75)";
-  const accentSub = dark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.2)";
-
   return (
     <section style={{
       minHeight: "100vh",

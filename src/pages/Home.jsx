@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import Lanyard from "../components/Lanyard/Lanyard";
 import TextType from "../components/TextType/TextType";
 import ShinyText from "../components/ShinyText/ShinyText";
@@ -6,7 +6,6 @@ import { useLang, TRANSLATIONS } from "../components/layout/Navbar";
 
 function Home({ dark }) {
   const { lang } = useLang();
-  console.log("current lang: - Home.jsx:9", lang);
   const t = TRANSLATIONS[lang].home;
 
   const container = {
@@ -23,7 +22,7 @@ function Home({ dark }) {
     <>
       {/* ===================== SECTION 1 — HERO ===================== */}
       <div key={lang} className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
-        <motion.div
+        <Motion.div
           variants={container}
           initial="hidden"
           animate="show"
@@ -32,7 +31,7 @@ function Home({ dark }) {
           {/* LEFT CONTENT */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
 
-            <motion.h1
+            <Motion.h1
               variants={item}
               className={`text-4xl sm:text-5xl md:text-6xl font-bold mb-3 leading-tight tracking-tight ${dark ? "text-white/90" : "text-black/90"}`}
             >
@@ -45,9 +44,9 @@ function Home({ dark }) {
                 direction="left"
                 className="whitespace-normal break-words"
               />
-            </motion.h1>
+            </Motion.h1>
 
-            <motion.div
+          <Motion.div
               variants={item}
               className={`text-xl sm:text-2xl font-medium mb-6 h-9 ${dark ? "text-white/40" : "text-black/40"}`}
             >
@@ -66,17 +65,17 @@ function Home({ dark }) {
                 cursorClassName={dark ? "text-white/40" : "text-black/40"}
                 loop={true}
               />
-            </motion.div>
+            </Motion.div>
 
-            <motion.p
+            <Motion.p
               variants={item}
               className={`text-base sm:text-lg leading-relaxed mb-8 max-w-md ${dark ? "text-white/70" : "text-black/40"}`}
             >
               {t.desc}
-            </motion.p>
+            </Motion.p>
 
             {/* Buttons */}
-            <motion.div
+            <Motion.div
               variants={item}
               className="flex flex-row flex-wrap justify-center md:justify-start gap-3"
             >
@@ -97,16 +96,16 @@ function Home({ dark }) {
               >
                 View Part 2
               </a>
-            </motion.div>
+            </Motion.div>
 
-            <motion.div
+            <Motion.div
               variants={item}
               className={`mt-12 pt-8 border-t w-full grid grid-cols-4 gap-4 ${dark ? "border-white/10" : "border-black/10"}`}
             />
           </div>
 
           {/* RIGHT — Lanyard desktop */}
-          <motion.div
+            <Motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -114,12 +113,12 @@ function Home({ dark }) {
             style={{ height: "calc(100vh - 4rem)", maxHeight: "800px" }}
           >
             <Lanyard dark={dark} position={[0, 0, 20]} gravity={[0, -40, 0]} fov={14} />
-          </motion.div>
-        </motion.div>
+          </Motion.div>
+        </Motion.div>
       </div>
 
       {/* ===================== SECTION 2 — LANYARD MOBILE ONLY ===================== */}
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -132,7 +131,7 @@ function Home({ dark }) {
         <div className="w-full aspect-[3/4]">
           <Lanyard dark={dark} position={[0, 0, 20]} gravity={[0, -35, 0]} fov={12} />
         </div>
-      </motion.div>
+      </Motion.div>
     </>
   );
 }

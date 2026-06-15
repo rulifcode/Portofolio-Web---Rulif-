@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect } from "react";
 import ProjectCard from "../components/ProjectCard";
 import { useLang } from "../components/layout/Navbar";
+import useCarousel from "../hooks/useCarousel";
 
 /* ── Asset imports ─────────────────────────────────────────────── */
 import coverEcommerce from "../assets/1774056567909.jpg";
@@ -23,47 +24,6 @@ import coverIndustrix from "../assets/industrix_todo.png";
 import logoVodjo from "../assets/vodjo.webp";
 import logoLumoshive from "../assets/lumoshive.png";
 import logoGaotek from "../assets/GAOTek.png";
-
-function TechBadge({ name, dark }) {
-  const iconUrl = TECH_ICON_MAP[name];
-
-  if (iconUrl) {
-    return (
-      <span
-        title={name}
-        className={`inline-flex items-center justify-center w-6 h-6 rounded-md border transition-all duration-200 ${dark
-          ? "border-white/10 bg-white/5 hover:bg-white/10"
-          : "border-gray-200 bg-gray-50 hover:bg-gray-100"
-          }`}
-      >
-        <img
-          src={iconUrl}
-          alt={name}
-          className="w-3.5 h-3.5 object-contain"
-          loading="lazy"
-          onError={(e) => {
-            // fallback to text if image fails
-            e.currentTarget.parentElement.outerHTML = `<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border ${dark
-              ? "border-white/10 bg-white/5 text-white/40"
-              : "border-gray-200 bg-gray-50 text-gray-400"
-              }">${name}</span>`;
-          }}
-        />
-      </span>
-    );
-  }
-
-  return (
-    <span
-      className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium border transition-all duration-200 ${dark
-        ? "border-white/10 bg-white/5 text-white/40"
-        : "border-gray-200 bg-gray-50 text-gray-400"
-        }`}
-    >
-      {name}
-    </span>
-  );
-}
 
 /* ================================================================
    TRANSLATIONS
@@ -173,26 +133,6 @@ const VODJO_META = [
 
 
 /* ================================================================
-   useCarousel
-   ================================================================ */
-function useCarousel(totalItems, perSlide = 4, intervalMs = 4000, enabled = true) {
-  const [slideIndex, setSlideIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const timerRef = useRef(null);
-  const totalSlides = Math.max(1, Math.ceil(totalItems / perSlide));
-  const goPrev = useCallback(() => setSlideIndex((p) => (p - 1 + totalSlides) % totalSlides), [totalSlides]);
-  const goNext = useCallback(() => setSlideIndex((p) => (p + 1) % totalSlides), [totalSlides]);
-  const goTo = useCallback((i) => setSlideIndex(i), []);
-  const resetSlide = useCallback(() => setSlideIndex(0), []);
-  useEffect(() => {
-    if (!enabled || isPaused || totalSlides <= 1) return;
-    timerRef.current = setInterval(goNext, intervalMs);
-    return () => clearInterval(timerRef.current);
-  }, [enabled, isPaused, totalSlides, goNext, intervalMs]);
-  return { slideIndex, totalSlides, goPrev, goNext, goTo, isPaused, setIsPaused, resetSlide };
-}
-
-/* ================================================================
    Constants
    ================================================================ */
 const CARDS_PER_SLIDE = 4;
@@ -259,10 +199,11 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
     AUTO_SLIDE_MS,
     !expanded && hasExtra,
   );
+  const { resetSlide } = carousel;
 
   useEffect(() => {
-    if (!expanded) carousel.resetSlide();
-  }, [expanded]);
+    if (!expanded) resetSlide();
+  }, [expanded, resetSlide]);
 
   const displayCards = expanded
     ? projects
