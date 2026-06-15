@@ -138,23 +138,14 @@ const TRANSLATIONS = {
       { title: "Gaotek Inc — Web WordPress", description: "Mengembangkan dan memelihara website Gaotek Indonesia. Menangani pembaruan tema, optimasi SEO, data produk WooCommerce via Excel, dan slicing UI berdasarkan desain Figma." },
       { title: "CRUD React.js & Axios", description: "Aplikasi manajemen produk responsif yang dibangun menggunakan React 18, Vite, dan Tailwind CSS. Mengimplementasikan fitur CRUD, pencarian, filtering, dan pagination menggunakan FakeStore API. Disusun menggunakan arsitektur Container/Presentational dengan custom hooks untuk pengelolaan data, filtering, dan state management." },
       { title: "Backend Laravel CMS Dashboard Aurevia Hotel", description: "CMS dashboard & REST API untuk sistem manajemen hotel berbasis web. Dibangun dengan Laravel 12, dilengkapi role-based access control (Admin & Resepsionis), upload media via Cloudinary, dan dikonsumsi oleh frontend Next.js." },
-      { title: "Industrix Todo", description: "Aplikasi todo full-stack dengan Go (Gin, GORM), React 18 (TypeScript), dan PostgreSQL. Fitur CRUD, pagination, filtering, manajemen kategori, dan dukungan Docker."
+      {
+        title: "Industrix Todo", description: "Aplikasi todo full-stack dengan Go (Gin, GORM), React 18 (TypeScript), dan PostgreSQL. Fitur CRUD, pagination, filtering, manajemen kategori, dan dukungan Docker."
       }
     ],
   },
 };
 
 /* ── Shared meta ────────────────────────────────────────────────── */
-const VODJO_META = [
-  { tech: ["Cypress", "Playwright", "Postman", "Agile", "iOS", "Android","Figma"], github: null, live: "https://play.google.com/store/apps/details?id=com.nn.ngafalngefeel", gradient: "from-teal-500/20 via-cyan-500/10 to-transparent", cover: coverNgafal, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: [ "Cypress", "Playwright", "Postman", "Agile", "Manual Testing","Figma"], github: null, live: "https://ganakonsultan.com/", gradient: "from-lime-500/20 via-green-500/10 to-transparent", cover: coverGana, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["CMS", "Cypress", "Playwright", "Postman", "Manual Testing", "Agile", "Figma"], github: null, live: "https://crm.masplene.com/dashboard", gradient: "from-blue-500/20 via-sky-500/10 to-transparent", cover: coverPolytama, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Cypress", "Playwright", "Postman", "Bug Report", "Agile", "Figma"], github: null, live: "https://www.tmsdaihatsu.co.id/", gradient: "from-red-500/20 via-orange-500/10 to-transparent", cover: coverDaihatsu, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Cypress", "Playwright", "Postman", "Test Case", "Bug Report", "Agile", "Figma"], github: null, live: "https://bnpp.go.id/", gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Mobile", "Cypress", "Playwright", "Postman", "Test Case", "Agile", "Figma"], github: null, live: null, gradient: "from-pink-500/20 via-rose-500/10 to-transparent", cover: coverTotalBuah, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-  { tech: ["Mobile", "Cypress", "Playwright", "Postman", "Test Case", "Agile", "Figma"], github: null, live: "https://lomboknotary.com/", gradient: "from-brown-500/20 via-rose-500/10 to-transparent", cover: coverLanatory, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
-];
-
 const DEV_META = [
   { tech: ["Next.js", "Node.js", "Firebase", "Tailwind CSS", "Framer Motion", "TMDB API"], github: "https://github.com/rulifcode/ruliftaskify-movie", live: "https://ruliftaskify-movie.vercel.app/", gradient: "from-purple-500/20 via-violet-500/10 to-transparent", cover: coverTaskify, companyIcon: null, companyName: null, category: "dev" },
   { tech: ["React.js", "JavaScript", "Tailwind CSS", "Figma"], github: "https://github.com/lumoshive-final-project-batch-III/Frontend-project-app-ecommerce-frontend-tim-Ubuntu", live: "https://frontend-project-app-ecommerce-fron.vercel.app/", gradient: "from-blue-500/20 via-cyan-500/10 to-transparent", cover: coverEcommerce, companyIcon: logoLumoshive, companyName: "Lumoshive", category: "dev" },
@@ -169,6 +160,17 @@ const DEV_META = [
     tech: ["Go", "React.js", "TypeScript", "PostgreSQL", "Docker", "Tailwind CSS"], github: "https://github.com/rulifcode/industrix-todo", live: null, gradient: "from-emerald-500/20 via-teal-500/10 to-transparent", cover: coverIndustrix, companyIcon: null, companyName: null, category: "dev"
   },
 ];
+const VODJO_META = [
+  { tech: ["Cypress", "Playwright", "Postman", "Agile", "iOS", "Android", "Figma"], github: null, live: "https://play.google.com/store/apps/details?id=com.nn.ngafalngefeel", gradient: "from-teal-500/20 via-cyan-500/10 to-transparent", cover: coverNgafal, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Cypress", "Playwright", "Postman", "Agile", "Manual Testing", "Figma"], github: null, live: "https://ganakonsultan.com/", gradient: "from-lime-500/20 via-green-500/10 to-transparent", cover: coverGana, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["CMS", "Cypress", "Playwright", "Postman", "Manual Testing", "Agile", "Figma"], github: null, live: "https://crm.masplene.com/dashboard", gradient: "from-blue-500/20 via-sky-500/10 to-transparent", cover: coverPolytama, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Cypress", "Playwright", "Postman", "Bug Report", "Agile", "Figma"], github: null, live: "https://www.tmsdaihatsu.co.id/", gradient: "from-red-500/20 via-orange-500/10 to-transparent", cover: coverDaihatsu, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Cypress", "Playwright", "Postman", "Test Case", "Bug Report", "Agile", "Figma"], github: null, live: "https://bnpp.go.id/", gradient: "from-indigo-500/20 via-blue-500/10 to-transparent", cover: coverBNPP, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Mobile", "Cypress", "Playwright", "Postman", "Test Case", "Agile", "Figma"], github: null, live: null, gradient: "from-pink-500/20 via-rose-500/10 to-transparent", cover: coverTotalBuah, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+  { tech: ["Mobile", "Cypress", "Playwright", "Postman", "Test Case", "Agile", "Figma"], github: null, live: "https://lomboknotary.com/", gradient: "from-brown-500/20 via-rose-500/10 to-transparent", cover: coverLanatory, companyIcon: logoVodjo, companyName: "Vodjo", category: "qa" },
+];
+
+
 
 /* ================================================================
    useCarousel
@@ -412,13 +414,13 @@ export default function Projects({ dark }) {
           <TabButton active={activeTab === "all"} dark={dark} onClick={() => setActiveTab("all")} count={totalCount}>
             {t.tabs.all}
           </TabButton>
-          <TabButton active={activeTab === "qa"} dark={dark} onClick={() => setActiveTab("qa")} count={vodjoProjects.length}>
-            <span className={`w-1.5 h-1.5 rounded-full ${activeTab === "qa" ? "bg-emerald-400" : dark ? "bg-white/20" : "bg-gray-300"} transition-colors duration-200`} />
-            {t.tabs.qa}
-          </TabButton>
           <TabButton active={activeTab === "dev"} dark={dark} onClick={() => setActiveTab("dev")} count={devProjects.length}>
             <span className={`w-1.5 h-1.5 rounded-full ${activeTab === "dev" ? "bg-blue-400" : dark ? "bg-white/20" : "bg-gray-300"} transition-colors duration-200`} />
             {t.tabs.dev}
+          </TabButton>
+          <TabButton active={activeTab === "qa"} dark={dark} onClick={() => setActiveTab("qa")} count={vodjoProjects.length}>
+            <span className={`w-1.5 h-1.5 rounded-full ${activeTab === "qa" ? "bg-emerald-400" : dark ? "bg-white/20" : "bg-gray-300"} transition-colors duration-200`} />
+            {t.tabs.qa}
           </TabButton>
         </div>
 
@@ -428,24 +430,25 @@ export default function Projects({ dark }) {
           key={activeTab}
           style={{ animation: "fadeSlideIn 0.35s cubic-bezier(0.4,0,0.2,1) both" }}
         >
-          {showQA && (
-            <ProjectGroup
-              label={t.groupLabels.vodjo}
-              description={t.groupDescs.vodjo}
-              projects={vodjoProjects}
-              dark={dark}
-              viewAllLabel={t.viewAll}
-              showLessLabel={t.showLess}
-            />
-          )}
-          {showDivider && (
-            <div className={`h-px bg-gradient-to-r from-transparent ${dividerCls} to-transparent`} />
-          )}
           {showDev && (
             <ProjectGroup
               label={t.groupLabels.development}
               description={t.groupDescs.development}
               projects={devProjects}
+              dark={dark}
+              viewAllLabel={t.viewAll}
+              showLessLabel={t.showLess}
+            />
+          )}
+
+          {showDivider && (
+            <div className={`h-px bg-gradient-to-r from-transparent ${dividerCls} to-transparent`} />
+          )}
+          {showQA && (
+            <ProjectGroup
+              label={t.groupLabels.vodjo}
+              description={t.groupDescs.vodjo}
+              projects={vodjoProjects}
               dark={dark}
               viewAllLabel={t.viewAll}
               showLessLabel={t.showLess}
