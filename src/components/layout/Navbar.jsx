@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
-
+import { useNavigate } from "react-router-dom";
 /* ─── Language Context ───────────────────────────────────────────────────────── */
 export const LangContext = createContext({ lang: "EN", setLang: () => { } });
 export const useLang = () => useContext(LangContext);
