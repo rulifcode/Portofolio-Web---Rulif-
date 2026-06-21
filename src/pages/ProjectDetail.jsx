@@ -91,7 +91,7 @@ function ThumbnailStrip({ media, activeIndex, onSelect, dark }) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-2 overflow-x-auto pb-1 scrollbar-none"
+      className="flex max-w-full min-w-0 gap-2 overflow-x-auto pb-1 scrollbar-none"
       style={{ scrollbarWidth: "none" }}
     >
       {media.map((item, index) => (
@@ -99,7 +99,7 @@ function ThumbnailStrip({ media, activeIndex, onSelect, dark }) {
           key={`${item}-${index}`}
           type="button"
           onClick={() => onSelect(index)}
-          className={`relative flex-none aspect-video w-20 overflow-hidden rounded-md border transition-all duration-200 ${
+          className={`relative aspect-video w-20 flex-none overflow-hidden rounded-md border transition-all duration-200 sm:w-24 ${
             index === activeIndex
               ? dark
                 ? "border-white/70 opacity-100 ring-1 ring-white/30"
@@ -151,9 +151,9 @@ function MediaViewer({ media, title, dark }) {
 
   return (
     <>
-      <div className="space-y-3">
+      <div className="min-w-0 max-w-full space-y-3">
         {/* Main viewer */}
-        <div className={`relative overflow-hidden rounded-xl border ${
+        <div className={`relative max-w-full overflow-hidden rounded-xl border ${
           dark ? "border-white/10 bg-black/40" : "border-black/08 bg-gray-50"
         }`}>
           {isPdfFile(src) ? (
@@ -252,21 +252,22 @@ function MediaViewer({ media, title, dark }) {
 // Link button
 // ---------------------------------------------------------------------------
 
-function ProjectLink({ href, icon: Icon, label, dark }) {
+function ProjectLink({ href, icon, label, dark }) {
   if (!href) return null;
+  const LinkIcon = icon;
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group flex items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium transition-all duration-200 ${
+      className={`group flex w-full min-w-0 items-center gap-3 rounded-lg border px-4 py-3 text-sm font-medium transition-all duration-200 ${
         dark
           ? "border-white/10 bg-white/[0.04] text-white/70 hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
           : "border-black/10 bg-white text-black/65 shadow-sm hover:border-black/20 hover:shadow-md hover:text-black"
       }`}
     >
-      <Icon size={16} strokeWidth={2.2} className="flex-none" />
-      <span className="flex-1">{label}</span>
+      <LinkIcon size={16} strokeWidth={2.2} className="flex-none" />
+      <span className="min-w-0 flex-1 truncate">{label}</span>
       <ExternalLink size={13} strokeWidth={2.2} className="opacity-50 group-hover:opacity-100 transition-opacity" />
     </a>
   );
@@ -278,11 +279,11 @@ function ProjectLink({ href, icon: Icon, label, dark }) {
 
 function InfoRow({ label, value, dark }) {
   return (
-    <div className={`flex items-center justify-between gap-4 py-3 border-b last:border-b-0 ${
+    <div className={`flex items-start justify-between gap-4 py-3 border-b last:border-b-0 ${
       dark ? "border-white/[0.07]" : "border-black/[0.07]"
     }`}>
-      <span className={`text-xs ${dark ? "text-white/40" : "text-black/40"}`}>{label}</span>
-      <span className={`text-sm font-medium ${dark ? "text-white/80" : "text-black/80"}`}>{value}</span>
+      <span className={`flex-none text-xs ${dark ? "text-white/40" : "text-black/40"}`}>{label}</span>
+      <span className={`min-w-0 text-right text-sm font-medium break-words ${dark ? "text-white/80" : "text-black/80"}`}>{value}</span>
     </div>
   );
 }
@@ -293,7 +294,7 @@ function InfoRow({ label, value, dark }) {
 
 function TechBadge({ label, dark }) {
   return (
-    <span className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium ${
+    <span className={`inline-flex max-w-full items-center rounded-full border px-3 py-1.5 text-center text-xs font-medium leading-snug break-words ${
       dark
         ? "border-white/10 bg-white/[0.05] text-white/65"
         : "border-black/10 bg-black/[0.04] text-black/65"
@@ -303,6 +304,30 @@ function TechBadge({ label, dark }) {
   );
 }
 
+function ProjectLogoFlash({ dark }) {
+  return (
+    <main className={`min-h-screen px-4 ${dark ? "bg-[#0a0a0c]" : "bg-[#f0f0ee]"}`}>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="relative flex size-40 items-center justify-center sm:size-52">
+          <span className={`absolute inset-0 rounded-full border ${dark ? "border-white/10" : "border-black/10"}`} />
+          <span className={`absolute inset-5 rounded-full ${dark ? "bg-white/[0.03]" : "bg-black/[0.03]"}`} />
+          <img
+            src="/img_Rulif_logo.png"
+            alt="Rulif logo"
+            className={`relative z-10 w-32 object-contain sm:w-44 ${dark ? "invert" : ""}`}
+            style={{ animation: "projectLogoFlash 0.75s cubic-bezier(0.34,1.56,0.64,1) both" }}
+          />
+        </div>
+      </div>
+      <style>{`
+        @keyframes projectLogoFlash {
+          from { opacity: 0; transform: scale(0.72); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
+    </main>
+  );
+}
 // ---------------------------------------------------------------------------
 // Main page
 // ---------------------------------------------------------------------------
@@ -311,9 +336,12 @@ export default function ProjectDetail({ dark }) {
   const { slug } = useParams();
   const { lang } = useLang();
   const navigate = useNavigate();
-  const { t, devProjects } = useProjects(lang);
+  const { t, devProjects, staticDevProjects, loading } = useProjects(lang);
 
-  const project = devProjects.find((item) => item.slug === slug);
+  const project = useMemo(() => {
+    const candidates = [...devProjects, ...staticDevProjects];
+    return candidates.find((item) => item.slug === slug);
+  }, [devProjects, slug, staticDevProjects]);
   const media = useMemo(() => (project ? getUniqueMedia(project) : []), [project]);
 
   // Fix: navbar clicks use hash navigation — intercept and route properly
@@ -345,6 +373,10 @@ export default function ProjectDetail({ dark }) {
     ? "border-white/[0.08] bg-white/[0.03]"
     : "border-black/[0.08] bg-white shadow-sm";
 
+  if (loading && !project) {
+    return <ProjectLogoFlash dark={dark} />;
+  }
+
   // ── Not found ──────────────────────────────────────────────────────────────
   if (!project) {
     return (
@@ -368,8 +400,8 @@ export default function ProjectDetail({ dark }) {
 
   // ── Page ───────────────────────────────────────────────────────────────────
   return (
-    <main className="min-h-screen pt-24 pb-24 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl space-y-10">
+    <main className="min-h-screen px-3 pb-24 pt-24 min-[390px]:px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-6xl min-w-0 space-y-8 sm:space-y-10">
 
         {/* ── Back link ── */}
         <Link
@@ -381,7 +413,7 @@ export default function ProjectDetail({ dark }) {
         </Link>
 
         {/* ── Hero header ── */}
-        <header className="space-y-4 max-w-3xl">
+        <header className="max-w-3xl min-w-0 space-y-4">
           {/* Eyebrow badges */}
           <div className="flex flex-wrap items-center gap-2">
             <span className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-widest ${cardBg} ${textMuted}`}>
@@ -395,30 +427,30 @@ export default function ProjectDetail({ dark }) {
           </div>
 
           {/* Title */}
-          <h1 className={`text-4xl font-bold leading-tight sm:text-5xl ${textPrimary}`}>
+          <h1 className={`text-2xl font-bold leading-tight break-words min-[390px]:text-3xl sm:text-5xl ${textPrimary}`}>
             {project.title}
           </h1>
 
           {/* Description — rendered ONCE here only */}
-          <p className={`text-base leading-relaxed sm:text-lg ${dark ? "text-white/58" : "text-black/58"}`}>
+          <p className={`max-w-full text-sm leading-relaxed break-words min-[390px]:text-base sm:text-lg ${dark ? "text-white/58" : "text-black/58"}`}>
             {project.description}
           </p>
         </header>
 
         {/* ── Main content grid ── */}
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+        <div className="grid w-full min-w-0 gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
 
           {/* Left — media viewer */}
-          <div className="space-y-8">
+          <div className="min-w-0 space-y-6 sm:space-y-8">
             <MediaViewer media={media} title={project.title} dark={dark} />
 
             {/* Tech stack */}
             {project.tech?.length > 0 && (
-              <section className={`rounded-xl border p-6 ${cardBg}`}>
+              <section className={`min-w-0 rounded-xl border p-4 sm:p-6 ${cardBg}`}>
                 <h2 className={`text-[11px] font-semibold uppercase tracking-widest mb-4 ${textMuted}`}>
                   {t.detail?.stack || "Tech Stack"}
                 </h2>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex min-w-0 flex-wrap gap-2">
                   {project.tech.map((tech) => (
                     <TechBadge key={tech} label={tech} dark={dark} />
                   ))}
@@ -428,7 +460,7 @@ export default function ProjectDetail({ dark }) {
           </div>
 
           {/* Right — sticky sidebar */}
-          <aside className="space-y-4 lg:sticky lg:top-24">
+          <aside className="min-w-0 space-y-4 lg:sticky lg:top-24">
 
             {/* Project links */}
             <section className={`rounded-xl border p-5 ${cardBg}`}>

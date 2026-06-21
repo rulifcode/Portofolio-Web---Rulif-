@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { LangContext } from "./components/layout/Navbar";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
@@ -69,6 +69,25 @@ function AppSections({ dark }) {
   );
 }
 
+function HashScrollHandler() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    const scrollTimer = window.setTimeout(() => {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 120);
+
+    return () => window.clearTimeout(scrollTimer);
+  }, [location.pathname, location.hash]);
+
+  return null;
+}
+
 function App() {
   const [dark, setDark] = useState(true);
   const [lang, setLang] = useState("EN");
@@ -83,6 +102,7 @@ function App() {
       {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
 
       <Router>
+        <HashScrollHandler />
         <AppBackground dark={dark} />
 
         <div className="min-h-screen flex flex-col">

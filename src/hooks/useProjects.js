@@ -40,6 +40,8 @@ export default function useProjects(lang = "EN") {
 
   return {
     ...staticGroups,
+    staticDevProjects: staticGroups.devProjects,
+    staticVodjoProjects: staticGroups.vodjoProjects,
     vodjoProjects,
     devProjects,
     allProjects: [...vodjoProjects, ...devProjects],

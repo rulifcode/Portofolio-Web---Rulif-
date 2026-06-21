@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, createContext, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 /* ─── Language Context ───────────────────────────────────────────────────────── */
 export const LangContext = createContext({ lang: "EN", setLang: () => { } });
 export const useLang = () => useContext(LangContext);
@@ -519,6 +519,8 @@ function HamburgerBtn({ open, dark, onClick }) {
 /* ─── Main Navbar ────────────────────────────────────────────────────────────── */
 export default function Navbar({ dark, setDark }) {
   const { lang } = useLang();
+  const navigate = useNavigate();
+  const location = useLocation();
   const width = useWindowWidth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -539,11 +541,22 @@ export default function Navbar({ dark, setDark }) {
     if (isDesktop) setMenuOpen(false);
   }, [isDesktop]);
 
+  const scrollToSection = (href) => {
+    const target = document.querySelector(href);
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMenuOpen(false);
-    const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: "smooth" });
+
+    if (location.pathname !== "/") {
+      navigate(`/${href}`);
+      window.setTimeout(() => scrollToSection(href), 140);
+      return;
+    }
+
+    scrollToSection(href);
   };
 
   const handleCVClick = () => window.open("CV_Rulif_Fadrian_Nirwansyah_June_2026.pdf", "_blank");
