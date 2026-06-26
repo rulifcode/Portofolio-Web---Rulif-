@@ -1,11 +1,103 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import { useLang } from "../components/layout/Navbar";
-import useCarousel from "../hooks/useCarousel";
 import useProjects from "../hooks/useProjects";
 
-const CARDS_PER_SLIDE = 4;
 const AUTO_SLIDE_MS = 4000;
+
+function useRevealOnce() {
+  const ref = useRef(null);
+  const [revealed, setRevealed] = useState(() => {
+    if (typeof window === "undefined") return true;
+
+    const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    return prefersReducedMotion || !("IntersectionObserver" in window);
+  });
+
+  useEffect(() => {
+    if (revealed) return undefined;
+
+    const element = ref.current;
+    if (!element) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setRevealed(true);
+        observer.disconnect();
+      },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -12% 0px",
+      },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [revealed]);
+
+  return [ref, revealed];
+}
+
+function useLoopingCardSlider(totalItems, autoDirection = "right", enabled = true) {
+  const trackRef = useRef(null);
+  const instantScrollRef = useRef(true);
+  const resetTimerRef = useRef(null);
+  const [virtualIndex, setVirtualIndex] = useState(totalItems);
+
+  const activeIndex = totalItems > 0
+    ? ((virtualIndex % totalItems) + totalItems) % totalItems
+    : 0;
+  const scrollIndex = totalItems > 1
+    ? Math.max(0, Math.min(virtualIndex, totalItems * 3 - 1))
+    : 0;
+
+  const moveBy = useCallback((delta) => {
+    if (totalItems <= 1) return;
+    setVirtualIndex((current) => current + delta);
+  }, [totalItems]);
+
+  const goPrev = useCallback(() => moveBy(-1), [moveBy]);
+  const goNext = useCallback(() => moveBy(1), [moveBy]);
+
+  const goTo = useCallback((index) => {
+    if (totalItems === 0) return;
+    setVirtualIndex(totalItems + index);
+  }, [totalItems]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const item = track?.children?.[scrollIndex];
+    if (!track || !item) return undefined;
+
+    const behavior = instantScrollRef.current ? "auto" : "smooth";
+    instantScrollRef.current = false;
+    track.scrollTo({ left: item.offsetLeft, behavior });
+
+    if (totalItems <= 1) return undefined;
+    window.clearTimeout(resetTimerRef.current);
+    resetTimerRef.current = window.setTimeout(() => {
+      if (virtualIndex < totalItems) {
+        instantScrollRef.current = true;
+        setVirtualIndex(virtualIndex + totalItems);
+      } else if (virtualIndex >= totalItems * 2) {
+        instantScrollRef.current = true;
+        setVirtualIndex(virtualIndex - totalItems);
+      }
+    }, 520);
+
+    return () => window.clearTimeout(resetTimerRef.current);
+  }, [scrollIndex, totalItems, virtualIndex]);
+
+  useEffect(() => {
+    if (!enabled || totalItems <= 1) return undefined;
+    const delta = autoDirection === "left" ? -1 : 1;
+    const timer = window.setInterval(() => moveBy(delta), AUTO_SLIDE_MS);
+    return () => window.clearInterval(timer);
+  }, [autoDirection, enabled, moveBy, totalItems]);
+
+  return [trackRef, activeIndex, goPrev, goNext, goTo];
+}
 
 function TabButton({ active, dark, onClick, children, count }) {
   const activeStyle = dark
@@ -49,27 +141,16 @@ function NavButton({ dark, onClick, direction }) {
   );
 }
 
-function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLessLabel }) {
-  const [expanded, setExpanded] = useState(false);
-  const hasExtra = projects.length > CARDS_PER_SLIDE;
-  const carousel = useCarousel(
+function ProjectGroup({ label, description, projects, dark, autoDirection = "right" }) {
+  const [isPaused, setIsPaused] = useState(false);
+  const [gridRef, gridRevealed] = useRevealOnce();
+  const hasManyProjects = projects.length > 1;
+  const [trackRef, activeIndex, goPrev, goNext, goTo] = useLoopingCardSlider(
     projects.length,
-    CARDS_PER_SLIDE,
-    AUTO_SLIDE_MS,
-    !expanded && hasExtra,
+    autoDirection,
+    hasManyProjects && !isPaused,
   );
-  const { resetSlide } = carousel;
-
-  useEffect(() => {
-    if (!expanded) resetSlide();
-  }, [expanded, resetSlide]);
-
-  const displayCards = expanded
-    ? projects
-    : projects.slice(
-      carousel.slideIndex * CARDS_PER_SLIDE,
-      carousel.slideIndex * CARDS_PER_SLIDE + CARDS_PER_SLIDE,
-    );
+  const sliderProjects = hasManyProjects ? [...projects, ...projects, ...projects] : projects;
 
   if (projects.length === 0) return null;
 
@@ -91,81 +172,65 @@ function ProjectGroup({ label, description, projects, dark, viewAllLabel, showLe
           </p>
         </div>
 
-        {!expanded && hasExtra && (
-          <div
-            className="flex items-center gap-2"
-            onMouseEnter={() => carousel.setIsPaused(true)}
-            onMouseLeave={() => carousel.setIsPaused(false)}
-          >
-            <NavButton dark={dark} onClick={carousel.goPrev} direction="prev" />
-            <div className="flex items-center gap-1.5">
-              {Array.from({ length: carousel.totalSlides }).map((_, i) => (
+        {hasManyProjects && (
+          <div className="flex items-center gap-2">
+            <NavButton dark={dark} onClick={goPrev} direction="prev" />
+            <div className="hidden items-center gap-1.5 sm:flex">
+              {projects.map((project, i) => (
                 <button
-                  key={i}
-                  onClick={() => carousel.goTo(i)}
-                  className={`rounded-full transition-all duration-300 cursor-pointer ${i === carousel.slideIndex
+                  key={project.slug || project.title}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Go to ${project.title}`}
+                  className={`rounded-full transition-all duration-300 cursor-pointer ${i === activeIndex
                     ? `w-6 h-2 ${dark ? "bg-white/70" : "bg-gray-700"}`
                     : `w-2 h-2 ${dark ? "bg-white/20 hover:bg-white/40" : "bg-gray-300 hover:bg-gray-400"}`
                     }`}
                 />
               ))}
             </div>
-            <NavButton dark={dark} onClick={carousel.goNext} direction="next" />
+            <NavButton dark={dark} onClick={goNext} direction="next" />
           </div>
         )}
       </div>
 
       <div
+        ref={gridRef}
         className="relative overflow-hidden"
-        onMouseEnter={() => carousel.setIsPaused(true)}
-        onMouseLeave={() => carousel.setIsPaused(false)}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
       >
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
-          key={expanded ? "expanded" : `slide-${carousel.slideIndex}`}
-          style={{
-            animation: expanded
-              ? "expandGrid 0.5s cubic-bezier(0.4,0,0.2,1) both"
-              : "fadeSlideIn 0.4s cubic-bezier(0.4,0,0.2,1) both",
-          }}
+          ref={trackRef}
+          className="flex gap-3 overflow-hidden scroll-smooth sm:gap-4"
+          style={{ scrollbarWidth: "none" }}
         >
-          {displayCards.map((project) => (
-            <ProjectCard key={project.slug || project.title} dark={dark} {...project} />
-          ))}
+          {sliderProjects.map((project, index) => {
+            const originalIndex = projects.length > 0 ? index % projects.length : index;
+
+            return (
+              <div
+                key={`${project.slug || project.title}-${index}`}
+                className={`w-full flex-none sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-3rem)/4)] transition-[opacity,transform,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                  gridRevealed
+                    ? "translate-y-0 scale-100 opacity-100 blur-0"
+                    : "translate-y-7 scale-[0.985] opacity-0 blur-[6px]"
+                } motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:opacity-100 motion-reduce:blur-0`}
+                style={{
+                  transitionDelay: gridRevealed ? `${Math.min(originalIndex * 80, 320)}ms` : "0ms",
+                }}
+              >
+                <ProjectCard dark={dark} {...project} />
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {hasExtra && (
-        <div className="flex justify-center">
-          <button
-            onClick={() => setExpanded((value) => !value)}
-            className={`group flex items-center gap-2 px-5 py-2.5 rounded-full border text-xs font-medium transition-all duration-300 cursor-pointer ${dark
-              ? "border-white/10 bg-white/[0.03] text-white/50 hover:border-white/20 hover:text-white/80 hover:bg-white/[0.06]"
-              : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:text-gray-800 hover:bg-gray-100"
-              }`}
-          >
-            {expanded ? (
-              <>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 15l-6-6-6 6" />
-                </svg>
-                {showLessLabel}
-              </>
-            ) : (
-              <>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform duration-200">
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
-                {`${viewAllLabel} (${projects.length})`}
-              </>
-            )}
-          </button>
-        </div>
-      )}
     </div>
   );
 }
-
 export default function Projects({ dark }) {
   const { lang } = useLang();
   const { t, vodjoProjects, devProjects, allProjects } = useProjects(lang);
@@ -221,8 +286,7 @@ export default function Projects({ dark }) {
               description={t.groupDescs.development}
               projects={devProjects}
               dark={dark}
-              viewAllLabel={t.viewAll}
-              showLessLabel={t.showLess}
+              autoDirection="right"
             />
           )}
 
@@ -236,8 +300,7 @@ export default function Projects({ dark }) {
               description={t.groupDescs.vodjo}
               projects={vodjoProjects}
               dark={dark}
-              viewAllLabel={t.viewAll}
-              showLessLabel={t.showLess}
+              autoDirection="left"
             />
           )}
         </div>
@@ -276,3 +339,4 @@ export default function Projects({ dark }) {
     </main>
   );
 }
+
