@@ -559,7 +559,7 @@ export default function Navbar({ dark, setDark }) {
     scrollToSection(href);
   };
 
-  const handleCVClick = () => window.open("CV_Rulif_Fadrian_Nirwansyah_June_2026.pdf", "_blank");
+  const handleCVClick = () => window.open("CV_Rulif_Fadrian_Nirwansyah_28June_2026.pdf", "_blank");
 
   const dividerColor = dark ? "rgba(255,255,255,0.1)" : "rgba(26,26,26,0.1)";
   const compactNav = width >= 1100 && width < 1280;
